@@ -85,13 +85,14 @@ export function Header() {
   return (
     <>
       <header
-        className="sticky top-0 z-50 transition-all duration-300"
+        className="sticky top-0 z-50"
         style={{
-          background: scrolled ? "rgba(244,243,248,0.25)" : "rgba(244,243,248,0.55)",
+          background: scrolled ? "rgba(244,243,248,0.08)" : "rgba(244,243,248,0.72)",
           backdropFilter: "saturate(180%) blur(20px)",
           WebkitBackdropFilter: "saturate(180%) blur(20px)",
-          borderBottom: scrolled ? "1px solid rgba(139,127,240,0.04)" : "1px solid rgba(139,127,240,0.08)",
+          borderBottom: scrolled ? "1px solid rgba(139,127,240,0.04)" : "1px solid rgba(139,127,240,0.1)",
           padding: "10px 5%",
+          transition: "background 400ms ease, border-color 400ms ease",
         }}
       >
         <div className="relative flex items-center justify-between">
