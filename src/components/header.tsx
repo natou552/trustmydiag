@@ -9,43 +9,75 @@ export function Header() {
   const { data: session } = useSession();
 
   return (
-    <header className="border-b border-gray-100 bg-white/95 backdrop-blur sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl text-navy-800">
-          <Shield className="h-6 w-6 text-[#1e3a5f]" />
-          <span className="text-[#1e3a5f]">TrustMyDiag</span>
+    <header className="sticky top-0 z-50 bg-[#EEF1F7]/90 backdrop-blur-md border-b border-black/[0.06]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 font-semibold text-[#1D1D1F]">
+          <Shield className="h-5 w-5 text-[#0071E3]" />
+          TrustMyDiag
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm text-gray-600">
-          <Link href="/#how" className="hover:text-[#1e3a5f] transition-colors">Comment ça marche</Link>
-          <Link href="/#doctors" className="hover:text-[#1e3a5f] transition-colors">Nos médecins</Link>
-          <Link href="/#pricing" className="hover:text-[#1e3a5f] transition-colors">Tarifs</Link>
-          <Link href="/rgpd" className="hover:text-[#1e3a5f] transition-colors">RGPD</Link>
+        {/* Nav — centré */}
+        <nav className="hidden md:flex items-center gap-1 text-sm text-[#374151]">
+          <Link
+            href="/#how"
+            className="px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150"
+          >
+            Comment ça marche
+          </Link>
+          <Link
+            href="/#doctors"
+            className="px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150"
+          >
+            Nos médecins
+          </Link>
+          <Link
+            href="/#pricing"
+            className="px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150"
+          >
+            Tarifs
+          </Link>
+          <Link
+            href="/rgpd"
+            className="px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150"
+          >
+            RGPD
+          </Link>
         </nav>
 
-        <div className="flex items-center gap-3">
+        {/* Actions */}
+        <div className="flex items-center gap-2">
           {session ? (
             <>
               <Link href="/dashboard">
-                <Button variant="outline" size="sm">Mon espace</Button>
+                <button className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150">
+                  Mon espace
+                </button>
               </Link>
-              <Button size="sm" variant="ghost" onClick={() => signOut({ callbackUrl: "/" })}>
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150"
+              >
                 Déconnexion
-              </Button>
+              </button>
             </>
           ) : (
             <>
               <Link href="/login">
-                <Button variant="outline" size="sm">Connexion</Button>
+                <button className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150">
+                  Connexion
+                </button>
               </Link>
               <Link href="/register">
-                <Button size="sm" className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
+                <button className="text-sm text-white bg-[#0071E3] hover:bg-[#0077ED] px-5 py-1.5 rounded-full font-medium transition-colors duration-150 shadow-sm">
                   Commencer
-                </Button>
+                </button>
               </Link>
             </>
           )}
         </div>
+
       </div>
     </header>
   );
