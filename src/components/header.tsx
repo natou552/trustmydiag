@@ -77,7 +77,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-[#EEF1F7]/90 backdrop-blur-md border-b border-black/[0.06]">
+      <header className="sticky top-0 z-50 bg-white/50 backdrop-blur-xl border-b border-black/[0.05]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
 
           {/* Logo */}
@@ -151,7 +151,7 @@ export function Header() {
 
       {/* ── MOBILE FULL-SCREEN MENU ── */}
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 z-[100] bg-[#EEF1F7] flex flex-col">
+        <div className="md:hidden fixed inset-0 z-[100] bg-white/90 backdrop-blur-2xl flex flex-col">
 
           {/* Top bar */}
           <div className="flex items-center justify-between px-6 h-14 border-b border-black/[0.06] shrink-0">

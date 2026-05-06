@@ -33,7 +33,7 @@ export default function HomePage() {
 
       {/* ── HERO ── */}
       <section
-        className="relative overflow-hidden pt-20 pb-24 px-6 text-center"
+        className="relative overflow-hidden pt-10 pb-24 px-6 text-center"
         style={{
           background:
             "radial-gradient(ellipse at 65% -5%, rgba(253,186,186,0.35) 0%, transparent 55%), radial-gradient(ellipse at 15% 70%, rgba(196,181,253,0.25) 0%, transparent 50%), radial-gradient(ellipse at 85% 90%, rgba(147,197,253,0.2) 0%, transparent 50%), #f9faff",
