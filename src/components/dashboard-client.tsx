@@ -98,57 +98,56 @@ export function DashboardClient({ session, requests: initialRequests }: {
               const status = STATUS_LABELS[req.status] || STATUS_LABELS.PENDING_PAYMENT;
               const canDelete = req.status === "PENDING_PAYMENT";
               return (
-                <div key={req.id} className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-sm transition-shadow">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3 mb-2 flex-wrap">
-                        <span className="font-semibold text-[#1e3a5f]">
-                          {SPECIALTY_LABELS[req.specialty]}
-                        </span>
-                        <Badge variant={status.color} className="flex items-center gap-1 text-xs">
-                          {status.icon}
-                          {status.label}
-                        </Badge>
+                <div key={req.id} className="bg-white rounded-2xl border border-gray-100 hover:shadow-sm transition-shadow">
+                  <Link href={`/dashboard/requests/${req.id}`} className="block p-6 pb-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 mb-2 flex-wrap">
+                          <span className="font-semibold text-[#1e3a5f]">
+                            {SPECIALTY_LABELS[req.specialty]}
+                          </span>
+                          <Badge variant={status.color} className="flex items-center gap-1 text-xs">
+                            {status.icon}
+                            {status.label}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-gray-400">
+                          Demande #{req.id.slice(-8).toUpperCase()} · {new Date(req.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+                        </p>
+                        {req.message && (
+                          <p className="text-sm text-gray-500 mt-2 truncate">{req.message}</p>
+                        )}
                       </div>
-                      <p className="text-sm text-gray-400">
-                        Demande #{req.id.slice(-8).toUpperCase()} · {new Date(req.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
-                      </p>
-                      {req.message && (
-                        <p className="text-sm text-gray-500 mt-2 truncate">{req.message}</p>
-                      )}
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <span className="text-xs text-gray-400 hidden sm:block">Voir le détail →</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      {req.status === "PENDING_PAYMENT" && (
-                        <Link href={`/dashboard/new?resume=${req.id}`}>
-                          <Button size="sm" variant="outline" className="text-[#1e3a5f] border-[#1e3a5f]">
-                            Payer
-                          </Button>
-                        </Link>
-                      )}
-                      {req.status === "COMPLETED" && req.pdfUrl && (
-                        <a href={req.pdfUrl} target="_blank" rel="noopener noreferrer">
-                          <Button size="sm" variant="outline">Voir le PDF</Button>
-                        </a>
-                      )}
-                      {canDelete && (
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => handleDelete(req.id)}
-                          disabled={deleting === req.id}
-                          className="text-red-400 hover:text-red-600 hover:bg-red-50"
-                        >
-                          <Trash2 className="h-4 w-4" />
+                  </Link>
+                  <div className="px-6 pb-4 flex items-center gap-2">
+                    {req.status === "PENDING_PAYMENT" && (
+                      <Link href={`/dashboard/new?resume=${req.id}`} onClick={(e) => e.stopPropagation()}>
+                        <Button size="sm" variant="outline" className="text-[#1e3a5f] border-[#1e3a5f]">
+                          Payer
                         </Button>
-                      )}
-                    </div>
+                      </Link>
+                    )}
+                    {req.status === "COMPLETED" && req.pdfUrl && (
+                      <a href={req.pdfUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                        <Button size="sm" variant="outline">Voir le PDF</Button>
+                      </a>
+                    )}
+                    {canDelete && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleDelete(req.id)}
+                        disabled={deleting === req.id}
+                        className="text-red-400 hover:text-red-600 hover:bg-red-50"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
                   </div>
-                  {req.status === "COMPLETED" && req.doctorReply && (
-                    <div className="mt-4 bg-[#f0f4f8] rounded-xl p-4 border-l-4 border-[#1e3a5f]">
-                      <p className="text-xs font-semibold text-[#1e3a5f] mb-1">Avis médical</p>
-                      <p className="text-sm text-gray-700">{req.doctorReply}</p>
-                    </div>
-                  )}
                 </div>
               );
             })}
