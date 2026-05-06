@@ -59,7 +59,7 @@ export function DashboardClient({ session, requests: initialRequests }: {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8fafc]">
+    <div className="min-h-screen" style={{ background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 35%, #FDE8E0 65%, #F4F3F8 100%)" }}>
       <Header />
       <div className="max-w-4xl mx-auto px-4 py-10">
         {paymentSuccess && (

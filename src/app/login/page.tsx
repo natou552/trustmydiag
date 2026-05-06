@@ -45,7 +45,7 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f0f4f8] p-4">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 35%, #FDE8E0 65%, #F4F3F8 100%)" }}>
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-md w-full">
         <div className="text-center mb-8">
           <Link href="/" className="flex items-center gap-2 justify-center font-bold text-xl text-[#1e3a5f] mb-6">
