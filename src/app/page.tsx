@@ -14,10 +14,26 @@ import {
 } from "lucide-react";
 import { useLang } from "@/contexts/language";
 import { t } from "@/lib/translations";
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
+import { useRef } from "react";
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+};
+
+const stagger = (delay = 0): Variants => ({
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: "easeOut", delay } },
+});
 
 export default function HomePage() {
   const { lang } = useLang();
   const tr = t[lang];
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
     <div className="min-h-screen bg-white text-[#1D1D1F]">
@@ -33,28 +49,52 @@ export default function HomePage() {
 
       {/* ── HERO ── */}
       <section
+        ref={heroRef}
         className="relative overflow-hidden pt-10 pb-24 px-6 text-center"
         style={{
           background:
             "radial-gradient(ellipse at 65% -5%, rgba(253,186,186,0.35) 0%, transparent 55%), radial-gradient(ellipse at 15% 70%, rgba(196,181,253,0.25) 0%, transparent 50%), radial-gradient(ellipse at 85% 90%, rgba(147,197,253,0.2) 0%, transparent 50%), #f9faff",
         }}
       >
-        <div className="max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-white/80 border border-black/[0.07] text-[#374151] text-xs font-medium px-4 py-2 rounded-full mb-5 shadow-sm">
+        <motion.div
+          className="max-w-3xl mx-auto"
+          style={{ y: heroY, opacity: heroOpacity }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center gap-2 bg-white/80 border border-black/[0.07] text-[#374151] text-xs font-medium px-4 py-2 rounded-full mb-5 shadow-sm"
+          >
             <Clock className="h-3 w-3 text-[#0071E3]" />
             {tr.hero.badge}
-          </div>
+          </motion.div>
 
-          <h1 className="text-6xl sm:text-7xl md:text-[86px] font-bold text-[#1D1D1F] leading-[1.06] tracking-tight mb-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            className="text-6xl sm:text-7xl md:text-[86px] font-bold text-[#1D1D1F] leading-[1.06] tracking-tight mb-6"
+          >
             {tr.hero.h1}{" "}
             <em className="not-italic text-[#0071E3]">{tr.hero.h1Accent}</em>
-          </h1>
+          </motion.h1>
 
-          <p className="text-lg text-[#6E6E73] max-w-xl mx-auto leading-relaxed mb-8">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            className="text-lg text-[#6E6E73] max-w-xl mx-auto leading-relaxed mb-8"
+          >
             {tr.hero.sub}
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-3 justify-center"
+          >
             <Link href="/register">
               <button className="inline-flex items-center gap-2 bg-[#0071E3] hover:bg-[#005EC4] text-white text-sm font-medium px-7 py-3.5 rounded-full transition-colors duration-200 shadow-md shadow-blue-200">
                 {tr.hero.cta}
@@ -66,8 +106,8 @@ export default function HomePage() {
                 {tr.hero.howItWorks}
               </button>
             </Link>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* ── MARQUEE ── */}
@@ -87,12 +127,18 @@ export default function HomePage() {
       {/* ── STATS ── */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-          {tr.stats.map((s) => (
-            <div key={s.label}>
+          {tr.stats.map((s, i) => (
+            <motion.div
+              key={s.label}
+              variants={stagger(i * 0.1)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+            >
               <div className="text-5xl font-bold text-[#1D1D1F] mb-2 tracking-tight">{s.value}</div>
               <div className="text-sm text-[#374151]">{s.label}</div>
               <div className="text-xs text-[#9CA3AF] mt-1">{s.sub}</div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -100,10 +146,16 @@ export default function HomePage() {
       {/* ── HOW IT WORKS ── */}
       <section id="how" className="py-28 px-6" style={{ background: "#f9faff" }}>
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-20">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="text-center mb-20"
+          >
             <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-4">{tr.how.eyebrow}</p>
             <h2 className="text-4xl md:text-5xl font-bold text-[#1D1D1F] tracking-tight">{tr.how.h2}</h2>
-          </div>
+          </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {tr.how.steps.map((item, i) => {
@@ -114,37 +166,57 @@ export default function HomePage() {
               ];
               const colors = ["text-[#0071E3] bg-blue-50", "text-[#5E5CE6] bg-violet-50", "text-[#34C759] bg-green-50"];
               return (
-                <div key={item.step} className="bg-white rounded-3xl p-8 border border-black/[0.06]">
+                <motion.div
+                  key={item.step}
+                  variants={stagger(i * 0.12)}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-60px" }}
+                  className="bg-white rounded-3xl p-8 border border-black/[0.06]"
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                >
                   <div className={`w-10 h-10 rounded-2xl flex items-center justify-center mb-6 ${colors[i]}`}>
                     {icons[i]}
                   </div>
                   <p className="text-xs text-[#9CA3AF] font-medium mb-2">Étape {item.step}</p>
                   <h3 className="text-lg font-medium text-[#1D1D1F] mb-3">{item.title}</h3>
                   <p className="text-sm text-[#6E6E73] leading-relaxed">{item.desc}</p>
-                </div>
+                </motion.div>
               );
             })}
           </div>
 
-          <div className="mt-12 text-center">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="mt-12 text-center"
+          >
             <Link href="/register">
               <button className="inline-flex items-center gap-2 bg-[#0071E3] hover:bg-[#005EC4] text-white text-sm font-medium px-7 py-3.5 rounded-full transition-colors duration-200 shadow-md shadow-blue-200">
                 {tr.how.cta}
                 <ArrowRight className="h-4 w-4" />
               </button>
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* ── DOCTORS ── */}
       <section id="doctors" className="py-28 px-6 bg-white">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-20">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="text-center mb-20"
+          >
             <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-4">{tr.doctors.eyebrow}</p>
             <h2 className="text-4xl md:text-5xl font-bold text-[#1D1D1F] tracking-tight">{tr.doctors.h2}</h2>
             <p className="text-[#6E6E73] text-lg mt-4 max-w-lg mx-auto font-bold">{tr.doctors.sub}</p>
-          </div>
+          </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
             {tr.doctors.list.map((doc, i) => {
@@ -154,7 +226,15 @@ export default function HomePage() {
               ];
               const initials = ["RB", "YB"];
               return (
-                <div key={doc.name} className="rounded-3xl border border-black/[0.06] overflow-hidden">
+                <motion.div
+                  key={doc.name}
+                  initial={{ opacity: 0, x: i === 0 ? -40 : 40 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
+                  className="rounded-3xl border border-black/[0.06] overflow-hidden"
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                >
                   <div className={`${styles[i].header} p-8`}>
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-white text-base font-semibold">
@@ -175,7 +255,7 @@ export default function HomePage() {
                       ))}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -185,13 +265,25 @@ export default function HomePage() {
       {/* ── PRICING ── */}
       <section id="pricing" className="py-28 px-6" style={{ background: "#f9faff" }}>
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-20">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="text-center mb-20"
+          >
             <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-4">{tr.pricing.eyebrow}</p>
             <h2 className="text-4xl md:text-5xl font-bold text-[#1D1D1F] tracking-tight">{tr.pricing.h2}</h2>
             <p className="text-[#6E6E73] text-lg mt-4 font-bold">{tr.pricing.sub}</p>
-          </div>
+          </motion.div>
 
-          <div className="bg-white rounded-3xl border border-black/[0.06] overflow-hidden max-w-2xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 24 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-white rounded-3xl border border-black/[0.06] overflow-hidden max-w-2xl mx-auto"
+          >
             <div className="bg-[#0071E3] px-10 py-10 text-white">
               <div className="text-7xl font-bold tracking-tight leading-none mb-2">22€</div>
               <p className="text-blue-200 text-sm">{tr.pricing.priceLabel}</p>
@@ -213,13 +305,19 @@ export default function HomePage() {
                 </button>
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* ── TRUST ── */}
       <section className="py-20 px-6 bg-white">
-        <div className="max-w-3xl mx-auto text-center">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          className="max-w-3xl mx-auto text-center"
+        >
           <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <Lock className="h-5 w-5 text-[#0071E3]" />
           </div>
@@ -229,14 +327,21 @@ export default function HomePage() {
             <Link href="/rgpd" className="text-[#0071E3] underline underline-offset-2">{tr.rgpd.link}</Link>
           </p>
           <div className="flex flex-wrap justify-center gap-3 mt-8">
-            {["RGPD", "SSL/TLS", "Stripe", "EU"].map((b) => (
-              <div key={b} className="flex items-center gap-1.5 text-xs text-[#6E6E73] bg-[#F5F5F7] border border-black/[0.06] px-4 py-2 rounded-full">
+            {["RGPD", "SSL/TLS", "Stripe", "EU"].map((b, i) => (
+              <motion.div
+                key={b}
+                variants={stagger(i * 0.08)}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="flex items-center gap-1.5 text-xs text-[#6E6E73] bg-[#F5F5F7] border border-black/[0.06] px-4 py-2 rounded-full"
+              >
                 <CheckCircle className="h-3 w-3 text-[#34C759]" />
                 {b}
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ── CTA ── */}
@@ -247,7 +352,13 @@ export default function HomePage() {
             "radial-gradient(ellipse at 30% 0%, rgba(253,186,186,0.3) 0%, transparent 55%), radial-gradient(ellipse at 80% 100%, rgba(196,181,253,0.25) 0%, transparent 50%), #f9faff",
         }}
       >
-        <div className="max-w-2xl mx-auto">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          className="max-w-2xl mx-auto"
+        >
           <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-6">{tr.cta.eyebrow}</p>
           <h2 className="text-5xl md:text-6xl font-bold text-[#1D1D1F] leading-tight tracking-tight mb-6">
             {tr.cta.h2}
@@ -260,7 +371,7 @@ export default function HomePage() {
             </button>
           </Link>
           <p className="text-[#9CA3AF] text-xs mt-5">{tr.cta.trust}</p>
-        </div>
+        </motion.div>
       </section>
 
       {/* ── FOOTER ── */}
