@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { Shield, ChevronDown, Menu, X, Globe } from "lucide-react";
+import { Shield, ChevronDown, ChevronRight, Menu, X, Globe } from "lucide-react";
 import { useLang } from "@/contexts/language";
 import { t } from "@/lib/translations";
 
@@ -69,184 +69,206 @@ export function Header() {
     { label: tr.contact, href: "/contact" },
   ];
 
+  function closeMobile() {
+    setMobileOpen(false);
+    setLearnOpen(false);
+    setCompanyOpen(false);
+  }
+
   return (
-    <header className="sticky top-0 z-50 bg-[#EEF1F7]/90 backdrop-blur-md border-b border-black/[0.06]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+    <>
+      <header className="sticky top-0 z-50 bg-[#EEF1F7]/90 backdrop-blur-md border-b border-black/[0.06]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
 
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 font-semibold text-[#1D1D1F] shrink-0">
-          <Shield className="h-5 w-5 text-[#0071E3]" />
-          TrustMyDiag
-        </Link>
-
-        {/* Nav desktop */}
-        <nav className="hidden md:flex items-center gap-0.5 text-sm">
-          <Link href="/#how" className="px-4 py-1.5 rounded-full text-[#374151] hover:bg-black/[0.06] transition-colors duration-150">
-            {tr.howItWorks}
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 font-semibold text-[#1D1D1F] shrink-0">
+            <Shield className="h-5 w-5 text-[#0071E3]" />
+            TrustMyDiag
           </Link>
-          <Link href="/#doctors" className="px-4 py-1.5 rounded-full text-[#374151] hover:bg-black/[0.06] transition-colors duration-150">
-            {tr.doctors}
-          </Link>
-          <Dropdown label={tr.learn} items={learnItems} />
-          <Dropdown label={tr.company} items={companyItems} />
-        </nav>
 
-        {/* Right side desktop */}
-        <div className="hidden md:flex items-center gap-2 shrink-0">
-          <button
-            onClick={toggle}
-            className="flex items-center gap-1.5 text-xs font-medium text-[#374151] px-3 py-1.5 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors duration-150"
-          >
-            <Globe className="h-3.5 w-3.5" />
-            {lang === "fr" ? "FR" : "EN"}
-          </button>
+          {/* Nav desktop */}
+          <nav className="hidden md:flex items-center gap-0.5 text-sm">
+            <Link href="/#how" className="px-4 py-1.5 rounded-full text-[#374151] hover:bg-black/[0.06] transition-colors duration-150">
+              {tr.howItWorks}
+            </Link>
+            <Link href="/#doctors" className="px-4 py-1.5 rounded-full text-[#374151] hover:bg-black/[0.06] transition-colors duration-150">
+              {tr.doctors}
+            </Link>
+            <Dropdown label={tr.learn} items={learnItems} />
+            <Dropdown label={tr.company} items={companyItems} />
+          </nav>
 
-          {session ? (
-            <>
-              <Link href="/dashboard">
-                <button className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150">
-                  {tr.mySpace}
-                </button>
-              </Link>
-              <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150"
-              >
-                {tr.logout}
-              </button>
-            </>
-          ) : (
-            <>
-              <Link href="/login">
-                <button className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150">
-                  {tr.login}
-                </button>
-              </Link>
-              <Link href="/register">
-                <button className="text-sm text-white bg-[#0071E3] hover:bg-[#0077ED] px-5 py-1.5 rounded-full font-medium transition-colors duration-150 shadow-sm">
-                  {tr.start}
-                </button>
-              </Link>
-            </>
-          )}
-        </div>
+          {/* Right side desktop */}
+          <div className="hidden md:flex items-center gap-2 shrink-0">
+            <button
+              onClick={toggle}
+              className="flex items-center gap-1.5 text-xs font-medium text-[#374151] px-3 py-1.5 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors duration-150"
+            >
+              <Globe className="h-3.5 w-3.5" />
+              {lang === "fr" ? "FR" : "EN"}
+            </button>
 
-        {/* Mobile: lang + burger */}
-        <div className="md:hidden flex items-center gap-2">
-          <button
-            onClick={toggle}
-            className="flex items-center gap-1 text-xs font-medium text-[#374151] px-2.5 py-1.5 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors"
-          >
-            <Globe className="h-3 w-3" />
-            {lang === "fr" ? "FR" : "EN"}
-          </button>
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2 rounded-full hover:bg-black/[0.06] transition-colors"
-            aria-label="Menu"
-          >
-            {mobileOpen ? <X className="h-5 w-5 text-[#374151]" /> : <Menu className="h-5 w-5 text-[#374151]" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden bg-[#EEF1F7] border-t border-black/[0.06] px-4 pb-5 pt-3">
-          <div className="flex flex-col gap-0.5">
-            {[
-              { label: tr.howItWorks, href: "/#how" },
-              { label: tr.doctors, href: "/#doctors" },
-            ].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className="px-4 py-2.5 text-sm text-[#374151] rounded-xl hover:bg-black/[0.06] transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* Ressources accordion */}
-          <button
-            onClick={() => setLearnOpen(!learnOpen)}
-            className="mt-2 w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium text-[#374151] rounded-xl hover:bg-black/[0.06] transition-colors"
-          >
-            {tr.learn}
-            <ChevronDown className={`h-4 w-4 text-[#6E6E73] transition-transform duration-200 ${learnOpen ? "rotate-180" : ""}`} />
-          </button>
-          {learnOpen && (
-            <div className="flex flex-col gap-0.5 pl-3">
-              {learnItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="px-4 py-2 text-sm text-[#6E6E73] rounded-xl hover:bg-black/[0.06] hover:text-[#374151] transition-colors"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-          )}
-
-          {/* Entreprise accordion */}
-          <button
-            onClick={() => setCompanyOpen(!companyOpen)}
-            className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium text-[#374151] rounded-xl hover:bg-black/[0.06] transition-colors"
-          >
-            {tr.company}
-            <ChevronDown className={`h-4 w-4 text-[#6E6E73] transition-transform duration-200 ${companyOpen ? "rotate-180" : ""}`} />
-          </button>
-          {companyOpen && (
-            <div className="flex flex-col gap-0.5 pl-3">
-              {companyItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="px-4 py-2 text-sm text-[#6E6E73] rounded-xl hover:bg-black/[0.06] hover:text-[#374151] transition-colors"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-          )}
-
-          <div className="mt-4 pt-4 border-t border-black/[0.06] flex gap-2">
             {session ? (
               <>
-                <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="flex-1">
-                  <button className="w-full text-sm text-[#374151] px-4 py-2 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors">
+                <Link href="/dashboard">
+                  <button className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150">
                     {tr.mySpace}
                   </button>
                 </Link>
                 <button
-                  onClick={() => { signOut({ callbackUrl: "/" }); setMobileOpen(false); }}
-                  className="flex-1 text-sm text-[#374151] px-4 py-2 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors"
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150"
                 >
                   {tr.logout}
                 </button>
               </>
             ) : (
               <>
-                <Link href="/login" onClick={() => setMobileOpen(false)} className="flex-1">
-                  <button className="w-full text-sm text-[#374151] px-4 py-2 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors">
+                <Link href="/login">
+                  <button className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150">
                     {tr.login}
                   </button>
                 </Link>
-                <Link href="/register" onClick={() => setMobileOpen(false)} className="flex-1">
-                  <button className="w-full text-sm text-white bg-[#0071E3] hover:bg-[#0077ED] px-4 py-2 rounded-full font-medium transition-colors shadow-sm">
+                <Link href="/register">
+                  <button className="text-sm text-white bg-[#0071E3] hover:bg-[#005EC4] px-5 py-1.5 rounded-full font-medium transition-colors duration-150 shadow-sm">
                     {tr.start}
                   </button>
                 </Link>
               </>
             )}
           </div>
+
+          {/* Mobile: burger only */}
+          <button
+            className="md:hidden p-2 rounded-full hover:bg-black/[0.06] transition-colors"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Ouvrir le menu"
+          >
+            <Menu className="h-5 w-5 text-[#374151]" />
+          </button>
+        </div>
+      </header>
+
+      {/* ── MOBILE FULL-SCREEN MENU ── */}
+      {mobileOpen && (
+        <div className="md:hidden fixed inset-0 z-[100] bg-[#EEF1F7] flex flex-col">
+
+          {/* Top bar */}
+          <div className="flex items-center justify-between px-6 h-14 border-b border-black/[0.06] shrink-0">
+            <Link href="/" onClick={closeMobile} className="flex items-center gap-2 font-semibold text-[#1D1D1F]">
+              <Shield className="h-5 w-5 text-[#0071E3]" />
+              TrustMyDiag
+            </Link>
+            <button
+              onClick={closeMobile}
+              className="w-9 h-9 rounded-full bg-black/[0.07] flex items-center justify-center hover:bg-black/[0.12] transition-colors"
+              aria-label="Fermer"
+            >
+              <X className="h-4 w-4 text-[#374151]" />
+            </button>
+          </div>
+
+          {/* Links */}
+          <div className="flex-1 overflow-y-auto px-6 pt-6 pb-4">
+            <nav className="flex flex-col">
+
+              {/* Simple links */}
+              {[
+                { label: tr.howItWorks, href: "/#how" },
+                { label: tr.doctors, href: "/#doctors" },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={closeMobile}
+                  className="py-4 text-[22px] font-medium text-[#1D1D1F] border-b border-black/[0.06] flex items-center justify-between active:opacity-60 transition-opacity"
+                >
+                  {item.label}
+                </Link>
+              ))}
+
+              {/* Ressources accordion */}
+              <button
+                onClick={() => setLearnOpen(!learnOpen)}
+                className="py-4 text-[22px] font-medium text-[#1D1D1F] border-b border-black/[0.06] flex items-center justify-between w-full text-left"
+              >
+                {tr.learn}
+                <ChevronRight className={`h-5 w-5 text-[#9CA3AF] transition-transform duration-200 ${learnOpen ? "rotate-90" : ""}`} />
+              </button>
+              {learnOpen && (
+                <div className="flex flex-col border-b border-black/[0.06]">
+                  {learnItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMobile}
+                      className="py-3 pl-4 text-[17px] text-[#6E6E73] flex items-center gap-2 active:opacity-60 transition-opacity"
+                    >
+                      <span className="w-1 h-1 rounded-full bg-[#9CA3AF]" />
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              {/* Entreprise accordion */}
+              <button
+                onClick={() => setCompanyOpen(!companyOpen)}
+                className="py-4 text-[22px] font-medium text-[#1D1D1F] border-b border-black/[0.06] flex items-center justify-between w-full text-left"
+              >
+                {tr.company}
+                <ChevronRight className={`h-5 w-5 text-[#9CA3AF] transition-transform duration-200 ${companyOpen ? "rotate-90" : ""}`} />
+              </button>
+              {companyOpen && (
+                <div className="flex flex-col border-b border-black/[0.06]">
+                  {companyItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMobile}
+                      className="py-3 pl-4 text-[17px] text-[#6E6E73] flex items-center gap-2 active:opacity-60 transition-opacity"
+                    >
+                      <span className="w-1 h-1 rounded-full bg-[#9CA3AF]" />
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </nav>
+          </div>
+
+          {/* Bottom — CTA + lang */}
+          <div className="shrink-0 px-6 pb-10 pt-4 flex flex-col items-center gap-4">
+            <Link href="/register" onClick={closeMobile} className="w-full">
+              <button className="w-full py-4 text-base font-medium text-[#374151] bg-white/80 border border-black/[0.1] rounded-full shadow-sm hover:bg-white transition-colors">
+                {session ? tr.mySpace : tr.start}
+              </button>
+            </Link>
+            <div className="flex items-center gap-4">
+              {session ? (
+                <button
+                  onClick={() => { signOut({ callbackUrl: "/" }); closeMobile(); }}
+                  className="text-sm text-[#6E6E73]"
+                >
+                  {tr.logout}
+                </button>
+              ) : (
+                <Link href="/login" onClick={closeMobile}>
+                  <span className="text-sm text-[#6E6E73]">{tr.login}</span>
+                </Link>
+              )}
+              <span className="text-[#D1D5DB]">·</span>
+              <button
+                onClick={toggle}
+                className="flex items-center gap-1 text-sm text-[#6E6E73]"
+              >
+                <Globe className="h-3.5 w-3.5" />
+                {lang === "fr" ? "FR" : "EN"}
+              </button>
+            </div>
+          </div>
         </div>
       )}
-    </header>
+    </>
   );
 }
