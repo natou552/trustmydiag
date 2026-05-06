@@ -59,7 +59,6 @@ export function Header() {
 
   const learnItems = [
     { label: tr.blog, href: "/blog" },
-    { label: tr.guides, href: "/guides" },
     { label: tr.testimonials, href: "/testimonials" },
   ];
 

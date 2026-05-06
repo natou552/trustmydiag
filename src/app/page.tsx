@@ -31,11 +31,11 @@ export default function HomePage() {
   const tr = t[lang];
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-white text-[#1D1D1F]">
+    <div className="min-h-screen text-[#1D1D1F]" style={{ background: "#F4F3F8" }}>
       <style>{`
         @keyframes marquee {
           0%   { transform: translateX(0); }
@@ -49,41 +49,61 @@ export default function HomePage() {
       {/* ── HERO ── */}
       <section
         ref={heroRef}
-        className="relative overflow-hidden pt-10 pb-24 px-6 text-center"
+        className="relative overflow-hidden pt-12 pb-28 px-6 text-center"
         style={{
-          background:
-            "radial-gradient(ellipse at 65% -5%, rgba(253,186,186,0.35) 0%, transparent 55%), radial-gradient(ellipse at 15% 70%, rgba(196,181,253,0.25) 0%, transparent 50%), radial-gradient(ellipse at 85% 90%, rgba(147,197,253,0.2) 0%, transparent 50%), #f9faff",
+          background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 35%, #FDE8E0 65%, #F4F3F8 100%)",
         }}
       >
-        <motion.div
-          className="max-w-3xl mx-auto"
-          style={{ y: heroY, opacity: heroOpacity }}
-        >
+        {/* Orbs décoratifs */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-30 pointer-events-none"
+          style={{ background: "radial-gradient(circle, #C4A8D4 0%, transparent 70%)", filter: "blur(60px)" }} />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full opacity-20 pointer-events-none"
+          style={{ background: "radial-gradient(circle, #F9C4B0 0%, transparent 70%)", filter: "blur(60px)" }} />
+
+        <motion.div className="max-w-3xl mx-auto relative" style={{ y: heroY, opacity: heroOpacity }}>
+          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2 bg-white/80 border border-black/[0.07] text-[#374151] text-xs font-medium px-4 py-2 rounded-full mb-5 shadow-sm"
+            className="inline-flex items-center gap-2 text-xs font-medium px-4 py-2 rounded-full mb-6 shadow-sm"
+            style={{
+              background: "rgba(255,255,255,0.7)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(139,127,240,0.2)",
+              color: "#8B7FF0",
+            }}
           >
-            <Clock className="h-3 w-3 text-[#0071E3]" />
+            <Clock className="h-3 w-3" />
             {tr.hero.badge}
           </motion.div>
 
+          {/* H1 */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-            className="text-6xl sm:text-7xl md:text-[86px] font-bold text-[#1D1D1F] leading-[1.06] tracking-tight mb-6"
+            className="text-6xl sm:text-7xl md:text-[86px] leading-[1.05] tracking-tight mb-6"
+            style={{ fontWeight: 700 }}
           >
-            {tr.hero.h1}{" "}
-            <em className="not-italic text-[#0071E3]">{tr.hero.h1Accent}</em>
+            <span style={{ fontWeight: 300, color: "#4A4458" }}>{tr.hero.h1} </span>
+            <em className="not-italic" style={{
+              fontWeight: 700,
+              background: "linear-gradient(135deg, #8B7FF0 0%, #C4A8D4 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}>
+              {tr.hero.h1Accent}
+            </em>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="text-lg text-[#6E6E73] max-w-xl mx-auto leading-relaxed mb-8"
+            className="text-lg max-w-xl mx-auto leading-relaxed mb-10"
+            style={{ color: "#6B6880" }}
           >
             {tr.hero.sub}
           </motion.p>
@@ -95,27 +115,69 @@ export default function HomePage() {
             className="flex flex-col sm:flex-row gap-3 justify-center"
           >
             <Link href="/register">
-              <button className="inline-flex items-center gap-2 bg-[#0071E3] hover:bg-[#005EC4] text-white text-sm font-medium px-7 py-3.5 rounded-full transition-colors duration-200 shadow-md shadow-blue-200">
+              <button
+                className="inline-flex items-center gap-2 text-white text-sm font-semibold px-8 py-4 rounded-full transition-all duration-200 shadow-lg"
+                style={{
+                  background: "linear-gradient(135deg, #8B7FF0 0%, #6B5FD0 100%)",
+                  boxShadow: "0 8px 24px rgba(139,127,240,0.35)",
+                }}
+              >
                 {tr.hero.cta}
                 <ArrowRight className="h-4 w-4" />
               </button>
             </Link>
             <Link href="#how">
-              <button className="inline-flex items-center gap-2 bg-white/80 hover:bg-white border border-black/[0.1] text-[#374151] text-sm font-medium px-7 py-3.5 rounded-full transition-colors duration-200">
+              <button
+                className="inline-flex items-center gap-2 text-sm font-medium px-8 py-4 rounded-full transition-all duration-200"
+                style={{
+                  background: "rgba(255,255,255,0.7)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255,255,255,0.9)",
+                  color: "#4A4458",
+                }}
+              >
                 {tr.hero.howItWorks}
               </button>
             </Link>
+          </motion.div>
+
+          {/* Stats glassmorphism */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.45 }}
+            className="flex flex-wrap justify-center gap-4 mt-14"
+          >
+            {[
+              { value: "22€", label: "Prix fixe, sans surprise" },
+              { value: "72h", label: "Délai de réponse garanti" },
+              { value: "100%", label: "Médecins diplômés" },
+            ].map((s) => (
+              <div
+                key={s.value}
+                className="flex flex-col items-center px-8 py-5 rounded-2xl"
+                style={{
+                  background: "rgba(255,255,255,0.55)",
+                  backdropFilter: "blur(20px)",
+                  border: "1px solid rgba(255,255,255,0.9)",
+                  boxShadow: "0 4px 20px rgba(139,127,240,0.08)",
+                }}
+              >
+                <span className="text-2xl font-bold" style={{ color: "#8B7FF0" }}>{s.value}</span>
+                <span className="text-xs mt-1" style={{ color: "#9B98A8" }}>{s.label}</span>
+              </div>
+            ))}
           </motion.div>
         </motion.div>
       </section>
 
       {/* ── MARQUEE ── */}
-      <div className="border-y border-black/[0.06] bg-white py-3.5 overflow-hidden">
+      <div className="py-4 overflow-hidden" style={{ borderTop: "1px solid rgba(139,127,240,0.1)", borderBottom: "1px solid rgba(139,127,240,0.1)", background: "rgba(255,255,255,0.6)" }}>
         <div className="flex whitespace-nowrap">
           <div className="marquee-inner flex gap-12 items-center">
             {tr.marquee.map((item, i) => (
-              <span key={i} className="flex items-center gap-2.5 text-xs text-[#9CA3AF] flex-shrink-0">
-                <span className="w-1 h-1 rounded-full bg-[#D1D5DB]" />
+              <span key={i} className="flex items-center gap-2.5 text-xs flex-shrink-0" style={{ color: "#B0ABBD" }}>
+                <span className="w-1 h-1 rounded-full" style={{ background: "#C4A8D4" }} />
                 {item}
               </span>
             ))}
@@ -124,7 +186,7 @@ export default function HomePage() {
       </div>
 
       {/* ── HOW IT WORKS ── */}
-      <section id="how" className="py-28 px-6" style={{ background: "#f9faff" }}>
+      <section id="how" className="py-28 px-6" style={{ background: "#F4F3F8" }}>
         <div className="max-w-5xl mx-auto">
           <motion.div
             variants={fadeUp}
@@ -133,8 +195,8 @@ export default function HomePage() {
             viewport={{ once: true, margin: "-80px" }}
             className="text-center mb-20"
           >
-            <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-4">{tr.how.eyebrow}</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1D1D1F] tracking-tight">{tr.how.h2}</h2>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>{tr.how.eyebrow}</p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight" style={{ color: "#2D2A3E" }}>{tr.how.h2}</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -144,7 +206,11 @@ export default function HomePage() {
                 <CreditCard key="c" className="h-5 w-5" />,
                 <MessageSquare key="m" className="h-5 w-5" />,
               ];
-              const colors = ["text-[#0071E3] bg-blue-50", "text-[#5E5CE6] bg-violet-50", "text-[#34C759] bg-green-50"];
+              const gradients = [
+                "linear-gradient(135deg, #8B7FF0, #C4A8D4)",
+                "linear-gradient(135deg, #C4A8D4, #F9C4B0)",
+                "linear-gradient(135deg, #7EC8C8, #8B7FF0)",
+              ];
               return (
                 <motion.div
                   key={item.step}
@@ -152,25 +218,36 @@ export default function HomePage() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, margin: "-60px" }}
-                  className="bg-white rounded-3xl p-8 border border-black/[0.06]"
+                  className="rounded-3xl p-8 relative overflow-hidden"
+                  style={{
+                    background: "rgba(255,255,255,0.7)",
+                    backdropFilter: "blur(20px)",
+                    border: "1px solid rgba(255,255,255,0.9)",
+                    boxShadow: "0 4px 24px rgba(139,127,240,0.07)",
+                  }}
                   whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 >
-                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center mb-6 ${colors[i]}`}>
+                  {/* Gradient top border */}
+                  <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-3xl" style={{ background: gradients[i] }} />
+
+                  <div
+                    className="w-11 h-11 rounded-2xl flex items-center justify-center mb-6 text-white"
+                    style={{ background: gradients[i] }}
+                  >
                     {icons[i]}
                   </div>
-                  <p className="text-xs text-[#9CA3AF] font-medium mb-2">Étape {item.step}</p>
-                  <h3 className="text-lg font-medium text-[#1D1D1F] mb-3">{item.title}</h3>
-                  <p className="text-sm text-[#6E6E73] leading-relaxed">{item.desc}</p>
+                  <p className="text-xs font-medium mb-2" style={{ color: "#B0ABBD" }}>Étape {item.step}</p>
+                  <h3 className="text-lg font-semibold mb-3" style={{ color: "#2D2A3E" }}>{item.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "#6B6880" }}>{item.desc}</p>
                 </motion.div>
               );
             })}
           </div>
-
         </div>
       </section>
 
       {/* ── DOCTORS ── */}
-      <section id="doctors" className="py-28 px-6 bg-white">
+      <section id="doctors" className="py-28 px-6" style={{ background: "rgba(255,255,255,0.5)" }}>
         <div className="max-w-5xl mx-auto">
           <motion.div
             variants={fadeUp}
@@ -179,16 +256,20 @@ export default function HomePage() {
             viewport={{ once: true, margin: "-80px" }}
             className="text-center mb-20"
           >
-            <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-4">{tr.doctors.eyebrow}</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1D1D1F] tracking-tight">{tr.doctors.h2}</h2>
-            <p className="text-[#6E6E73] text-lg mt-4 max-w-lg mx-auto font-bold">{tr.doctors.sub}</p>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>{tr.doctors.eyebrow}</p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight" style={{ color: "#2D2A3E" }}>{tr.doctors.h2}</h2>
+            <p className="text-lg mt-4 max-w-lg mx-auto" style={{ color: "#6B6880" }}>{tr.doctors.sub}</p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
             {tr.doctors.list.map((doc, i) => {
-              const styles = [
-                { header: "bg-[#0071E3]", pill: "bg-blue-50 text-[#0071E3]" },
-                { header: "bg-[#5E5CE6]", pill: "bg-violet-50 text-violet-700" },
+              const avatarGradients = [
+                "linear-gradient(135deg, #8B7FF0, #C4A8D4)",
+                "linear-gradient(135deg, #F9C4B0, #C4A8D4)",
+              ];
+              const pillStyles = [
+                { bg: "rgba(139,127,240,0.1)", color: "#8B7FF0" },
+                { bg: "rgba(249,196,176,0.3)", color: "#C4776A" },
               ];
               const initials = ["RB", "YB"];
               return (
@@ -198,26 +279,41 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
                   transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
-                  className="rounded-3xl border border-black/[0.06] overflow-hidden"
+                  className="rounded-3xl overflow-hidden"
+                  style={{
+                    background: "rgba(255,255,255,0.75)",
+                    backdropFilter: "blur(20px)",
+                    border: "1px solid rgba(255,255,255,0.9)",
+                    boxShadow: "0 4px 24px rgba(139,127,240,0.08)",
+                  }}
                   whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 >
-                  <div className={`${styles[i].header} p-8`}>
+                  <div className="p-8" style={{ background: "linear-gradient(135deg, rgba(244,243,248,0.8), rgba(238,240,251,0.6))" }}>
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-white text-base font-semibold">
+                      <div
+                        className="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-base font-semibold flex-shrink-0"
+                        style={{ background: avatarGradients[i] }}
+                      >
                         {initials[i]}
                       </div>
                       <div>
-                        <p className="text-white/60 text-xs mb-0.5">{doc.tag}</p>
-                        <h3 className="font-semibold text-white text-lg leading-tight">{doc.name}</h3>
-                        <p className="text-white/70 text-sm">{doc.specialty}</p>
+                        <p className="text-xs mb-0.5" style={{ color: "#B0ABBD" }}>{doc.tag}</p>
+                        <h3 className="font-bold text-lg leading-tight" style={{ color: "#2D2A3E" }}>{doc.name}</h3>
+                        <p className="text-sm" style={{ color: "#8B7FF0" }}>{doc.specialty}</p>
                       </div>
                     </div>
                   </div>
-                  <div className="bg-white p-8">
-                    <p className="text-[#6E6E73] text-sm leading-relaxed mb-5">{doc.desc}</p>
+                  <div className="px-8 py-7">
+                    <p className="text-sm leading-relaxed mb-5" style={{ color: "#6B6880" }}>{doc.desc}</p>
                     <div className="flex flex-wrap gap-2">
                       {doc.features.map((f) => (
-                        <span key={f} className={`text-xs ${styles[i].pill} px-3 py-1.5 rounded-full`}>{f}</span>
+                        <span
+                          key={f}
+                          className="text-xs px-3 py-1.5 rounded-full font-medium"
+                          style={{ background: pillStyles[i].bg, color: pillStyles[i].color }}
+                        >
+                          {f}
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -228,55 +324,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── PRICING ── */}
-      <section id="pricing" className="py-28 px-6" style={{ background: "#f9faff" }}>
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            className="text-center mb-20"
-          >
-            <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-4">{tr.pricing.eyebrow}</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1D1D1F] tracking-tight">{tr.pricing.h2}</h2>
-            <p className="text-[#6E6E73] text-lg mt-4 font-bold">{tr.pricing.sub}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: 24 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-white rounded-3xl border border-black/[0.06] overflow-hidden max-w-2xl mx-auto"
-          >
-            <div className="bg-[#0071E3] px-10 py-10 text-white">
-              <div className="text-7xl font-bold tracking-tight leading-none mb-2">22€</div>
-              <p className="text-blue-200 text-sm">{tr.pricing.priceLabel}</p>
-            </div>
-            <div className="px-10 py-10">
-              <p className="text-xs font-semibold text-[#9CA3AF] uppercase tracking-widest mb-6">{tr.pricing.included}</p>
-              <ul className="grid sm:grid-cols-2 gap-3">
-                {tr.pricing.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-[#374151]">
-                    <CheckCircle className="h-4 w-4 text-[#34C759] flex-shrink-0 mt-0.5" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/register" className="block mt-8">
-                <button className="w-full inline-flex items-center justify-center gap-2 bg-[#0071E3] hover:bg-[#005EC4] text-white text-sm font-medium py-4 rounded-full transition-colors duration-200">
-                  {tr.pricing.cta}
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
       {/* ── EXEMPLE RAPPORT ── */}
-      <section className="py-24 px-6 bg-white">
+      <section className="py-24 px-6" style={{ background: "#F4F3F8" }}>
         <div className="max-w-4xl mx-auto">
           <motion.div
             variants={fadeUp}
@@ -285,11 +334,11 @@ export default function HomePage() {
             viewport={{ once: true, margin: "-80px" }}
             className="text-center mb-12"
           >
-            <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-4">Transparence</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1D1D1F] tracking-tight mb-4">
+            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>Transparence</p>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4" style={{ color: "#2D2A3E" }}>
               Voyez ce que vous recevez pour 22€
             </h2>
-            <p className="text-[#6E6E73] text-base max-w-xl mx-auto">
+            <p className="text-base max-w-xl mx-auto" style={{ color: "#6B6880" }}>
               Un exemple réel de rapport médical (anonymisé). Vous recevrez exactement ce niveau de détail.
             </p>
           </motion.div>
@@ -299,96 +348,153 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="bg-[#f9faff] border border-black/[0.06] rounded-3xl overflow-hidden"
+            className="rounded-3xl overflow-hidden"
+            style={{
+              background: "rgba(255,255,255,0.75)",
+              backdropFilter: "blur(20px)",
+              border: "1px solid rgba(255,255,255,0.9)",
+              boxShadow: "0 8px 32px rgba(139,127,240,0.1)",
+            }}
           >
-            {/* Barre de titre façon document */}
-            <div className="flex items-center gap-3 px-6 py-4 bg-white border-b border-black/[0.06]">
+            <div className="flex items-center gap-3 px-6 py-4" style={{ borderBottom: "1px solid rgba(139,127,240,0.08)", background: "rgba(255,255,255,0.5)" }}>
               <div className="flex gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-[#FF5F57]" />
                 <span className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
                 <span className="w-3 h-3 rounded-full bg-[#28C840]" />
               </div>
-              <span className="text-xs text-[#9CA3AF] ml-2">rapport-second-avis-exemple.pdf</span>
+              <span className="text-xs ml-2" style={{ color: "#B0ABBD" }}>rapport-second-avis-exemple.pdf</span>
             </div>
 
-            {/* Aperçu contenu */}
             <div className="p-8 md:p-12 grid md:grid-cols-2 gap-10">
               <div className="space-y-5">
-                <div>
-                  <p className="text-[10px] font-semibold text-[#0071E3] uppercase tracking-widest mb-2">Contexte patient</p>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-[#E5E7EB] rounded-full w-full" />
-                    <div className="h-3 bg-[#E5E7EB] rounded-full w-4/5" />
-                    <div className="h-3 bg-[#E5E7EB] rounded-full w-3/4" />
+                {[
+                  { label: "Contexte patient", color: "#8B7FF0", bars: [1, 4/5, 3/4] },
+                  { label: "Analyse du compte rendu", color: "#6B6880", bars: [1, 5/6, 1, 2/3] },
+                  { label: "Avis du spécialiste", color: "#6B6880", barColor: "rgba(139,127,240,0.15)", bars: [1, 4/5, 1, 3/5, 5/6] },
+                ].map((section) => (
+                  <div key={section.label}>
+                    <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: section.color }}>{section.label}</p>
+                    <div className="space-y-2">
+                      {section.bars.map((w, idx) => (
+                        <div key={idx} className="h-2.5 rounded-full" style={{ width: `${w * 100}%`, background: section.barColor || "rgba(196,168,212,0.2)" }} />
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <p className="text-[10px] font-semibold text-[#374151] uppercase tracking-widest mb-2">Analyse du compte rendu</p>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-[#E5E7EB] rounded-full w-full" />
-                    <div className="h-3 bg-[#E5E7EB] rounded-full w-5/6" />
-                    <div className="h-3 bg-[#E5E7EB] rounded-full w-full" />
-                    <div className="h-3 bg-[#E5E7EB] rounded-full w-2/3" />
-                  </div>
-                </div>
-                <div>
-                  <p className="text-[10px] font-semibold text-[#374151] uppercase tracking-widest mb-2">Avis du spécialiste</p>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-[#DBEAFE] rounded-full w-full" />
-                    <div className="h-3 bg-[#DBEAFE] rounded-full w-4/5" />
-                    <div className="h-3 bg-[#DBEAFE] rounded-full w-full" />
-                    <div className="h-3 bg-[#DBEAFE] rounded-full w-3/5" />
-                    <div className="h-3 bg-[#DBEAFE] rounded-full w-5/6" />
-                  </div>
-                </div>
+                ))}
               </div>
 
               <div className="space-y-5">
                 <div>
-                  <p className="text-[10px] font-semibold text-[#374151] uppercase tracking-widest mb-2">Recommandations</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: "#6B6880" }}>Recommandations</p>
                   <div className="space-y-3">
                     {[1, 2, 3].map((i) => (
                       <div key={i} className="flex items-start gap-2.5">
-                        <CheckCircle className="h-4 w-4 text-[#34C759] flex-shrink-0 mt-0.5" />
+                        <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: "linear-gradient(135deg, #8B7FF0, #C4A8D4)" }}>
+                          <CheckCircle className="h-3 w-3 text-white" />
+                        </div>
                         <div className="space-y-1.5 flex-1">
-                          <div className="h-3 bg-[#E5E7EB] rounded-full w-full" />
-                          <div className="h-3 bg-[#E5E7EB] rounded-full w-3/4" />
+                          <div className="h-2.5 rounded-full w-full" style={{ background: "rgba(196,168,212,0.2)" }} />
+                          <div className="h-2.5 rounded-full w-3/4" style={{ background: "rgba(196,168,212,0.2)" }} />
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className="bg-white rounded-2xl border border-black/[0.06] p-5">
-                  <p className="text-[10px] font-semibold text-[#0071E3] uppercase tracking-widest mb-3">Conclusion médicale</p>
+                <div className="rounded-2xl p-5" style={{ background: "rgba(139,127,240,0.06)", border: "1px solid rgba(139,127,240,0.12)" }}>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: "#8B7FF0" }}>Conclusion médicale</p>
                   <div className="space-y-2">
-                    <div className="h-3 bg-[#DBEAFE] rounded-full w-full" />
-                    <div className="h-3 bg-[#DBEAFE] rounded-full w-5/6" />
-                    <div className="h-3 bg-[#DBEAFE] rounded-full w-4/5" />
+                    {[1, 5/6, 4/5].map((w, i) => (
+                      <div key={i} className="h-2.5 rounded-full" style={{ width: `${w * 100}%`, background: "rgba(139,127,240,0.15)" }} />
+                    ))}
                   </div>
-                  <div className="mt-4 pt-4 border-t border-black/[0.06] flex items-center gap-3">
-                    <div className="w-8 h-8 bg-[#0071E3]/10 rounded-full flex items-center justify-center">
-                      <Shield className="h-4 w-4 text-[#0071E3]" />
+                  <div className="mt-4 pt-4 flex items-center gap-3" style={{ borderTop: "1px solid rgba(139,127,240,0.1)" }}>
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "linear-gradient(135deg, #8B7FF0, #C4A8D4)" }}>
+                      <Shield className="h-4 w-4 text-white" />
                     </div>
                     <div>
-                      <div className="h-2.5 bg-[#E5E7EB] rounded-full w-24 mb-1" />
-                      <div className="h-2 bg-[#E5E7EB] rounded-full w-16" />
+                      <div className="h-2 rounded-full w-24 mb-1" style={{ background: "rgba(196,168,212,0.3)" }} />
+                      <div className="h-2 rounded-full w-16" style={{ background: "rgba(196,168,212,0.2)" }} />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* CTA téléchargement */}
             <div className="px-8 md:px-12 pb-10 flex flex-col sm:flex-row items-center gap-4">
               <a
                 href="/api/exemple-rapport"
                 target="_blank"
-                className="inline-flex items-center gap-2 bg-[#1D1D1F] hover:bg-[#374151] text-white text-sm font-medium px-6 py-3 rounded-full transition-colors duration-200"
+                className="inline-flex items-center gap-2 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all duration-200"
+                style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 6px 20px rgba(139,127,240,0.3)" }}
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /></svg>
                 Télécharger l&apos;exemple (PDF)
               </a>
-              <p className="text-xs text-[#9CA3AF]">Données 100% anonymisées · Cas réel</p>
+              <p className="text-xs" style={{ color: "#B0ABBD" }}>Données 100% anonymisées · Cas réel</p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── PRICING ── */}
+      <section id="pricing" className="py-28 px-6" style={{ background: "rgba(255,255,255,0.5)" }}>
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="text-center mb-20"
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>{tr.pricing.eyebrow}</p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight" style={{ color: "#2D2A3E" }}>{tr.pricing.h2}</h2>
+            <p className="text-lg mt-4" style={{ color: "#6B6880" }}>{tr.pricing.sub}</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 24 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-2xl mx-auto rounded-3xl overflow-hidden relative"
+            style={{
+              background: "rgba(255,255,255,0.8)",
+              backdropFilter: "blur(20px)",
+              border: "1px solid rgba(255,255,255,0.95)",
+              boxShadow: "0 12px 48px rgba(139,127,240,0.15)",
+            }}
+          >
+            {/* Gradient top border */}
+            <div className="h-1" style={{ background: "linear-gradient(90deg, #8B7FF0, #C4A8D4, #F9C4B0)" }} />
+
+            <div className="px-10 pt-10 pb-8">
+              <div className="flex items-end gap-2 mb-2">
+                <span className="text-7xl font-bold tracking-tight leading-none" style={{ color: "#2D2A3E" }}>22€</span>
+                <span className="text-sm mb-3" style={{ color: "#B0ABBD" }}>{tr.pricing.priceLabel}</span>
+              </div>
+              <p className="text-xs font-semibold uppercase tracking-widest mt-6 mb-5" style={{ color: "#B0ABBD" }}>{tr.pricing.included}</p>
+              <ul className="grid sm:grid-cols-2 gap-3 mb-8">
+                {tr.pricing.items.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm" style={{ color: "#4A4458" }}>
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: "linear-gradient(135deg, #8B7FF0, #C4A8D4)" }}>
+                      <CheckCircle className="h-3 w-3 text-white" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/register" className="block">
+                <button
+                  className="w-full inline-flex items-center justify-center gap-2 text-white text-sm font-semibold py-4 rounded-full transition-all duration-200"
+                  style={{
+                    background: "linear-gradient(135deg, #8B7FF0 0%, #6B5FD0 100%)",
+                    boxShadow: "0 8px 24px rgba(139,127,240,0.35)",
+                  }}
+                >
+                  {tr.pricing.cta}
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -398,94 +504,86 @@ export default function HomePage() {
       <section
         className="py-32 px-6 text-center"
         style={{
-          background:
-            "radial-gradient(ellipse at 30% 0%, rgba(253,186,186,0.3) 0%, transparent 55%), radial-gradient(ellipse at 80% 100%, rgba(196,181,253,0.25) 0%, transparent 50%), #f9faff",
+          background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 40%, #FDE8E0 100%)",
         }}
       >
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "radial-gradient(ellipse at 50% 50%, rgba(139,127,240,0.12) 0%, transparent 60%)",
+        }} />
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="max-w-2xl mx-auto"
+          className="max-w-2xl mx-auto relative"
         >
-          <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-6">{tr.cta.eyebrow}</p>
-          <h2 className="text-5xl md:text-6xl font-bold text-[#1D1D1F] leading-tight tracking-tight mb-6">
+          <p className="text-xs font-semibold uppercase tracking-widest mb-6" style={{ color: "#8B7FF0" }}>{tr.cta.eyebrow}</p>
+          <h2 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6" style={{ color: "#2D2A3E" }}>
             {tr.cta.h2}
           </h2>
-          <p className="text-[#6E6E73] text-lg mb-10 font-bold">{tr.cta.sub}</p>
+          <p className="text-lg mb-10" style={{ color: "#6B6880" }}>{tr.cta.sub}</p>
           <Link href="/register">
-            <button className="inline-flex items-center gap-2 bg-[#0071E3] hover:bg-[#005EC4] text-white text-sm font-medium px-8 py-4 rounded-full transition-colors duration-200 shadow-lg shadow-blue-200">
+            <button
+              className="inline-flex items-center gap-2 text-white text-sm font-semibold px-10 py-4 rounded-full transition-all duration-200"
+              style={{
+                background: "linear-gradient(135deg, #8B7FF0 0%, #6B5FD0 100%)",
+                boxShadow: "0 12px 32px rgba(139,127,240,0.35)",
+              }}
+            >
               {tr.cta.button}
               <ArrowRight className="h-4 w-4" />
             </button>
           </Link>
-          <p className="text-[#9CA3AF] text-xs mt-5">{tr.cta.trust}</p>
+          <p className="text-xs mt-5" style={{ color: "#B0ABBD" }}>{tr.cta.trust}</p>
         </motion.div>
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-white border-t border-black/[0.06] pt-14 pb-8 px-6">
+      <footer className="pt-14 pb-8 px-6" style={{ background: "#2D2A3E", color: "#9B98A8" }}>
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
             <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2 text-sm font-semibold text-[#1D1D1F] mb-3">
-                <Shield className="h-4 w-4 text-[#0071E3]" />
+              <div className="flex items-center gap-2 text-sm font-semibold mb-3" style={{ color: "#F4F3F8" }}>
+                <Shield className="h-4 w-4" style={{ color: "#8B7FF0" }} />
                 TrustMyDiag
               </div>
-              <p className="text-xs text-[#9CA3AF] leading-relaxed">{tr.footer.tagline}</p>
+              <p className="text-xs leading-relaxed" style={{ color: "#6B6880" }}>{tr.footer.tagline}</p>
             </div>
 
-            <div>
-              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">{tr.footer.nav}</p>
-              <ul className="space-y-3">
-                {tr.footer.navLinks.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="text-sm text-[#6E6E73] hover:text-[#1D1D1F] transition-colors">{l.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">{tr.footer.learn}</p>
-              <ul className="space-y-3">
-                {tr.footer.learnLinks.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="text-sm text-[#6E6E73] hover:text-[#1D1D1F] transition-colors">{l.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">{tr.footer.company}</p>
-              <ul className="space-y-3">
-                {tr.footer.companyLinks.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="text-sm text-[#6E6E73] hover:text-[#1D1D1F] transition-colors">{l.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {[
+              { title: tr.footer.nav, links: tr.footer.navLinks },
+              { title: tr.footer.learn, links: tr.footer.learnLinks },
+              { title: tr.footer.company, links: tr.footer.companyLinks },
+            ].map((col) => (
+              <div key={col.title}>
+                <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#F4F3F8" }}>{col.title}</p>
+                <ul className="space-y-3">
+                  {col.links.map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href} className="text-sm transition-colors hover:text-white" style={{ color: "#6B6880" }}>{l.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
 
-          <div className="border-t border-black/[0.06] pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-[#9CA3AF]">© {new Date().getFullYear()} {tr.footer.copyright}</p>
-            <div className="flex items-center gap-4 flex-wrap justify-center">
-              <div className="flex items-center gap-1.5 border border-black/[0.08] rounded-full px-3 py-1.5 bg-white">
-                <svg className="h-3.5 w-3.5 text-[#0071E3]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span className="text-[10px] font-semibold text-[#374151] uppercase tracking-wide">RGPD</span>
+          <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+            <p className="text-xs" style={{ color: "#4A4458" }}>© {new Date().getFullYear()} {tr.footer.copyright}</p>
+            <div className="flex items-center gap-3 flex-wrap justify-center">
+              <div className="flex items-center gap-1.5 rounded-full px-3 py-1.5" style={{ border: "1px solid rgba(139,127,240,0.2)", background: "rgba(139,127,240,0.08)" }}>
+                <svg className="h-3.5 w-3.5" style={{ color: "#8B7FF0" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: "#8B7FF0" }}>RGPD</span>
               </div>
-              <div className="flex items-center gap-1.5 border border-black/[0.08] rounded-full px-3 py-1.5 bg-white">
-                <svg className="h-3.5 w-3.5 text-[#059669]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                <span className="text-[10px] font-semibold text-[#374151] uppercase tracking-wide">HDS</span>
-                <span className="text-[10px] text-[#9CA3AF]">En cours</span>
+              <div className="flex items-center gap-1.5 rounded-full px-3 py-1.5" style={{ border: "1px solid rgba(196,168,212,0.2)", background: "rgba(196,168,212,0.08)" }}>
+                <svg className="h-3.5 w-3.5" style={{ color: "#C4A8D4" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <span className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: "#C4A8D4" }}>HDS</span>
+                <span className="text-[10px]" style={{ color: "#4A4458" }}>En cours</span>
               </div>
             </div>
             <div className="flex flex-wrap justify-center gap-5">
               {tr.footer.legal.map((l) => (
-                <Link key={l.href} href={l.href} className="text-xs text-[#9CA3AF] hover:text-[#6E6E73] transition-colors">{l.label}</Link>
+                <Link key={l.href} href={l.href} className="text-xs transition-colors hover:text-white" style={{ color: "#4A4458" }}>{l.label}</Link>
               ))}
             </div>
           </div>

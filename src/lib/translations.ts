@@ -8,7 +8,6 @@ export const t = {
       learn: "Ressources",
       company: "Entreprise",
       blog: "Blog",
-      guides: "Études de cas & Guides",
       testimonials: "Témoignages",
       about: "À propos",
       news: "Actualités",
@@ -122,7 +121,6 @@ export const t = {
       learn: "Ressources",
       learnLinks: [
         { label: "Blog", href: "/blog" },
-        { label: "Études de cas & Guides", href: "/guides" },
         { label: "Témoignages", href: "/testimonials" },
         { label: "Support client", href: "/support" },
       ],
@@ -155,7 +153,6 @@ export const t = {
       learn: "Learn",
       company: "Company",
       blog: "Blog",
-      guides: "Case Studies & Guides",
       testimonials: "Testimonials",
       about: "About",
       news: "News",
@@ -269,7 +266,6 @@ export const t = {
       learn: "Learn",
       learnLinks: [
         { label: "Blog", href: "/blog" },
-        { label: "Case Studies & Guides", href: "/guides" },
         { label: "Testimonials", href: "/testimonials" },
         { label: "Customer Support", href: "/support" },
       ],
