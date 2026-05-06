@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM = "TrustMyDiag <onboarding@resend.dev>";
+const FROM = "TrustMyDiag <noreply@trustmydiag.com>";
 
 export async function sendVerificationEmail(email: string, name: string, token: string) {
   const url = `${process.env.NEXTAUTH_URL}/api/verify-email?token=${token}`;
