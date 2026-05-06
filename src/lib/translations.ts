@@ -5,7 +5,6 @@ export const t = {
     nav: {
       howItWorks: "Comment ça marche",
       doctors: "Nos médecins",
-      confidentiality: "Confidentialité",
       learn: "Ressources",
       company: "Entreprise",
       blog: "Blog",
@@ -153,7 +152,6 @@ export const t = {
     nav: {
       howItWorks: "How it works",
       doctors: "Our doctors",
-      confidentiality: "Confidentiality",
       learn: "Learn",
       company: "Company",
       blog: "Blog",

@@ -85,9 +85,6 @@ export function Header() {
           <Link href="/#doctors" className="px-4 py-1.5 rounded-full text-[#374151] hover:bg-black/[0.06] transition-colors duration-150">
             {tr.doctors}
           </Link>
-          <Link href="/rgpd" className="px-4 py-1.5 rounded-full text-[#374151] hover:bg-black/[0.06] transition-colors duration-150">
-            {tr.confidentiality}
-          </Link>
           <Dropdown label={tr.learn} items={learnItems} />
           <Dropdown label={tr.company} items={companyItems} />
         </nav>
@@ -158,7 +155,6 @@ export function Header() {
             {[
               { label: tr.howItWorks, href: "/#how" },
               { label: tr.doctors, href: "/#doctors" },
-              { label: tr.confidentiality, href: "/rgpd" },
             ].map((item) => (
               <Link
                 key={item.href}
