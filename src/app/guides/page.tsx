@@ -1,4 +1,4 @@
-import Header from "@/components/header";
+import { Header } from "@/components/header";
 import Link from "next/link";
 import { FileText } from "lucide-react";
 
