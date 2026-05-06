@@ -76,7 +76,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 backdrop-blur-2xl border-b" style={{ background: "rgba(244,243,248,0.6)", borderColor: "rgba(139,127,240,0.1)" }}>
+      <header className="sticky top-0 z-50 backdrop-blur-2xl" style={{ background: "rgba(228,226,240,0.75)", boxShadow: "0 0 0 1px rgba(139,127,240,0.12), 0 2px 16px rgba(139,127,240,0.06)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
 
           {/* Logo */}
