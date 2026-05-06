@@ -76,21 +76,21 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/50 backdrop-blur-xl border-b border-black/[0.05]">
+      <header className="sticky top-0 z-50 backdrop-blur-2xl border-b" style={{ background: "rgba(244,243,248,0.6)", borderColor: "rgba(139,127,240,0.1)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 font-semibold text-[#1D1D1F] shrink-0">
-            <Shield className="h-5 w-5 text-[#0071E3]" />
+          <Link href="/" className="flex items-center gap-2 font-semibold shrink-0" style={{ color: "#2D2A3E" }}>
+            <Shield className="h-5 w-5" style={{ color: "#8B7FF0" }} />
             TrustMyDiag
           </Link>
 
           {/* Nav desktop */}
           <nav className="hidden md:flex items-center gap-0.5 text-sm">
-            <Link href="/#how" className="px-4 py-1.5 rounded-full text-[#374151] hover:bg-black/[0.06] transition-colors duration-150">
+            <Link href="/#how" className="px-4 py-1.5 rounded-full transition-colors duration-150" style={{ color: "#6B6880" }}>
               {tr.howItWorks}
             </Link>
-            <Link href="/#doctors" className="px-4 py-1.5 rounded-full text-[#374151] hover:bg-black/[0.06] transition-colors duration-150">
+            <Link href="/#doctors" className="px-4 py-1.5 rounded-full transition-colors duration-150" style={{ color: "#6B6880" }}>
               {tr.doctors}
             </Link>
             <Dropdown label={tr.learn} items={learnItems} />
@@ -101,7 +101,8 @@ export function Header() {
           <div className="hidden md:flex items-center gap-2 shrink-0">
             <button
               onClick={toggle}
-              className="flex items-center gap-1.5 text-xs font-medium text-[#374151] px-3 py-1.5 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors duration-150"
+              className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full transition-colors duration-150"
+              style={{ color: "#6B6880", border: "1px solid rgba(139,127,240,0.2)", background: "rgba(139,127,240,0.06)" }}
             >
               <Globe className="h-3.5 w-3.5" />
               {lang === "fr" ? "FR" : "EN"}
@@ -110,13 +111,14 @@ export function Header() {
             {session ? (
               <>
                 <Link href="/dashboard">
-                  <button className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150">
+                  <button className="text-sm px-4 py-1.5 rounded-full transition-colors duration-150" style={{ color: "#6B6880" }}>
                     {tr.mySpace}
                   </button>
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
-                  className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150"
+                  className="text-sm px-4 py-1.5 rounded-full transition-colors duration-150"
+                  style={{ color: "#6B6880" }}
                 >
                   {tr.logout}
                 </button>
@@ -124,12 +126,15 @@ export function Header() {
             ) : (
               <>
                 <Link href="/login">
-                  <button className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150">
+                  <button className="text-sm px-4 py-1.5 rounded-full transition-colors duration-150" style={{ color: "#6B6880" }}>
                     {tr.login}
                   </button>
                 </Link>
                 <Link href="/register">
-                  <button className="text-sm text-white bg-[#0071E3] hover:bg-[#005EC4] px-5 py-1.5 rounded-full font-medium transition-colors duration-150 shadow-sm">
+                  <button
+                    className="text-sm text-white px-5 py-1.5 rounded-full font-medium transition-all duration-150"
+                    style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 4px 14px rgba(139,127,240,0.35)" }}
+                  >
                     {tr.start}
                   </button>
                 </Link>
