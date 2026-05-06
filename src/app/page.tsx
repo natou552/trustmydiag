@@ -344,6 +344,125 @@ export default function HomePage() {
         </motion.div>
       </section>
 
+      {/* ── EXEMPLE RAPPORT ── */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="text-center mb-12"
+          >
+            <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-4">Transparence</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1D1D1F] tracking-tight mb-4">
+              Voyez ce que vous recevez pour 22€
+            </h2>
+            <p className="text-[#6E6E73] text-base max-w-xl mx-auto">
+              Un exemple réel de rapport médical (anonymisé). Vous recevrez exactement ce niveau de détail.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="bg-[#f9faff] border border-black/[0.06] rounded-3xl overflow-hidden"
+          >
+            {/* Barre de titre façon document */}
+            <div className="flex items-center gap-3 px-6 py-4 bg-white border-b border-black/[0.06]">
+              <div className="flex gap-1.5">
+                <span className="w-3 h-3 rounded-full bg-[#FF5F57]" />
+                <span className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
+                <span className="w-3 h-3 rounded-full bg-[#28C840]" />
+              </div>
+              <span className="text-xs text-[#9CA3AF] ml-2">rapport-second-avis-exemple.pdf</span>
+            </div>
+
+            {/* Aperçu contenu */}
+            <div className="p-8 md:p-12 grid md:grid-cols-2 gap-10">
+              <div className="space-y-5">
+                <div>
+                  <p className="text-[10px] font-semibold text-[#0071E3] uppercase tracking-widest mb-2">Contexte patient</p>
+                  <div className="space-y-2">
+                    <div className="h-3 bg-[#E5E7EB] rounded-full w-full" />
+                    <div className="h-3 bg-[#E5E7EB] rounded-full w-4/5" />
+                    <div className="h-3 bg-[#E5E7EB] rounded-full w-3/4" />
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold text-[#374151] uppercase tracking-widest mb-2">Analyse du compte rendu</p>
+                  <div className="space-y-2">
+                    <div className="h-3 bg-[#E5E7EB] rounded-full w-full" />
+                    <div className="h-3 bg-[#E5E7EB] rounded-full w-5/6" />
+                    <div className="h-3 bg-[#E5E7EB] rounded-full w-full" />
+                    <div className="h-3 bg-[#E5E7EB] rounded-full w-2/3" />
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold text-[#374151] uppercase tracking-widest mb-2">Avis du spécialiste</p>
+                  <div className="space-y-2">
+                    <div className="h-3 bg-[#DBEAFE] rounded-full w-full" />
+                    <div className="h-3 bg-[#DBEAFE] rounded-full w-4/5" />
+                    <div className="h-3 bg-[#DBEAFE] rounded-full w-full" />
+                    <div className="h-3 bg-[#DBEAFE] rounded-full w-3/5" />
+                    <div className="h-3 bg-[#DBEAFE] rounded-full w-5/6" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-5">
+                <div>
+                  <p className="text-[10px] font-semibold text-[#374151] uppercase tracking-widest mb-2">Recommandations</p>
+                  <div className="space-y-3">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="flex items-start gap-2.5">
+                        <CheckCircle className="h-4 w-4 text-[#34C759] flex-shrink-0 mt-0.5" />
+                        <div className="space-y-1.5 flex-1">
+                          <div className="h-3 bg-[#E5E7EB] rounded-full w-full" />
+                          <div className="h-3 bg-[#E5E7EB] rounded-full w-3/4" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-white rounded-2xl border border-black/[0.06] p-5">
+                  <p className="text-[10px] font-semibold text-[#0071E3] uppercase tracking-widest mb-3">Conclusion médicale</p>
+                  <div className="space-y-2">
+                    <div className="h-3 bg-[#DBEAFE] rounded-full w-full" />
+                    <div className="h-3 bg-[#DBEAFE] rounded-full w-5/6" />
+                    <div className="h-3 bg-[#DBEAFE] rounded-full w-4/5" />
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-black/[0.06] flex items-center gap-3">
+                    <div className="w-8 h-8 bg-[#0071E3]/10 rounded-full flex items-center justify-center">
+                      <Shield className="h-4 w-4 text-[#0071E3]" />
+                    </div>
+                    <div>
+                      <div className="h-2.5 bg-[#E5E7EB] rounded-full w-24 mb-1" />
+                      <div className="h-2 bg-[#E5E7EB] rounded-full w-16" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA téléchargement */}
+            <div className="px-8 md:px-12 pb-10 flex flex-col sm:flex-row items-center gap-4">
+              <a
+                href="/exemple-rapport.pdf"
+                download
+                className="inline-flex items-center gap-2 bg-[#1D1D1F] hover:bg-[#374151] text-white text-sm font-medium px-6 py-3 rounded-full transition-colors duration-200"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /></svg>
+                Télécharger l&apos;exemple (PDF)
+              </a>
+              <p className="text-xs text-[#9CA3AF]">Données 100% anonymisées · Cas réel</p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ── CTA ── */}
       <section
         className="py-32 px-6 text-center"
