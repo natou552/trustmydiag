@@ -76,28 +76,85 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 backdrop-blur-2xl" style={{ background: "rgba(228,226,240,0.75)", boxShadow: "0 0 0 1px rgba(139,127,240,0.12), 0 2px 16px rgba(139,127,240,0.06)" }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+      <header
+        className="sticky top-0 z-50"
+        style={{
+          background: "rgba(244,243,248,0.7)",
+          backdropFilter: "blur(12px)",
+          borderBottom: "1px solid rgba(0,0,0,0.05)",
+          padding: "12px 5%",
+        }}
+      >
+        <div className="flex items-center justify-between">
 
-          {/* Logo */}
+          {/* LEFT — Logo */}
           <Link href="/" className="flex items-center gap-2 font-semibold shrink-0" style={{ color: "#2D2A3E" }}>
             <Shield className="h-5 w-5" style={{ color: "#8B7FF0" }} />
             TrustMyDiag
           </Link>
 
-          {/* Nav desktop */}
-          <nav className="hidden md:flex items-center gap-0.5 text-sm">
-            <Link href="/#how" className="px-4 py-1.5 rounded-full transition-colors duration-150" style={{ color: "#6B6880" }}>
-              {tr.howItWorks}
-            </Link>
-            <Link href="/#doctors" className="px-4 py-1.5 rounded-full transition-colors duration-150" style={{ color: "#6B6880" }}>
-              {tr.doctors}
-            </Link>
+          {/* CENTER — Floating pill nav */}
+          <nav
+            className="hidden md:inline-flex items-center pill-nav"
+            style={{
+              gap: "2px",
+              padding: "6px 8px",
+              borderRadius: "100px",
+              background: "rgba(255,255,255,0.6)",
+              backdropFilter: "blur(16px) saturate(160%)",
+              border: "1px solid rgba(255,255,255,0.85)",
+              boxShadow: "0 2px 12px rgba(139,127,240,0.08), 0 1px 3px rgba(0,0,0,0.06)",
+              transition: "all 0.3s ease",
+            }}
+            onMouseEnter={e => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.boxShadow = "0 6px 28px rgba(139,127,240,0.14), 0 2px 8px rgba(0,0,0,0.08)";
+              el.style.transform = "translateY(-2px)";
+              el.style.background = "rgba(255,255,255,0.82)";
+              el.style.borderColor = "rgba(139,127,240,0.2)";
+            }}
+            onMouseLeave={e => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.boxShadow = "0 2px 12px rgba(139,127,240,0.08), 0 1px 3px rgba(0,0,0,0.06)";
+              el.style.transform = "translateY(0)";
+              el.style.background = "rgba(255,255,255,0.6)";
+              el.style.borderColor = "rgba(255,255,255,0.85)";
+            }}
+          >
+            {[
+              { href: "/#how", label: tr.howItWorks },
+              { href: "/#doctors", label: tr.doctors },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="pill-link"
+                style={{
+                  padding: "7px 16px",
+                  borderRadius: "100px",
+                  fontSize: "14px",
+                  color: "#6B7280",
+                  background: "transparent",
+                  transition: "background 0.2s, color 0.2s",
+                  whiteSpace: "nowrap",
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.background = "rgba(139,127,240,0.07)";
+                  (e.currentTarget as HTMLElement).style.color = "#1a1a2e";
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.background = "transparent";
+                  (e.currentTarget as HTMLElement).style.color = "#6B7280";
+                }}
+              >
+                {item.label}
+              </Link>
+            ))}
             <Dropdown label={tr.learn} items={learnItems} />
             <Dropdown label={tr.company} items={companyItems} />
           </nav>
 
-          {/* Right side desktop */}
+          {/* RIGHT — Lang + Auth */}
           <div className="hidden md:flex items-center gap-2 shrink-0">
             <button
               onClick={toggle}
@@ -132,7 +189,7 @@ export function Header() {
                 </Link>
                 <Link href="/register">
                   <button
-                    className="text-sm text-white px-5 py-1.5 rounded-full font-medium transition-all duration-150"
+                    className="text-sm text-white px-5 py-2 rounded-full font-medium transition-all duration-150"
                     style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 4px 14px rgba(139,127,240,0.35)" }}
                   >
                     {tr.start}
