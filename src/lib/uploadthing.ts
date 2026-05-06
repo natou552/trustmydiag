@@ -5,7 +5,10 @@ import { authOptions } from "@/lib/auth";
 const f = createUploadthing();
 
 export const ourFileRouter = {
-  pdfUploader: f({ pdf: { maxFileSize: "8MB", maxFileCount: 1 } })
+  medicalUploader: f({
+    pdf: { maxFileSize: "16MB", maxFileCount: 5 },
+    image: { maxFileSize: "16MB", maxFileCount: 5 },
+  })
     .middleware(async () => {
       const session = await getServerSession(authOptions);
       if (!session) throw new Error("Unauthorized");

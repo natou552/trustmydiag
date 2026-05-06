@@ -6,50 +6,88 @@ import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CheckCircle, Upload, FileText, ChevronRight, Stethoscope, Baby } from "lucide-react";
+import { CheckCircle, Upload, FileText, ChevronRight, Stethoscope, Baby, X, Image as ImageIcon } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import { useUploadThing } from "@/lib/uploadthing-client";
 
 type Step = 1 | 2 | 3;
+
+function FilePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
+  const isImage = file.type.startsWith("image/");
+  const sizeMb = (file.size / 1024 / 1024).toFixed(1);
+  return (
+    <div className="flex items-center gap-3 bg-[#f8fafc] border border-gray-100 rounded-xl px-4 py-3">
+      {isImage ? (
+        <ImageIcon className="h-5 w-5 text-[#0071E3] flex-shrink-0" />
+      ) : (
+        <FileText className="h-5 w-5 text-[#1e3a5f] flex-shrink-0" />
+      )}
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium text-gray-900 truncate">{file.name}</p>
+        <p className="text-xs text-gray-400">{sizeMb} Mo</p>
+      </div>
+      <button
+        onClick={onRemove}
+        className="text-gray-300 hover:text-red-400 transition-colors flex-shrink-0"
+      >
+        <X className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
 
 function NewRequestForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>(1);
   const [specialty, setSpecialty] = useState<"DENTAL" | "GYNECOLOGY" | "">("");
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
-  const [uploadedUrl, setUploadedUrl] = useState("");
-  const [uploadedKey, setUploadedKey] = useState("");
+  const [uploadedUrls, setUploadedUrls] = useState<string[]>([]);
+  const [uploadedKeys, setUploadedKeys] = useState<string[]>([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const { startUpload } = useUploadThing("pdfUploader");
+  const { startUpload } = useUploadThing("medicalUploader");
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles[0]) setFile(acceptedFiles[0]);
+    setFiles((prev) => {
+      const combined = [...prev, ...acceptedFiles];
+      return combined.slice(0, 5);
+    });
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { "application/pdf": [".pdf"] },
-    maxFiles: 1,
-    maxSize: 10 * 1024 * 1024,
+    accept: {
+      "application/pdf": [".pdf"],
+      "image/jpeg": [".jpg", ".jpeg"],
+      "image/png": [".png"],
+      "image/heic": [".heic"],
+      "image/webp": [".webp"],
+    },
+    maxFiles: 5,
+    maxSize: 16 * 1024 * 1024,
   });
 
+  function removeFile(index: number) {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+  }
+
   async function handleUpload() {
-    if (!file) return;
+    if (files.length === 0) return;
     setUploading(true);
+    setError("");
     try {
-      const result = await startUpload([file]);
-      if (result && result[0]) {
-        setUploadedUrl(result[0].url);
-        setUploadedKey(result[0].key);
+      const results = await startUpload(files);
+      if (results && results.length > 0) {
+        setUploadedUrls(results.map((r) => r.url));
+        setUploadedKeys(results.map((r) => r.key));
         setStep(3);
       }
     } catch {
-      setError("Erreur lors de l'upload. Réessayez.");
+      setError("Erreur lors de l'envoi. Réessayez.");
     }
     setUploading(false);
   }
@@ -61,7 +99,12 @@ function NewRequestForm() {
       const res = await fetch("/api/requests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ specialty, pdfUrl: uploadedUrl, pdfKey: uploadedKey, message }),
+        body: JSON.stringify({
+          specialty,
+          pdfUrl: JSON.stringify(uploadedUrls),
+          pdfKey: JSON.stringify(uploadedKeys),
+          message,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -75,7 +118,7 @@ function NewRequestForm() {
       if (!checkoutRes.ok) throw new Error(checkoutData.error);
 
       window.location.href = checkoutData.url;
-    } catch (e) {
+    } catch {
       setError("Une erreur est survenue. Réessayez.");
       setLoading(false);
     }
@@ -83,7 +126,7 @@ function NewRequestForm() {
 
   const steps = [
     { n: 1, label: "Spécialité" },
-    { n: 2, label: "Document" },
+    { n: 2, label: "Documents" },
     { n: 3, label: "Paiement" },
   ];
 
@@ -126,14 +169,10 @@ function NewRequestForm() {
                     key={opt.value}
                     onClick={() => setSpecialty(opt.value)}
                     className={`p-6 rounded-xl border-2 text-left transition-all ${
-                      specialty === opt.value
-                        ? "border-[#1e3a5f] bg-[#f0f4f8]"
-                        : "border-gray-100 hover:border-gray-200"
+                      specialty === opt.value ? "border-[#1e3a5f] bg-[#f0f4f8]" : "border-gray-100 hover:border-gray-200"
                     }`}
                   >
-                    <div className={`mb-3 ${specialty === opt.value ? "text-[#1e3a5f]" : "text-gray-400"}`}>
-                      {opt.icon}
-                    </div>
+                    <div className={`mb-3 ${specialty === opt.value ? "text-[#1e3a5f]" : "text-gray-400"}`}>{opt.icon}</div>
                     <div className="font-semibold text-gray-900">{opt.label}</div>
                     <div className="text-sm font-medium text-[#1e3a5f] mt-1">{opt.sub}</div>
                     <div className="text-xs text-gray-400 mt-0.5">{opt.desc}</div>
@@ -141,11 +180,7 @@ function NewRequestForm() {
                 ))}
               </div>
               <div className="mt-6 flex justify-end">
-                <Button
-                  onClick={() => setStep(2)}
-                  disabled={!specialty}
-                  className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white gap-2"
-                >
+                <Button onClick={() => setStep(2)} disabled={!specialty} className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white gap-2">
                   Suivant <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
@@ -155,35 +190,42 @@ function NewRequestForm() {
           {/* Step 2 */}
           {step === 2 && (
             <div>
-              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-2">Déposez votre compte rendu</h2>
-              <p className="text-sm text-gray-500 mb-6">Format PDF uniquement · Max 10 Mo</p>
+              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-1">Déposez vos documents</h2>
+              <p className="text-sm text-gray-500 mb-6">PDF, photos (JPG, PNG, HEIC) · Max 5 fichiers · 16 Mo chacun</p>
 
+              {/* Zone de drop */}
               <div
                 {...getRootProps()}
-                className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${
+                className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors mb-4 ${
                   isDragActive ? "border-[#1e3a5f] bg-[#f0f4f8]" : "border-gray-200 hover:border-gray-300"
                 }`}
               >
                 <input {...getInputProps()} />
-                {file ? (
-                  <div className="flex flex-col items-center gap-2">
-                    <FileText className="h-10 w-10 text-[#1e3a5f]" />
-                    <p className="font-medium text-gray-900">{file.name}</p>
-                    <p className="text-sm text-gray-400">{(file.size / 1024 / 1024).toFixed(2)} Mo</p>
-                    <button onClick={(e) => { e.stopPropagation(); setFile(null); }} className="text-xs text-red-400 hover:underline mt-1">
-                      Supprimer
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center gap-3">
-                    <Upload className="h-10 w-10 text-gray-300" />
-                    <p className="font-medium text-gray-500">Glissez votre PDF ici</p>
-                    <p className="text-sm text-gray-400">ou cliquez pour parcourir</p>
-                  </div>
-                )}
+                <Upload className="h-8 w-8 text-gray-300 mx-auto mb-3" />
+                <p className="font-medium text-gray-500 text-sm">Glissez vos fichiers ici</p>
+                <p className="text-xs text-gray-400 mt-1">ou cliquez pour parcourir</p>
+                <div className="flex justify-center gap-2 mt-4">
+                  <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-1 rounded-full">PDF</span>
+                  <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-1 rounded-full">JPG / PNG</span>
+                  <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-1 rounded-full">HEIC (iPhone)</span>
+                </div>
               </div>
 
-              <div className="mt-6">
+              {/* Liste des fichiers */}
+              {files.length > 0 && (
+                <div className="space-y-2 mb-6">
+                  {files.map((f, i) => (
+                    <FilePreview key={i} file={f} onRemove={() => removeFile(i)} />
+                  ))}
+                  {files.length < 5 && (
+                    <p className="text-xs text-gray-400 text-center pt-1">
+                      {files.length}/5 fichier{files.length > 1 ? "s" : ""} · Vous pouvez en ajouter {5 - files.length} de plus
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <div className="mt-2">
                 <Label htmlFor="message">Message au médecin (optionnel)</Label>
                 <Textarea
                   id="message"
@@ -205,10 +247,10 @@ function NewRequestForm() {
                 <Button variant="outline" onClick={() => setStep(1)}>Retour</Button>
                 <Button
                   onClick={handleUpload}
-                  disabled={!file || uploading}
+                  disabled={files.length === 0 || uploading}
                   className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white gap-2"
                 >
-                  {uploading ? "Envoi en cours…" : <>Suivant <ChevronRight className="h-4 w-4" /></>}
+                  {uploading ? `Envoi en cours… (${files.length} fichier${files.length > 1 ? "s" : ""})` : <>Suivant <ChevronRight className="h-4 w-4" /></>}
                 </Button>
               </div>
             </div>
@@ -226,8 +268,10 @@ function NewRequestForm() {
                   <span className="font-medium">{specialty === "DENTAL" ? "Dentaire — Dr Benguigui" : "Gynécologie — Dr Benchimol"}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Document</span>
-                  <span className="font-medium text-green-600 flex items-center gap-1"><CheckCircle className="h-3 w-3" /> Uploadé</span>
+                  <span className="text-gray-500">Documents</span>
+                  <span className="font-medium text-green-600 flex items-center gap-1">
+                    <CheckCircle className="h-3 w-3" /> {uploadedUrls.length} fichier{uploadedUrls.length > 1 ? "s" : ""} envoyé{uploadedUrls.length > 1 ? "s" : ""}
+                  </span>
                 </div>
                 {message && (
                   <div className="flex justify-between text-sm">
@@ -253,11 +297,7 @@ function NewRequestForm() {
 
               <div className="flex justify-between">
                 <Button variant="outline" onClick={() => setStep(2)}>Retour</Button>
-                <Button
-                  onClick={handleSubmitAndPay}
-                  disabled={loading}
-                  className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white px-8"
-                >
+                <Button onClick={handleSubmitAndPay} disabled={loading} className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white px-8">
                   {loading ? "Redirection…" : "Payer 22 €"}
                 </Button>
               </div>

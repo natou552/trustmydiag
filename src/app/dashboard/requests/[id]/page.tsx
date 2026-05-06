@@ -82,18 +82,30 @@ export default async function RequestDetailPage({ params }: { params: { id: stri
               )}
             </div>
 
-            {/* PDF */}
+            {/* Fichiers */}
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Document transmis</p>
-              <a
-                href={request.pdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-[#1e3a5f] font-medium hover:underline"
-              >
-                <FileText className="h-4 w-4" />
-                Voir le compte rendu PDF
-              </a>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Documents transmis</p>
+              <div className="space-y-2">
+                {(() => {
+                  let urls: string[] = [];
+                  try { urls = JSON.parse(request.pdfUrl); } catch { urls = [request.pdfUrl]; }
+                  return urls.map((url, i) => {
+                    const isImage = /\.(jpg|jpeg|png|heic|webp)/i.test(url) || url.includes("image");
+                    return (
+                      <a
+                        key={i}
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-sm text-[#1e3a5f] font-medium hover:underline"
+                      >
+                        <FileText className="h-4 w-4 flex-shrink-0" />
+                        {isImage ? `Photo ${i + 1}` : `Document ${i + 1}`}
+                      </a>
+                    );
+                  });
+                })()}
+              </div>
             </div>
 
             {/* Doctor reply */}
