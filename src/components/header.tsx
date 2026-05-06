@@ -211,30 +211,32 @@ export function Header() {
         </div>
       </header>
 
-      {/* ── MOBILE FULL-SCREEN MENU ── */}
+      {/* ── MOBILE MENU ── */}
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 z-[100] bg-white/90 backdrop-blur-2xl flex flex-col">
-
+        <div
+          className="md:hidden fixed inset-0 z-[100] flex flex-col"
+          style={{ background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 40%, #FDE8E0 100%)", backdropFilter: "blur(24px)" }}
+        >
           {/* Top bar */}
-          <div className="flex items-center justify-between px-6 h-14 border-b border-black/[0.06] shrink-0">
-            <Link href="/" onClick={closeMobile} className="flex items-center gap-2 font-semibold text-[#1D1D1F]">
-              <Shield className="h-5 w-5 text-[#0071E3]" />
+          <div className="flex items-center justify-between px-6 py-4 shrink-0">
+            <Link href="/" onClick={closeMobile} className="flex items-center gap-2 font-semibold" style={{ color: "#2D2A3E" }}>
+              <Shield className="h-5 w-5" style={{ color: "#8B7FF0" }} />
               TrustMyDiag
             </Link>
             <button
               onClick={closeMobile}
-              className="w-9 h-9 rounded-full bg-black/[0.07] flex items-center justify-center hover:bg-black/[0.12] transition-colors"
+              className="w-9 h-9 rounded-full flex items-center justify-center transition-colors"
+              style={{ background: "rgba(139,127,240,0.1)", color: "#8B7FF0" }}
               aria-label="Fermer"
             >
-              <X className="h-4 w-4 text-[#374151]" />
+              <X className="h-4 w-4" />
             </button>
           </div>
 
           {/* Links */}
-          <div className="flex-1 overflow-y-auto px-6 pt-6 pb-4">
-            <nav className="flex flex-col">
+          <div className="flex-1 overflow-y-auto px-6 pt-4 pb-4">
+            <nav className="flex flex-col gap-1">
 
-              {/* Simple links */}
               {[
                 { label: tr.howItWorks, href: "/#how" },
                 { label: tr.doctors, href: "/#doctors" },
@@ -243,7 +245,8 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={closeMobile}
-                  className="py-4 text-[22px] font-medium text-[#1D1D1F] border-b border-black/[0.06] flex items-center justify-between active:opacity-60 transition-opacity"
+                  className="flex items-center justify-between px-4 py-3.5 rounded-2xl transition-colors active:opacity-70"
+                  style={{ fontSize: "17px", fontWeight: 500, color: "#2D2A3E" }}
                 >
                   {item.label}
                 </Link>
@@ -252,21 +255,26 @@ export function Header() {
               {/* Ressources accordion */}
               <button
                 onClick={() => setLearnOpen(!learnOpen)}
-                className="py-4 text-[22px] font-medium text-[#1D1D1F] border-b border-black/[0.06] flex items-center justify-between w-full text-left"
+                className="flex items-center justify-between px-4 py-3.5 rounded-2xl w-full text-left transition-colors"
+                style={{
+                  fontSize: "17px", fontWeight: 500, color: "#2D2A3E",
+                  background: learnOpen ? "rgba(139,127,240,0.06)" : "transparent",
+                }}
               >
                 {tr.learn}
-                <ChevronRight className={`h-5 w-5 text-[#9CA3AF] transition-transform duration-200 ${learnOpen ? "rotate-90" : ""}`} />
+                <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${learnOpen ? "rotate-90" : ""}`} style={{ color: "#C4A8D4" }} />
               </button>
               {learnOpen && (
-                <div className="flex flex-col border-b border-black/[0.06]">
+                <div className="flex flex-col gap-0.5 ml-4 mb-1">
                   {learnItems.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
                       onClick={closeMobile}
-                      className="py-3 pl-4 text-[17px] text-[#6E6E73] flex items-center gap-2 active:opacity-60 transition-opacity"
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors active:opacity-70"
+                      style={{ fontSize: "15px", color: "#6B6880" }}
                     >
-                      <span className="w-1 h-1 rounded-full bg-[#9CA3AF]" />
+                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#C4A8D4" }} />
                       {item.label}
                     </Link>
                   ))}
@@ -276,21 +284,26 @@ export function Header() {
               {/* Entreprise accordion */}
               <button
                 onClick={() => setCompanyOpen(!companyOpen)}
-                className="py-4 text-[22px] font-medium text-[#1D1D1F] border-b border-black/[0.06] flex items-center justify-between w-full text-left"
+                className="flex items-center justify-between px-4 py-3.5 rounded-2xl w-full text-left transition-colors"
+                style={{
+                  fontSize: "17px", fontWeight: 500, color: "#2D2A3E",
+                  background: companyOpen ? "rgba(139,127,240,0.06)" : "transparent",
+                }}
               >
                 {tr.company}
-                <ChevronRight className={`h-5 w-5 text-[#9CA3AF] transition-transform duration-200 ${companyOpen ? "rotate-90" : ""}`} />
+                <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${companyOpen ? "rotate-90" : ""}`} style={{ color: "#C4A8D4" }} />
               </button>
               {companyOpen && (
-                <div className="flex flex-col border-b border-black/[0.06]">
+                <div className="flex flex-col gap-0.5 ml-4 mb-1">
                   {companyItems.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
                       onClick={closeMobile}
-                      className="py-3 pl-4 text-[17px] text-[#6E6E73] flex items-center gap-2 active:opacity-60 transition-opacity"
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors active:opacity-70"
+                      style={{ fontSize: "15px", color: "#6B6880" }}
                     >
-                      <span className="w-1 h-1 rounded-full bg-[#9CA3AF]" />
+                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#C4A8D4" }} />
                       {item.label}
                     </Link>
                   ))}
@@ -299,30 +312,34 @@ export function Header() {
             </nav>
           </div>
 
-          {/* Bottom — CTA + lang */}
-          <div className="shrink-0 px-6 pb-10 pt-4 flex flex-col items-center gap-4">
-            <Link href="/register" onClick={closeMobile} className="w-full">
-              <button className="w-full py-4 text-base font-medium text-[#374151] bg-white/80 border border-black/[0.1] rounded-full shadow-sm hover:bg-white transition-colors">
+          {/* Bottom — CTA */}
+          <div className="shrink-0 px-6 pb-12 pt-4 flex flex-col gap-3">
+            <Link href={session ? "/dashboard" : "/register"} onClick={closeMobile} className="w-full">
+              <button
+                className="w-full py-4 text-base font-semibold text-white rounded-2xl transition-all"
+                style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 8px 24px rgba(139,127,240,0.3)" }}
+              >
                 {session ? tr.mySpace : tr.start}
               </button>
             </Link>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center gap-5">
               {session ? (
                 <button
                   onClick={() => { signOut({ callbackUrl: "/" }); closeMobile(); }}
-                  className="text-sm text-[#6E6E73]"
+                  className="text-sm" style={{ color: "#9B98A8" }}
                 >
                   {tr.logout}
                 </button>
               ) : (
                 <Link href="/login" onClick={closeMobile}>
-                  <span className="text-sm text-[#6E6E73]">{tr.login}</span>
+                  <span className="text-sm" style={{ color: "#9B98A8" }}>{tr.login}</span>
                 </Link>
               )}
-              <span className="text-[#D1D5DB]">·</span>
+              <span style={{ color: "#D1C8E8" }}>·</span>
               <button
                 onClick={toggle}
-                className="flex items-center gap-1 text-sm text-[#6E6E73]"
+                className="flex items-center gap-1.5 text-sm"
+                style={{ color: "#9B98A8" }}
               >
                 <Globe className="h-3.5 w-3.5" />
                 {lang === "fr" ? "FR" : "EN"}
