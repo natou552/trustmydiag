@@ -344,7 +344,7 @@ export function Header() {
                 </Link>
                 <Link href="/login" onClick={closeMobile} className="w-full">
                   <button
-                    className="w-full py-3.5 text-sm font-medium rounded-2xl transition-all"
+                    className="w-full py-4 text-base font-semibold rounded-2xl transition-all"
                     style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(139,127,240,0.15)", color: "#6B6880" }}
                   >
                     {tr.login}
