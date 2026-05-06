@@ -40,6 +40,14 @@ const sections = [
     ],
   },
   {
+    title: "Médecins experts",
+    content: [
+      "Les seconds avis médicaux sont délivrés par des médecins diplômés, inscrits au Conseil National de l'Ordre des Médecins et identifiables via le Répertoire Partagé des Professionnels de Santé (RPPS) :",
+      "Dr. Robert Benguigui — Chirurgien-dentiste — N° RPPS : 10000111715",
+      "Dr. Yohan Benchimol — Gynécologue obstétricien — N° RPPS : 10102162764",
+    ],
+  },
+  {
     title: "Responsabilité",
     content: [
       "Les seconds avis médicaux fournis via TrustMyDiag sont délivrés par des médecins diplômés et constituent des avis d'experts indépendants. Ils ne remplacent pas une consultation médicale en présentiel et ne sauraient engager la responsabilité de TrustMyDiag au-delà du service rendu.",
