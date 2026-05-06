@@ -547,7 +547,7 @@ export default function HomePage() {
                 <Shield className="h-4 w-4" style={{ color: "#8B7FF0" }} />
                 TrustMyDiag
               </div>
-              <p className="text-xs leading-relaxed" style={{ color: "#6B6880" }}>{tr.footer.tagline}</p>
+              <p className="text-xs leading-relaxed" style={{ color: "#A09DB8" }}>{tr.footer.tagline}</p>
             </div>
 
             {[
@@ -560,7 +560,7 @@ export default function HomePage() {
                 <ul className="space-y-3">
                   {col.links.map((l) => (
                     <li key={l.href}>
-                      <Link href={l.href} className="text-sm transition-colors hover:text-white" style={{ color: "#6B6880" }}>{l.label}</Link>
+                      <Link href={l.href} className="text-sm transition-colors hover:text-white" style={{ color: "#C4C2D4" }}>{l.label}</Link>
                     </li>
                   ))}
                 </ul>
@@ -569,7 +569,7 @@ export default function HomePage() {
           </div>
 
           <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-            <p className="text-xs" style={{ color: "#4A4458" }}>© {new Date().getFullYear()} {tr.footer.copyright}</p>
+            <p className="text-xs" style={{ color: "#C4C2D4" }}>© {new Date().getFullYear()} {tr.footer.copyright}</p>
             <div className="flex items-center gap-3 flex-wrap justify-center">
               <div className="flex items-center gap-1.5 rounded-full px-3 py-1.5" style={{ border: "1px solid rgba(139,127,240,0.2)", background: "rgba(139,127,240,0.08)" }}>
                 <svg className="h-3.5 w-3.5" style={{ color: "#8B7FF0" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -578,12 +578,12 @@ export default function HomePage() {
               <div className="flex items-center gap-1.5 rounded-full px-3 py-1.5" style={{ border: "1px solid rgba(196,168,212,0.2)", background: "rgba(196,168,212,0.08)" }}>
                 <svg className="h-3.5 w-3.5" style={{ color: "#C4A8D4" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 <span className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: "#C4A8D4" }}>HDS</span>
-                <span className="text-[10px]" style={{ color: "#4A4458" }}>En cours</span>
+                <span className="text-[10px]" style={{ color: "#C4C2D4" }}>En cours</span>
               </div>
             </div>
             <div className="flex flex-wrap justify-center gap-5">
               {tr.footer.legal.map((l) => (
-                <Link key={l.href} href={l.href} className="text-xs transition-colors hover:text-white" style={{ color: "#4A4458" }}>{l.label}</Link>
+                <Link key={l.href} href={l.href} className="text-xs transition-colors hover:text-white" style={{ color: "#C4C2D4" }}>{l.label}</Link>
               ))}
             </div>
           </div>
