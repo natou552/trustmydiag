@@ -33,7 +33,13 @@ export default function RegisterPage() {
     setLoading(false);
 
     if (!res.ok) {
-      setError(data.error === "Email already used" ? "Cette adresse email est déjà utilisée." : "Une erreur est survenue.");
+      if (data.error === "Email already used") {
+        setError("Cette adresse email est déjà utilisée.");
+      } else if (res.status === 500) {
+        setError("Erreur serveur. Veuillez réessayer dans quelques instants.");
+      } else {
+        setError(data.error || "Une erreur est survenue.");
+      }
     } else {
       setSuccess(true);
     }

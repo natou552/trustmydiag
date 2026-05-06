@@ -29,10 +29,17 @@ export async function POST(req: Request) {
       data: { identifier: email, token, expires },
     });
 
-    await sendVerificationEmail(email, name, token);
+    try {
+      await sendVerificationEmail(email, name, token);
+    } catch (emailErr) {
+      console.error("[register] email send failed:", emailErr);
+      // Don't block account creation if email fails
+    }
 
     return NextResponse.json({ success: true, userId: user.id });
-  } catch {
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  } catch (err) {
+    console.error("[register] error:", err);
+    const message = err instanceof Error ? err.message : "Internal server error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
