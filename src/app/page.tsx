@@ -450,8 +450,8 @@ export default function HomePage() {
             {/* CTA téléchargement */}
             <div className="px-8 md:px-12 pb-10 flex flex-col sm:flex-row items-center gap-4">
               <a
-                href="/exemple-rapport.pdf"
-                download
+                href="/api/exemple-rapport"
+                target="_blank"
                 className="inline-flex items-center gap-2 bg-[#1D1D1F] hover:bg-[#374151] text-white text-sm font-medium px-6 py-3 rounded-full transition-colors duration-200"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /></svg>
