@@ -3,9 +3,10 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { Shield, ChevronDown, ChevronRight, Menu, X, Globe } from "lucide-react";
+import { Shield, ChevronDown, ChevronRight, Globe, X } from "lucide-react";
 import { useLang } from "@/contexts/language";
 import { t } from "@/lib/translations";
+import { motion, AnimatePresence } from "framer-motion";
 
 function Dropdown({ label, items }: { label: string; items: { label: string; href: string }[] }) {
   const [open, setOpen] = useState(false);
@@ -200,22 +201,44 @@ export function Header() {
             )}
           </div>
 
-          {/* Mobile: burger only */}
+          {/* Mobile: burger */}
           <button
-            className="md:hidden p-2 rounded-full hover:bg-black/[0.06] transition-colors"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Ouvrir le menu"
+            className="md:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px]"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
           >
-            <Menu className="h-5 w-5 text-[#374151]" />
+            <motion.span
+              animate={mobileOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="block w-5 h-[1.5px] rounded-full origin-center"
+              style={{ background: "#2D2A3E" }}
+            />
+            <motion.span
+              animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+              transition={{ duration: 0.2 }}
+              className="block w-5 h-[1.5px] rounded-full"
+              style={{ background: "#2D2A3E" }}
+            />
+            <motion.span
+              animate={mobileOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="block w-5 h-[1.5px] rounded-full origin-center"
+              style={{ background: "#2D2A3E" }}
+            />
           </button>
         </div>
       </header>
 
       {/* ── MOBILE MENU ── */}
+      <AnimatePresence>
       {mobileOpen && (
-        <div
+        <motion.div
           className="md:hidden fixed inset-0 z-[100] flex flex-col"
-          style={{ background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 40%, #FDE8E0 100%)", backdropFilter: "blur(24px)" }}
+          style={{ background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 40%, #FDE8E0 100%)" }}
+          initial={{ opacity: 0, y: -16, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -16, scale: 0.98 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* Top bar */}
           <div className="flex items-center justify-between px-6 py-4 shrink-0">
@@ -363,8 +386,9 @@ export function Header() {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </>
   );
 }
