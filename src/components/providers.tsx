@@ -3,6 +3,7 @@
 import { SessionProvider } from "next-auth/react";
 import { LanguageProvider } from "@/contexts/language";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { CookieBanner } from "@/components/cookie-banner";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -10,6 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <LanguageProvider>
         <SmoothScroll />
         {children}
+        <CookieBanner />
       </LanguageProvider>
     </SessionProvider>
   );
