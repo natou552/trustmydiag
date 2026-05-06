@@ -11,12 +11,12 @@ const newsItems = [
     tagColor: "bg-blue-50 text-[#0071E3]",
   },
   {
-    date: "Octobre 2024",
-    title: "Partenariat stratégique avec le Dr. Benchimol, expert en implantologie",
+    date: "Novembre 2024",
+    title: "TrustMyDiag prend désormais en charge les photos iPhone (HEIC)",
     excerpt:
-      "TrustMyDiag annonce un partenariat avec le Dr. Marc Benchimol, chirurgien-dentiste spécialisé en implantologie et parodontologie, exerçant à Paris et Lyon. Ce partenariat renforce notre panel d'experts pour répondre aux questions complexes liées aux implants dentaires, couronnes et prothèses. Le Dr. Benchimol rejoint notre réseau de spécialistes indépendants.",
-    tag: "Partenariat",
-    tagColor: "bg-green-50 text-green-600",
+      "Les patients peuvent désormais envoyer directement leurs clichés dentaires ou médicaux pris sur iPhone, au format HEIC, sans conversion de fichier. Une mise à jour pensée pour simplifier au maximum la démarche : il suffit de photographier son ordonnance, son devis ou son compte rendu et de le déposer en quelques secondes. Le format HEIC rejoint les formats PDF, JPG, PNG et WebP déjà acceptés.",
+    tag: "Nouveauté",
+    tagColor: "bg-violet-50 text-violet-600",
   },
 ];
 
