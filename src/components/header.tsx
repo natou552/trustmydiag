@@ -314,28 +314,45 @@ export function Header() {
 
           {/* Bottom — CTA */}
           <div className="shrink-0 px-6 pb-12 pt-4 flex flex-col gap-3">
-            <Link href={session ? "/dashboard" : "/register"} onClick={closeMobile} className="w-full">
-              <button
-                className="w-full py-4 text-base font-semibold text-white rounded-2xl transition-all"
-                style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 8px 24px rgba(139,127,240,0.3)" }}
-              >
-                {session ? tr.mySpace : tr.start}
-              </button>
-            </Link>
-            <div className="flex items-center justify-center gap-5">
-              {session ? (
+            {session ? (
+              <>
+                <Link href="/dashboard" onClick={closeMobile} className="w-full">
+                  <button
+                    className="w-full py-4 text-base font-semibold text-white rounded-2xl transition-all"
+                    style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 8px 24px rgba(139,127,240,0.3)" }}
+                  >
+                    {tr.mySpace}
+                  </button>
+                </Link>
                 <button
                   onClick={() => { signOut({ callbackUrl: "/" }); closeMobile(); }}
-                  className="text-sm" style={{ color: "#9B98A8" }}
+                  className="w-full py-3.5 text-sm font-medium rounded-2xl transition-all"
+                  style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(139,127,240,0.15)", color: "#6B6880" }}
                 >
                   {tr.logout}
                 </button>
-              ) : (
-                <Link href="/login" onClick={closeMobile}>
-                  <span className="text-sm" style={{ color: "#9B98A8" }}>{tr.login}</span>
+              </>
+            ) : (
+              <>
+                <Link href="/register" onClick={closeMobile} className="w-full">
+                  <button
+                    className="w-full py-4 text-base font-semibold text-white rounded-2xl transition-all"
+                    style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 8px 24px rgba(139,127,240,0.3)" }}
+                  >
+                    {tr.start}
+                  </button>
                 </Link>
-              )}
-              <span style={{ color: "#D1C8E8" }}>·</span>
+                <Link href="/login" onClick={closeMobile} className="w-full">
+                  <button
+                    className="w-full py-3.5 text-sm font-medium rounded-2xl transition-all"
+                    style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(139,127,240,0.15)", color: "#6B6880" }}
+                  >
+                    {tr.login}
+                  </button>
+                </Link>
+              </>
+            )}
+            <div className="flex items-center justify-center">
               <button
                 onClick={toggle}
                 className="flex items-center gap-1.5 text-sm"
