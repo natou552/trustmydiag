@@ -131,9 +131,9 @@ export const t = {
         { label: "Nous contacter", href: "/contact" },
       ],
       legal: [
+        { label: "Mentions légales", href: "/mentions-legales" },
         { label: "Conditions d'utilisation", href: "/terms" },
         { label: "Politique de confidentialité", href: "/rgpd" },
-        { label: "Accessibilité", href: "/accessibility" },
         { label: "Politique de cookies", href: "/cookies" },
       ],
       copyright: "TrustMyDiag",
@@ -276,9 +276,9 @@ export const t = {
         { label: "Contact Us", href: "/contact" },
       ],
       legal: [
+        { label: "Legal Notice", href: "/mentions-legales" },
         { label: "Terms of Use", href: "/terms" },
         { label: "Privacy Policy", href: "/rgpd" },
-        { label: "Accessibility", href: "/accessibility" },
         { label: "Cookie Policy", href: "/cookies" },
       ],
       copyright: "TrustMyDiag",
