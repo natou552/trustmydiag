@@ -24,16 +24,16 @@ const values = [
 
 const team = [
   {
-    name: "Dr. Amina Bensalah",
-    title: "Co-fondatrice & Directrice médicale",
-    specialty: "Chirurgienne-dentiste, 12 ans d'expérience",
-    bio: "Après avoir exercé dans plusieurs établissements hospitaliers parisiens, Amina a constaté que de nombreux patients subissaient des actes inutiles par manque d'information. C'est cette conviction qui l'a poussée à co-fonder TrustMyDiag en 2024.",
+    name: "Nathanael Benguigui",
+    title: "Co-fondateur & CEO",
+    specialty: "Diplômé de Paris Dauphine — Master Systèmes d'Information",
+    bio: "Passionné par l'innovation dans la santé, Nathanael a conçu et développé la plateforme TrustMyDiag pour rendre le second avis médical accessible à tous, rapidement et en toute confiance.",
   },
   {
-    name: "Dr. Julien Moreau",
-    title: "Co-fondateur & Directeur scientifique",
-    specialty: "Gynécologue-obstétricien, 15 ans d'expérience",
-    bio: "Julien a exercé en France et en Suisse avant de se consacrer à l'amélioration de l'accès aux soins. Convaincu que chaque patient mérite un diagnostic indépendant, il a rejoint Amina pour construire une plateforme fiable et éthique.",
+    name: "Ruben Benguigui",
+    title: "Co-fondateur & Directeur médical",
+    specialty: "Étudiant en chirurgie dentaire",
+    bio: "Fort de sa formation en chirurgie dentaire, Ruben apporte l'expertise médicale au cœur de TrustMyDiag. Sa vision du terrain lui permet de garantir la qualité et la rigueur des avis rendus aux patients.",
   },
 ];
 
@@ -70,22 +70,20 @@ export default function AboutPage() {
         <div className="bg-[#F5F5F7] rounded-2xl p-8 mb-16">
           <h2 className="text-2xl font-bold text-[#1D1D1F] mb-4">Notre histoire</h2>
           <p className="text-[#6E6E73] leading-relaxed mb-4">
-            En 2024, deux médecins aux parcours différents mais aux valeurs communes se sont
-            rencontrés lors d&apos;un symposium sur l&apos;éthique médicale à Paris. Le Dr. Amina
-            Bensalah, chirurgienne-dentiste, et le Dr. Julien Moreau, gynécologue, partageaient la
-            même frustration : leurs patients arrivaient en consultation avec des prescriptions
-            inadaptées, victimes du manque de transparence du système de santé.
+            TrustMyDiag est né de la rencontre entre deux frères aux parcours complémentaires.
+            Nathanael, diplômé de Paris Dauphine en systèmes d&apos;information, et Ruben, étudiant
+            en chirurgie dentaire, ont constaté ensemble une réalité préoccupante : trop de patients
+            acceptent des traitements coûteux sans jamais avoir eu accès à un regard indépendant.
           </p>
           <p className="text-[#6E6E73] leading-relaxed mb-4">
-            Ensemble, ils ont décidé de créer une plateforme digitale permettant à n&apos;importe
-            quel patient d&apos;obtenir, en moins de 48 heures, l&apos;avis d&apos;un spécialiste
-            indépendant sur son dossier médical. TrustMyDiag a officiellement lancé son service en
-            septembre 2024.
+            De cette conviction est née l&apos;idée d&apos;une plateforme simple, rapide et
+            accessible, permettant à n&apos;importe quel patient d&apos;obtenir un second avis
+            médical de qualité, en ligne, pour 22€.
           </p>
           <p className="text-[#6E6E73] leading-relaxed">
-            Depuis, des centaines de patients ont pu éviter des traitements inutiles, économiser des
-            milliers d&apos;euros, et surtout, reprendre le contrôle de leur santé en toute
-            connaissance de cause.
+            Aujourd&apos;hui, TrustMyDiag connecte des patients avec des spécialistes diplômés en
+            dentaire et gynécologie, avec la volonté d&apos;élargir cette offre à d&apos;autres
+            spécialités.
           </p>
         </div>
 
