@@ -2,13 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
 function createPrismaClient() {
-  // In production (Vercel serverless), use DIRECT_URL if set (connection pooler)
-  const connectionString =
-    (process.env.NODE_ENV === "production" && process.env.DIRECT_URL)
-      ? process.env.DIRECT_URL
-      : process.env.DATABASE_URL!;
-
-  const adapter = new PrismaPg({ connectionString });
+  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
   return new PrismaClient({
     adapter,
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
