@@ -311,6 +311,17 @@ export default function HomePage() {
 
           <div className="border-t border-black/[0.06] pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-xs text-[#9CA3AF]">© {new Date().getFullYear()} {tr.footer.copyright}</p>
+            <div className="flex items-center gap-4 flex-wrap justify-center">
+              <div className="flex items-center gap-1.5 border border-black/[0.08] rounded-full px-3 py-1.5 bg-white">
+                <svg className="h-3.5 w-3.5 text-[#0071E3]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span className="text-[10px] font-semibold text-[#374151] uppercase tracking-wide">RGPD</span>
+              </div>
+              <div className="flex items-center gap-1.5 border border-black/[0.08] rounded-full px-3 py-1.5 bg-white">
+                <svg className="h-3.5 w-3.5 text-[#059669]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <span className="text-[10px] font-semibold text-[#374151] uppercase tracking-wide">HDS</span>
+                <span className="text-[10px] text-[#9CA3AF]">En cours</span>
+              </div>
+            </div>
             <div className="flex flex-wrap justify-center gap-5">
               {tr.footer.legal.map((l) => (
                 <Link key={l.href} href={l.href} className="text-xs text-[#9CA3AF] hover:text-[#6E6E73] transition-colors">{l.label}</Link>
