@@ -18,14 +18,6 @@ const newsItems = [
     tag: "Partenariat",
     tagColor: "bg-green-50 text-green-600",
   },
-  {
-    date: "Septembre 2024",
-    title: "Lancement officiel de TrustMyDiag",
-    excerpt:
-      "C'est avec une grande fierté que nous annonçons le lancement officiel de TrustMyDiag, la première plateforme française de second avis médical en ligne dédiée à la dentisterie et à la gynécologie. Fondée par le Dr. Amina Bensalah et le Dr. Julien Moreau, TrustMyDiag répond à un besoin criant : permettre à chaque patient d'accéder à un avis médical indépendant, rapide et abordable.",
-    tag: "Lancement",
-    tagColor: "bg-orange-50 text-orange-600",
-  },
 ];
 
 export default function NewsPage() {
@@ -81,10 +73,10 @@ export default function NewsPage() {
           <p className="text-sm text-[#6E6E73]">
             Pour toute demande presse ou partenariat, contactez-nous à{" "}
             <a
-              href="mailto:trustmydiag@gmail.com"
+              href="mailto:contact@trustmydiag.com"
               className="text-[#0071E3] hover:underline"
             >
-              trustmydiag@gmail.com
+              contact@trustmydiag.com
             </a>
           </p>
         </div>
