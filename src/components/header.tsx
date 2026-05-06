@@ -57,6 +57,13 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [learnOpen, setLearnOpen] = useState(false);
   const [companyOpen, setCompanyOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const learnItems = [
     { label: tr.blog, href: "/blog" },
@@ -78,12 +85,12 @@ export function Header() {
   return (
     <>
       <header
-        className="sticky top-0 z-50"
+        className="sticky top-0 z-50 transition-all duration-300"
         style={{
-          background: "rgba(244,243,248,0.55)",
+          background: scrolled ? "rgba(244,243,248,0.25)" : "rgba(244,243,248,0.55)",
           backdropFilter: "saturate(180%) blur(20px)",
           WebkitBackdropFilter: "saturate(180%) blur(20px)",
-          borderBottom: "1px solid rgba(139,127,240,0.08)",
+          borderBottom: scrolled ? "1px solid rgba(139,127,240,0.04)" : "1px solid rgba(139,127,240,0.08)",
           padding: "10px 5%",
         }}
       >
