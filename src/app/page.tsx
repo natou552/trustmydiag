@@ -45,7 +45,7 @@ export default function HomePage() {
             {tr.hero.badge}
           </div>
 
-          <h1 className="text-6xl sm:text-7xl md:text-[86px] font-light text-[#1D1D1F] leading-[1.06] tracking-tight mb-6">
+          <h1 className="text-6xl sm:text-7xl md:text-[86px] font-bold text-[#1D1D1F] leading-[1.06] tracking-tight mb-6">
             {tr.hero.h1}{" "}
             <em className="not-italic text-[#0071E3]">{tr.hero.h1Accent}</em>
           </h1>
@@ -89,7 +89,7 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
           {tr.stats.map((s) => (
             <div key={s.label}>
-              <div className="text-5xl font-light text-[#1D1D1F] mb-2 tracking-tight">{s.value}</div>
+              <div className="text-5xl font-bold text-[#1D1D1F] mb-2 tracking-tight">{s.value}</div>
               <div className="text-sm text-[#374151]">{s.label}</div>
               <div className="text-xs text-[#9CA3AF] mt-1">{s.sub}</div>
             </div>
@@ -102,7 +102,7 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-20">
             <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-4">{tr.how.eyebrow}</p>
-            <h2 className="text-4xl md:text-5xl font-light text-[#1D1D1F] tracking-tight">{tr.how.h2}</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1D1D1F] tracking-tight">{tr.how.h2}</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -142,8 +142,8 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-20">
             <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-4">{tr.doctors.eyebrow}</p>
-            <h2 className="text-4xl md:text-5xl font-light text-[#1D1D1F] tracking-tight">{tr.doctors.h2}</h2>
-            <p className="text-[#6E6E73] text-lg mt-4 max-w-lg mx-auto font-light">{tr.doctors.sub}</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1D1D1F] tracking-tight">{tr.doctors.h2}</h2>
+            <p className="text-[#6E6E73] text-lg mt-4 max-w-lg mx-auto font-bold">{tr.doctors.sub}</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -187,13 +187,13 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-20">
             <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-4">{tr.pricing.eyebrow}</p>
-            <h2 className="text-4xl md:text-5xl font-light text-[#1D1D1F] tracking-tight">{tr.pricing.h2}</h2>
-            <p className="text-[#6E6E73] text-lg mt-4 font-light">{tr.pricing.sub}</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1D1D1F] tracking-tight">{tr.pricing.h2}</h2>
+            <p className="text-[#6E6E73] text-lg mt-4 font-bold">{tr.pricing.sub}</p>
           </div>
 
           <div className="bg-white rounded-3xl border border-black/[0.06] overflow-hidden max-w-2xl mx-auto">
             <div className="bg-[#0071E3] px-10 py-10 text-white">
-              <div className="text-7xl font-light tracking-tight leading-none mb-2">22€</div>
+              <div className="text-7xl font-bold tracking-tight leading-none mb-2">22€</div>
               <p className="text-blue-200 text-sm">{tr.pricing.priceLabel}</p>
             </div>
             <div className="px-10 py-10">
@@ -249,10 +249,10 @@ export default function HomePage() {
       >
         <div className="max-w-2xl mx-auto">
           <p className="text-[#0071E3] text-xs font-semibold uppercase tracking-widest mb-6">{tr.cta.eyebrow}</p>
-          <h2 className="text-5xl md:text-6xl font-light text-[#1D1D1F] leading-tight tracking-tight mb-6">
+          <h2 className="text-5xl md:text-6xl font-bold text-[#1D1D1F] leading-tight tracking-tight mb-6">
             {tr.cta.h2}
           </h2>
-          <p className="text-[#6E6E73] text-lg mb-10 font-light">{tr.cta.sub}</p>
+          <p className="text-[#6E6E73] text-lg mb-10 font-bold">{tr.cta.sub}</p>
           <Link href="/register">
             <button className="inline-flex items-center gap-2 bg-[#0071E3] hover:bg-[#005EC4] text-white text-sm font-medium px-8 py-4 rounded-full transition-colors duration-200 shadow-lg shadow-blue-200">
               {tr.cta.button}
