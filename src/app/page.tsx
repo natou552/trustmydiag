@@ -33,14 +33,14 @@ export default function HomePage() {
 
       {/* ── HERO ── */}
       <section
-        className="relative overflow-hidden pt-32 pb-36 px-6 text-center"
+        className="relative overflow-hidden pt-20 pb-24 px-6 text-center"
         style={{
           background:
             "radial-gradient(ellipse at 65% -5%, rgba(253,186,186,0.35) 0%, transparent 55%), radial-gradient(ellipse at 15% 70%, rgba(196,181,253,0.25) 0%, transparent 50%), radial-gradient(ellipse at 85% 90%, rgba(147,197,253,0.2) 0%, transparent 50%), #f9faff",
         }}
       >
         <div className="max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-white/80 border border-black/[0.07] text-[#374151] text-xs font-medium px-4 py-2 rounded-full mb-10 shadow-sm">
+          <div className="inline-flex items-center gap-2 bg-white/80 border border-black/[0.07] text-[#374151] text-xs font-medium px-4 py-2 rounded-full mb-5 shadow-sm">
             <Clock className="h-3 w-3 text-[#0071E3]" />
             {tr.hero.badge}
           </div>
@@ -50,7 +50,7 @@ export default function HomePage() {
             <em className="not-italic text-[#0071E3]">{tr.hero.h1Accent}</em>
           </h1>
 
-          <p className="text-lg text-[#6E6E73] max-w-xl mx-auto leading-relaxed mb-10">
+          <p className="text-lg text-[#6E6E73] max-w-xl mx-auto leading-relaxed mb-8">
             {tr.hero.sub}
           </p>
 

@@ -54,6 +54,8 @@ export function Header() {
   const { lang, toggle } = useLang();
   const tr = t[lang].nav;
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [learnOpen, setLearnOpen] = useState(false);
+  const [companyOpen, setCompanyOpen] = useState(false);
 
   const learnItems = [
     { label: tr.blog, href: "/blog" },
@@ -167,33 +169,51 @@ export function Header() {
             ))}
           </div>
 
-          <p className="mt-4 mb-1 px-4 text-[10px] font-semibold text-[#6E6E73] uppercase tracking-widest">{tr.learn}</p>
-          <div className="flex flex-col gap-0.5">
-            {learnItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className="px-4 py-2.5 text-sm text-[#374151] rounded-xl hover:bg-black/[0.06] transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
+          {/* Ressources accordion */}
+          <button
+            onClick={() => setLearnOpen(!learnOpen)}
+            className="mt-2 w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium text-[#374151] rounded-xl hover:bg-black/[0.06] transition-colors"
+          >
+            {tr.learn}
+            <ChevronDown className={`h-4 w-4 text-[#6E6E73] transition-transform duration-200 ${learnOpen ? "rotate-180" : ""}`} />
+          </button>
+          {learnOpen && (
+            <div className="flex flex-col gap-0.5 pl-3">
+              {learnItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="px-4 py-2 text-sm text-[#6E6E73] rounded-xl hover:bg-black/[0.06] hover:text-[#374151] transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          )}
 
-          <p className="mt-4 mb-1 px-4 text-[10px] font-semibold text-[#6E6E73] uppercase tracking-widest">{tr.company}</p>
-          <div className="flex flex-col gap-0.5">
-            {companyItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className="px-4 py-2.5 text-sm text-[#374151] rounded-xl hover:bg-black/[0.06] transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
+          {/* Entreprise accordion */}
+          <button
+            onClick={() => setCompanyOpen(!companyOpen)}
+            className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium text-[#374151] rounded-xl hover:bg-black/[0.06] transition-colors"
+          >
+            {tr.company}
+            <ChevronDown className={`h-4 w-4 text-[#6E6E73] transition-transform duration-200 ${companyOpen ? "rotate-180" : ""}`} />
+          </button>
+          {companyOpen && (
+            <div className="flex flex-col gap-0.5 pl-3">
+              {companyItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="px-4 py-2 text-sm text-[#6E6E73] rounded-xl hover:bg-black/[0.06] hover:text-[#374151] transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          )}
 
           <div className="mt-4 pt-4 border-t border-black/[0.06] flex gap-2">
             {session ? (
