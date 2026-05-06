@@ -79,46 +79,48 @@ export function Header() {
       <header
         className="sticky top-0 z-50"
         style={{
-          background: "rgba(244,243,248,0.7)",
-          backdropFilter: "blur(12px)",
-          borderBottom: "1px solid rgba(0,0,0,0.05)",
-          padding: "12px 5%",
+          background: "rgba(244,243,248,0.55)",
+          backdropFilter: "saturate(180%) blur(20px)",
+          WebkitBackdropFilter: "saturate(180%) blur(20px)",
+          borderBottom: "1px solid rgba(139,127,240,0.08)",
+          padding: "10px 5%",
         }}
       >
-        <div className="flex items-center justify-between">
+        <div className="relative flex items-center justify-between">
 
           {/* LEFT — Logo */}
-          <Link href="/" className="flex items-center gap-2 font-semibold shrink-0" style={{ color: "#2D2A3E" }}>
+          <Link href="/" className="flex items-center gap-2 font-semibold shrink-0 z-10" style={{ color: "#2D2A3E" }}>
             <Shield className="h-5 w-5" style={{ color: "#8B7FF0" }} />
             TrustMyDiag
           </Link>
 
-          {/* CENTER — Floating pill nav */}
+          {/* CENTER — Floating pill nav, truly centered */}
           <nav
-            className="hidden md:inline-flex items-center pill-nav"
+            className="hidden md:inline-flex items-center absolute left-1/2 -translate-x-1/2"
             style={{
               gap: "2px",
-              padding: "6px 8px",
+              padding: "5px 6px",
               borderRadius: "100px",
-              background: "rgba(255,255,255,0.6)",
-              backdropFilter: "blur(16px) saturate(160%)",
-              border: "1px solid rgba(255,255,255,0.85)",
-              boxShadow: "0 2px 12px rgba(139,127,240,0.08), 0 1px 3px rgba(0,0,0,0.06)",
+              background: "rgba(255,255,255,0.18)",
+              backdropFilter: "blur(24px) saturate(200%)",
+              WebkitBackdropFilter: "blur(24px) saturate(200%)",
+              border: "1px solid rgba(255,255,255,0.45)",
+              boxShadow: "0 2px 16px rgba(139,127,240,0.08), inset 0 1px 0 rgba(255,255,255,0.5)",
               transition: "all 0.3s ease",
             }}
             onMouseEnter={e => {
               const el = e.currentTarget as HTMLElement;
-              el.style.boxShadow = "0 6px 28px rgba(139,127,240,0.14), 0 2px 8px rgba(0,0,0,0.08)";
-              el.style.transform = "translateY(-2px)";
-              el.style.background = "rgba(255,255,255,0.82)";
-              el.style.borderColor = "rgba(139,127,240,0.2)";
+              el.style.background = "rgba(255,255,255,0.28)";
+              el.style.boxShadow = "0 6px 28px rgba(139,127,240,0.12), inset 0 1px 0 rgba(255,255,255,0.6)";
+              el.style.borderColor = "rgba(255,255,255,0.6)";
+              el.style.transform = "translateX(-50%) translateY(-1px)";
             }}
             onMouseLeave={e => {
               const el = e.currentTarget as HTMLElement;
-              el.style.boxShadow = "0 2px 12px rgba(139,127,240,0.08), 0 1px 3px rgba(0,0,0,0.06)";
-              el.style.transform = "translateY(0)";
-              el.style.background = "rgba(255,255,255,0.6)";
-              el.style.borderColor = "rgba(255,255,255,0.85)";
+              el.style.background = "rgba(255,255,255,0.18)";
+              el.style.boxShadow = "0 2px 16px rgba(139,127,240,0.08), inset 0 1px 0 rgba(255,255,255,0.5)";
+              el.style.borderColor = "rgba(255,255,255,0.45)";
+              el.style.transform = "translateX(-50%) translateY(0)";
             }}
           >
             {[
@@ -128,23 +130,22 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="pill-link"
                 style={{
                   padding: "7px 16px",
                   borderRadius: "100px",
                   fontSize: "14px",
-                  color: "#6B7280",
+                  color: "#4A4458",
                   background: "transparent",
                   transition: "background 0.2s, color 0.2s",
                   whiteSpace: "nowrap",
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.background = "rgba(139,127,240,0.07)";
+                  (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.55)";
                   (e.currentTarget as HTMLElement).style.color = "#1a1a2e";
                 }}
                 onMouseLeave={e => {
                   (e.currentTarget as HTMLElement).style.background = "transparent";
-                  (e.currentTarget as HTMLElement).style.color = "#6B7280";
+                  (e.currentTarget as HTMLElement).style.color = "#4A4458";
                 }}
               >
                 {item.label}
