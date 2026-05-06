@@ -449,20 +449,67 @@ export default function HomePage() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-[#F5F5F7] border-t border-[#D2D2D7]/60 py-10 px-4">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#6E6E73]">
-          <div className="flex items-center gap-2 font-bold text-[#1D1D1F]">
-            <Shield className="h-4 w-4 text-[#0071E3]" />
-            TrustMyDiag
+      <footer className="bg-[#F5F5F7] border-t border-[#D2D2D7]/60 pt-14 pb-8 px-4">
+        <div className="max-w-5xl mx-auto">
+
+          {/* 4-column grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+
+            {/* Brand */}
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center gap-2 font-semibold text-[#1D1D1F] mb-3">
+                <Shield className="h-4 w-4 text-[#0071E3]" />
+                TrustMyDiag
+              </div>
+              <p className="text-xs text-[#6E6E73] leading-relaxed max-w-[180px]">
+                Second avis médical en ligne par des spécialistes diplômés.
+              </p>
+            </div>
+
+            {/* Navigation */}
+            <div>
+              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">Navigation</p>
+              <ul className="space-y-3 text-sm text-[#6E6E73]">
+                <li><Link href="/#how" className="hover:text-[#1D1D1F] transition-colors">Comment ça marche</Link></li>
+                <li><Link href="/#doctors" className="hover:text-[#1D1D1F] transition-colors">Nos médecins</Link></li>
+                <li><Link href="/#pricing" className="hover:text-[#1D1D1F] transition-colors">Tarifs</Link></li>
+                <li><Link href="/login" className="hover:text-[#1D1D1F] transition-colors">Connexion</Link></li>
+                <li><Link href="/glossary" className="hover:text-[#1D1D1F] transition-colors">Glossaire</Link></li>
+              </ul>
+            </div>
+
+            {/* Learn */}
+            <div>
+              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">Learn</p>
+              <ul className="space-y-3 text-sm text-[#6E6E73]">
+                <li><Link href="/blog" className="hover:text-[#1D1D1F] transition-colors">Blog</Link></li>
+                <li><Link href="/guides" className="hover:text-[#1D1D1F] transition-colors">Case Studies & Guides</Link></li>
+                <li><Link href="/testimonials" className="hover:text-[#1D1D1F] transition-colors">Testimonials</Link></li>
+                <li><Link href="/support" className="hover:text-[#1D1D1F] transition-colors">Customer Support</Link></li>
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">Company</p>
+              <ul className="space-y-3 text-sm text-[#6E6E73]">
+                <li><Link href="/about" className="hover:text-[#1D1D1F] transition-colors">About</Link></li>
+                <li><Link href="/news" className="hover:text-[#1D1D1F] transition-colors">News</Link></li>
+                <li><Link href="/contact" className="hover:text-[#1D1D1F] transition-colors">Contact Us</Link></li>
+              </ul>
+            </div>
           </div>
-          <div className="flex flex-wrap justify-center gap-6">
-            <Link href="/rgpd" className="hover:text-[#1D1D1F] transition-colors">Confidentialité</Link>
-            <Link href="/rgpd#mentions" className="hover:text-[#1D1D1F] transition-colors">Mentions légales</Link>
-            <Link href="#doctors" className="hover:text-[#1D1D1F] transition-colors">Nos médecins</Link>
-            <Link href="#pricing" className="hover:text-[#1D1D1F] transition-colors">Tarif</Link>
-            <Link href="/login" className="hover:text-[#1D1D1F] transition-colors">Connexion</Link>
+
+          {/* Bottom bar */}
+          <div className="border-t border-[#D2D2D7]/60 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-[#6E6E73]">© {new Date().getFullYear()} TrustMyDiag</p>
+            <div className="flex flex-wrap justify-center gap-5 text-xs text-[#6E6E73]">
+              <Link href="/terms" className="hover:text-[#1D1D1F] transition-colors">Terms of Use</Link>
+              <Link href="/rgpd" className="hover:text-[#1D1D1F] transition-colors">Privacy Policy</Link>
+              <Link href="/accessibility" className="hover:text-[#1D1D1F] transition-colors">Accessibility</Link>
+              <Link href="/cookies" className="hover:text-[#1D1D1F] transition-colors">Cookie Policy</Link>
+            </div>
           </div>
-          <p>© {new Date().getFullYear()} TrustMyDiag</p>
         </div>
       </footer>
     </div>
