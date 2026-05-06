@@ -241,11 +241,11 @@ export function Header() {
       {mobileOpen && (
         <motion.div
           className="md:hidden fixed inset-0 z-[100] flex flex-col"
-          style={{ background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 40%, #FDE8E0 100%)" }}
-          initial={{ opacity: 0, y: -16, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -16, scale: 0.98 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          style={{ background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 40%, #FDE8E0 100%)", transformOrigin: "top center" }}
+          initial={{ clipPath: "inset(0 0 100% 0)", opacity: 0.6 }}
+          animate={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
+          exit={{ clipPath: "inset(0 0 100% 0)", opacity: 0.6 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* Top bar */}
           <div className="flex items-center justify-between px-6 py-4 shrink-0">
@@ -270,80 +270,96 @@ export function Header() {
               {[
                 { label: tr.howItWorks, href: "/#how" },
                 { label: tr.doctors, href: "/#doctors" },
-              ].map((item) => (
-                <Link
+              ].map((item, i) => (
+                <motion.div
                   key={item.href}
-                  href={item.href}
-                  onClick={closeMobile}
-                  className="flex items-center justify-between px-4 py-3.5 rounded-2xl transition-colors active:opacity-70"
-                  style={{ fontSize: "17px", fontWeight: 500, color: "#2D2A3E" }}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.15 + i * 0.06, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  {item.label}
-                </Link>
+                  <Link
+                    href={item.href}
+                    onClick={closeMobile}
+                    className="flex items-center justify-between px-4 py-3.5 rounded-2xl transition-colors active:opacity-70"
+                    style={{ fontSize: "17px", fontWeight: 500, color: "#2D2A3E" }}
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
               ))}
 
               {/* Ressources accordion */}
-              <button
-                onClick={() => setLearnOpen(!learnOpen)}
-                className="flex items-center justify-between px-4 py-3.5 rounded-2xl w-full text-left transition-colors"
-                style={{
-                  fontSize: "17px", fontWeight: 500, color: "#2D2A3E",
-                  background: learnOpen ? "rgba(139,127,240,0.06)" : "transparent",
-                }}
-              >
-                {tr.learn}
-                <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${learnOpen ? "rotate-90" : ""}`} style={{ color: "#C4A8D4" }} />
-              </button>
-              {learnOpen && (
-                <div className="flex flex-col gap-0.5 ml-4 mb-1">
-                  {learnItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={closeMobile}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors active:opacity-70"
-                      style={{ fontSize: "15px", color: "#6B6880" }}
+              <motion.div initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.27, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+                <button
+                  onClick={() => setLearnOpen(!learnOpen)}
+                  className="flex items-center justify-between px-4 py-3.5 rounded-2xl w-full text-left transition-colors"
+                  style={{ fontSize: "17px", fontWeight: 500, color: "#2D2A3E", background: learnOpen ? "rgba(139,127,240,0.06)" : "transparent" }}
+                >
+                  {tr.learn}
+                  <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${learnOpen ? "rotate-90" : ""}`} style={{ color: "#C4A8D4" }} />
+                </button>
+                <AnimatePresence>
+                  {learnOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#C4A8D4" }} />
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
+                      <div className="flex flex-col gap-0.5 ml-4 mb-1 pt-1">
+                        {learnItems.map((item) => (
+                          <Link key={item.href} href={item.href} onClick={closeMobile}
+                            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors active:opacity-70"
+                            style={{ fontSize: "15px", color: "#6B6880" }}>
+                            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#C4A8D4" }} />
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
 
               {/* Entreprise accordion */}
-              <button
-                onClick={() => setCompanyOpen(!companyOpen)}
-                className="flex items-center justify-between px-4 py-3.5 rounded-2xl w-full text-left transition-colors"
-                style={{
-                  fontSize: "17px", fontWeight: 500, color: "#2D2A3E",
-                  background: companyOpen ? "rgba(139,127,240,0.06)" : "transparent",
-                }}
-              >
-                {tr.company}
-                <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${companyOpen ? "rotate-90" : ""}`} style={{ color: "#C4A8D4" }} />
-              </button>
-              {companyOpen && (
-                <div className="flex flex-col gap-0.5 ml-4 mb-1">
-                  {companyItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={closeMobile}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors active:opacity-70"
-                      style={{ fontSize: "15px", color: "#6B6880" }}
+              <motion.div initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.33, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+                <button
+                  onClick={() => setCompanyOpen(!companyOpen)}
+                  className="flex items-center justify-between px-4 py-3.5 rounded-2xl w-full text-left transition-colors"
+                  style={{ fontSize: "17px", fontWeight: 500, color: "#2D2A3E", background: companyOpen ? "rgba(139,127,240,0.06)" : "transparent" }}
+                >
+                  {tr.company}
+                  <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${companyOpen ? "rotate-90" : ""}`} style={{ color: "#C4A8D4" }} />
+                </button>
+                <AnimatePresence>
+                  {companyOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#C4A8D4" }} />
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
+                      <div className="flex flex-col gap-0.5 ml-4 mb-1 pt-1">
+                        {companyItems.map((item) => (
+                          <Link key={item.href} href={item.href} onClick={closeMobile}
+                            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors active:opacity-70"
+                            style={{ fontSize: "15px", color: "#6B6880" }}>
+                            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#C4A8D4" }} />
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             </nav>
           </div>
 
           {/* Bottom — CTA */}
-          <div className="shrink-0 px-6 pb-12 pt-4 flex flex-col gap-3">
+          <motion.div
+            className="shrink-0 px-6 pb-12 pt-4 flex flex-col gap-3"
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          >
             {session ? (
               <>
                 <Link href="/dashboard" onClick={closeMobile} className="w-full">
@@ -392,7 +408,7 @@ export function Header() {
                 {lang === "fr" ? "FR" : "EN"}
               </button>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       )}
       </AnimatePresence>
