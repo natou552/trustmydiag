@@ -6,7 +6,6 @@ import {
   ArrowRight,
   CheckCircle,
   Shield,
-  Lock,
   Clock,
   Upload,
   CreditCard,
@@ -124,25 +123,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ── STATS ── */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-          {tr.stats.map((s, i) => (
-            <motion.div
-              key={s.label}
-              variants={stagger(i * 0.1)}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-80px" }}
-            >
-              <div className="text-5xl font-bold text-[#1D1D1F] mb-2 tracking-tight">{s.value}</div>
-              <div className="text-sm text-[#374151]">{s.label}</div>
-              <div className="text-xs text-[#9CA3AF] mt-1">{s.sub}</div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
       {/* ── HOW IT WORKS ── */}
       <section id="how" className="py-28 px-6" style={{ background: "#f9faff" }}>
         <div className="max-w-5xl mx-auto">
@@ -186,20 +166,6 @@ export default function HomePage() {
             })}
           </div>
 
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="mt-12 text-center"
-          >
-            <Link href="/register">
-              <button className="inline-flex items-center gap-2 bg-[#0071E3] hover:bg-[#005EC4] text-white text-sm font-medium px-7 py-3.5 rounded-full transition-colors duration-200 shadow-md shadow-blue-200">
-                {tr.how.cta}
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </Link>
-          </motion.div>
         </div>
       </section>
 
@@ -307,41 +273,6 @@ export default function HomePage() {
             </div>
           </motion.div>
         </div>
-      </section>
-
-      {/* ── TRUST ── */}
-      <section className="py-20 px-6 bg-white">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          className="max-w-3xl mx-auto text-center"
-        >
-          <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <Lock className="h-5 w-5 text-[#0071E3]" />
-          </div>
-          <h3 className="text-xl font-medium text-[#1D1D1F] mb-3">{tr.rgpd.title}</h3>
-          <p className="text-sm text-[#6E6E73] leading-relaxed max-w-lg mx-auto">
-            {tr.rgpd.desc}{" "}
-            <Link href="/rgpd" className="text-[#0071E3] underline underline-offset-2">{tr.rgpd.link}</Link>
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 mt-8">
-            {["RGPD", "SSL/TLS", "Stripe", "EU"].map((b, i) => (
-              <motion.div
-                key={b}
-                variants={stagger(i * 0.08)}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="flex items-center gap-1.5 text-xs text-[#6E6E73] bg-[#F5F5F7] border border-black/[0.06] px-4 py-2 rounded-full"
-              >
-                <CheckCircle className="h-3 w-3 text-[#34C759]" />
-                {b}
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </section>
 
       {/* ── EXEMPLE RAPPORT ── */}
