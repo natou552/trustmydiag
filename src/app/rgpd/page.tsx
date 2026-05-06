@@ -4,7 +4,7 @@ import { Shield } from "lucide-react";
 
 export default function RGPDPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: "#F4F3F8" }}>
       <Header />
       <div className="max-w-3xl mx-auto px-4 py-16">
         <div className="flex items-center gap-3 mb-8">

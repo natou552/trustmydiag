@@ -32,7 +32,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: "#F4F3F8" }}>
       <Header />
 
       <main className="max-w-4xl mx-auto px-6 py-16">

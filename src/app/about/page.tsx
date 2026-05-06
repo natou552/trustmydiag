@@ -39,7 +39,7 @@ const team = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: "#F4F3F8" }}>
       <Header />
 
       <main className="max-w-5xl mx-auto px-6 py-16">

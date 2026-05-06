@@ -36,7 +36,7 @@ const faqs = [
 
 export default function SupportPage() {
   return (
-    <div className="min-h-screen bg-[#F5F5F7]">
+    <div className="min-h-screen" style={{ background: "#F4F3F8" }}>
       <Header />
 
       <main className="max-w-3xl mx-auto px-6 py-16">

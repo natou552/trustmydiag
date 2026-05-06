@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function AccessibilityPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: "#F4F3F8" }}>
       <Header />
 
       <main className="max-w-3xl mx-auto px-6 py-16">
