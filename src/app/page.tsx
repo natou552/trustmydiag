@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/header";
@@ -16,26 +18,35 @@ import {
   BadgeCheck,
   ChevronRight,
 } from "lucide-react";
+import { useLang } from "@/contexts/language";
+import { t } from "@/lib/translations";
+
+const FEATURE_ICONS = [
+  <Stethoscope key="s" className="h-5 w-5 text-[#0071E3]" />,
+  <Clock key="c" className="h-5 w-5 text-[#0071E3]" />,
+  <Lock key="l" className="h-5 w-5 text-[#0071E3]" />,
+  <Eye key="e" className="h-5 w-5 text-[#0071E3]" />,
+  <CreditCard key="cc" className="h-5 w-5 text-[#0071E3]" />,
+  <FileText key="f" className="h-5 w-5 text-[#0071E3]" />,
+];
+
+const STEP_ICONS = [
+  <Upload key="u" className="h-6 w-6 text-white" />,
+  <CreditCard key="c" className="h-6 w-6 text-white" />,
+  <MessageSquare key="m" className="h-6 w-6 text-white" />,
+];
+
+const STEP_COLORS = ["bg-[#0071E3]", "bg-[#5E5CE6]", "bg-[#34C759]"];
+
+const DOCTOR_STYLES = [
+  { headerBg: "bg-gradient-to-br from-[#0071E3] to-[#0051A8]", pillsBg: "bg-blue-50 text-[#0071E3]" },
+  { headerBg: "bg-gradient-to-br from-[#5E5CE6] to-[#3634A3]", pillsBg: "bg-violet-50 text-violet-700" },
+];
+const DOCTOR_INITIALS = ["RB", "YB"];
 
 export default function HomePage() {
-  const marqueeItems = [
-    "RGPD Conforme",
-    "SSL / TLS",
-    "Stripe Certified",
-    "Hébergement EU",
-    "Médecins Diplômés",
-    "Données Chiffrées",
-    "Paiement Sécurisé",
-    "Réponse 72h Garantie",
-    "RGPD Conforme",
-    "SSL / TLS",
-    "Stripe Certified",
-    "Hébergement EU",
-    "Médecins Diplômés",
-    "Données Chiffrées",
-    "Paiement Sécurisé",
-    "Réponse 72h Garantie",
-  ];
+  const { lang } = useLang();
+  const tr = t[lang];
 
   return (
     <div className="min-h-screen bg-white text-[#1D1D1F]">
@@ -52,63 +63,39 @@ export default function HomePage() {
 
       {/* ── HERO ── */}
       <section className="relative overflow-hidden pt-28 pb-28 px-4 bg-white">
-        {/* Very soft mesh gradient — Apple style */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[-80px] left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full bg-blue-100/70 blur-[100px]" />
           <div className="absolute top-32 right-1/4 w-[300px] h-[300px] rounded-full bg-violet-100/40 blur-[80px]" />
         </div>
-
         <div className="relative max-w-4xl mx-auto text-center">
-          {/* Badge pill */}
           <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-600 text-sm font-medium px-4 py-2 rounded-full mb-8">
             <BadgeCheck className="h-3.5 w-3.5" />
-            Médecins spécialistes diplômés · Réponse garantie 72h
+            {tr.hero.badge}
           </div>
-
-          {/* H1 */}
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-[#1D1D1F] leading-[1.05] tracking-tight mb-6">
-            Le second avis médical{" "}
-            <span className="text-[#0071E3]">que vous méritez.</span>
+            {tr.hero.h1}{" "}
+            <span className="text-[#0071E3]">{tr.hero.h1Accent}</span>
           </h1>
-
-          {/* Subtext */}
           <p className="text-xl text-[#6E6E73] max-w-2xl mx-auto leading-relaxed mb-10">
-            Déposez votre compte rendu médical. Un spécialiste diplômé analyse votre dossier et vous répond en 72h. En ligne, confidentiel, pour 22€.
+            {tr.hero.sub}
           </p>
-
-          {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/register">
-              <Button
-                size="lg"
-                className="bg-[#0071E3] hover:bg-[#0077ED] text-white px-8 py-6 text-base font-semibold rounded-full gap-2 w-full sm:w-auto shadow-md shadow-blue-200 transition-all duration-200"
-              >
-                Obtenir mon second avis
+              <Button size="lg" className="bg-[#0071E3] hover:bg-[#0077ED] text-white px-8 py-6 text-base font-semibold rounded-full gap-2 w-full sm:w-auto shadow-md shadow-blue-200 transition-all duration-200">
+                {tr.hero.cta}
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
             <Link href="#how">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-[#D2D2D7] text-[#1D1D1F] hover:bg-[#F5F5F7] px-8 py-6 text-base font-semibold rounded-full w-full sm:w-auto transition-all duration-200"
-              >
-                Comment ça marche
+              <Button size="lg" variant="outline" className="border-[#D2D2D7] text-[#1D1D1F] hover:bg-[#F5F5F7] px-8 py-6 text-base font-semibold rounded-full w-full sm:w-auto transition-all duration-200">
+                {tr.hero.howItWorks}
               </Button>
             </Link>
           </div>
-
-          {/* Micro-trust */}
           <div className="mt-10 flex flex-wrap justify-center gap-6 text-sm text-[#6E6E73]">
-            {[
-              { icon: <Lock className="h-3.5 w-3.5 text-[#34C759]" />, label: "100% confidentiel" },
-              { icon: <Clock className="h-3.5 w-3.5 text-[#0071E3]" />, label: "Réponse sous 72h" },
-              { icon: <Shield className="h-3.5 w-3.5 text-[#6E6E73]" />, label: "Conforme RGPD" },
-            ].map((i) => (
-              <span key={i.label} className="flex items-center gap-1.5">
-                {i.icon}{i.label}
-              </span>
-            ))}
+            <span className="flex items-center gap-1.5"><Lock className="h-3.5 w-3.5 text-[#34C759]" />{tr.hero.trustConfidential}</span>
+            <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-[#0071E3]" />{tr.hero.trust72h}</span>
+            <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-[#6E6E73]" />{tr.hero.trustRgpd}</span>
           </div>
         </div>
       </section>
@@ -117,7 +104,7 @@ export default function HomePage() {
       <div className="border-y border-[#D2D2D7]/60 bg-[#F5F5F7] py-4 overflow-hidden">
         <div className="flex whitespace-nowrap">
           <div className="marquee-inner flex gap-10 items-center">
-            {marqueeItems.map((item, i) => (
+            {tr.marquee.map((item, i) => (
               <span key={i} className="flex items-center gap-2 text-sm text-[#6E6E73] flex-shrink-0">
                 <span className="w-1 h-1 rounded-full bg-[#0071E3] flex-shrink-0" />
                 {item}
@@ -130,12 +117,7 @@ export default function HomePage() {
       {/* ── STATS ── */}
       <section className="py-20 px-4 bg-white">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[
-            { value: "22€", label: "Prix unique", sub: "Sans abonnement" },
-            { value: "72h", label: "Délai maximum", sub: "Souvent moins" },
-            { value: "100%", label: "Confidentiel", sub: "Données chiffrées" },
-            { value: "2", label: "Spécialistes", sub: "Dentaire & Gynéco" },
-          ].map((s) => (
+          {tr.stats.map((s) => (
             <div key={s.label}>
               <div className="text-5xl font-black text-[#1D1D1F] mb-1">{s.value}</div>
               <div className="text-sm font-semibold text-[#1D1D1F]">{s.label}</div>
@@ -145,58 +127,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FEATURES GRID ── */}
+      {/* ── FEATURES ── */}
       <section className="py-24 px-4 bg-[#F5F5F7]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-[#0071E3] font-semibold text-xs uppercase tracking-widest mb-3">Pourquoi TrustMyDiag</p>
-            <h2 className="text-4xl md:text-5xl font-black text-[#1D1D1F] leading-tight">
-              Un second avis pour<br />chaque situation.
-            </h2>
-            <p className="text-[#6E6E73] text-lg mt-4 max-w-xl mx-auto">
-              Doute sur un diagnostic ? Devis excessif ? Vous avez le droit à une deuxième opinion médicale.
-            </p>
+            <p className="text-[#0071E3] font-semibold text-xs uppercase tracking-widest mb-3">{tr.why.eyebrow}</p>
+            <h2 className="text-4xl md:text-5xl font-black text-[#1D1D1F] leading-tight">{tr.why.h2}</h2>
+            <p className="text-[#6E6E73] text-lg mt-4 max-w-xl mx-auto">{tr.why.sub}</p>
           </div>
-
           <div className="grid md:grid-cols-3 gap-4">
-            {[
-              {
-                icon: <Stethoscope className="h-5 w-5 text-[#0071E3]" />,
-                title: "Médecins diplômés",
-                desc: "Chaque avis est rendu par un spécialiste en exercice. Jamais une IA, toujours un humain qualifié.",
-              },
-              {
-                icon: <Clock className="h-5 w-5 text-[#0071E3]" />,
-                title: "Réponse en 72h",
-                desc: "Fini les mois d'attente. Votre analyse arrive dans les 72 heures suivant votre paiement.",
-              },
-              {
-                icon: <Lock className="h-5 w-5 text-[#0071E3]" />,
-                title: "Données protégées",
-                desc: "Chiffrement bout en bout, conforme RGPD. Seul le médecin concerné accède à votre dossier.",
-              },
-              {
-                icon: <Eye className="h-5 w-5 text-[#0071E3]" />,
-                title: "Analyse complète",
-                desc: "Une analyse détaillée avec explications claires, pas un simple résumé en trois lignes.",
-              },
-              {
-                icon: <CreditCard className="h-5 w-5 text-[#0071E3]" />,
-                title: "22€, c'est tout",
-                desc: "Paiement unique. Pas d'abonnement, pas de frais cachés. Vous payez une fois.",
-              },
-              {
-                icon: <FileText className="h-5 w-5 text-[#0071E3]" />,
-                title: "Espace personnel",
-                desc: "Retrouvez votre avis à tout moment dans votre espace patient. Téléchargeable en PDF.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="bg-white rounded-2xl p-7 border border-[#D2D2D7]/50 hover:border-[#0071E3]/30 hover:shadow-md transition-all duration-200 group"
-              >
+            {tr.why.features.map((item, i) => (
+              <div key={item.title} className="bg-white rounded-2xl p-7 border border-[#D2D2D7]/50 hover:border-[#0071E3]/30 hover:shadow-md transition-all duration-200 group">
                 <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-blue-100 transition-colors">
-                  {item.icon}
+                  {FEATURE_ICONS[i]}
                 </div>
                 <h3 className="font-bold text-[#1D1D1F] mb-2">{item.title}</h3>
                 <p className="text-[#6E6E73] text-sm leading-relaxed">{item.desc}</p>
@@ -210,39 +153,13 @@ export default function HomePage() {
       <section id="how" className="py-24 px-4 bg-white">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-[#0071E3] font-semibold text-xs uppercase tracking-widest mb-3">En 3 étapes</p>
-            <h2 className="text-4xl md:text-5xl font-black text-[#1D1D1F]">Simple. Rapide. Fiable.</h2>
-            <p className="text-[#6E6E73] text-lg mt-4 max-w-lg mx-auto">
-              De l'envoi de votre document à la réception de l'avis médical, tout se passe en ligne.
-            </p>
+            <p className="text-[#0071E3] font-semibold text-xs uppercase tracking-widest mb-3">{tr.how.eyebrow}</p>
+            <h2 className="text-4xl md:text-5xl font-black text-[#1D1D1F]">{tr.how.h2}</h2>
+            <p className="text-[#6E6E73] text-lg mt-4 max-w-lg mx-auto">{tr.how.sub}</p>
           </div>
-
           <div className="grid md:grid-cols-3 gap-6 relative">
-            {[
-              {
-                icon: <Upload className="h-6 w-6 text-white" />,
-                step: "01",
-                title: "Déposez votre document",
-                desc: "Téléversez votre PDF (bilan, ordonnance, compte rendu) et décrivez votre situation.",
-                bg: "bg-[#0071E3]",
-              },
-              {
-                icon: <CreditCard className="h-6 w-6 text-white" />,
-                step: "02",
-                title: "Payez en sécurité",
-                desc: "22€ via Stripe. Votre dossier est instantanément transmis au médecin spécialiste.",
-                bg: "bg-[#5E5CE6]",
-              },
-              {
-                icon: <MessageSquare className="h-6 w-6 text-white" />,
-                step: "03",
-                title: "Recevez votre avis",
-                desc: "Le médecin vous envoie son analyse détaillée par email et dans votre espace personnel.",
-                bg: "bg-[#34C759]",
-              },
-            ].map((item, i) => (
+            {tr.how.steps.map((item, i) => (
               <div key={item.step} className="relative flex flex-col">
-                {/* Connector arrow */}
                 {i < 2 && (
                   <div className="hidden md:flex absolute -right-3 top-8 z-10 w-6 items-center justify-center">
                     <ChevronRight className="h-4 w-4 text-[#D2D2D7]" />
@@ -250,8 +167,8 @@ export default function HomePage() {
                 )}
                 <div className="bg-[#F5F5F7] rounded-2xl p-8 flex-1 border border-[#D2D2D7]/40 hover:border-[#D2D2D7] hover:shadow-sm transition-all duration-200">
                   <div className="flex items-start justify-between mb-6">
-                    <div className={`w-12 h-12 ${item.bg} rounded-2xl flex items-center justify-center shadow-sm`}>
-                      {item.icon}
+                    <div className={`w-12 h-12 ${STEP_COLORS[i]} rounded-2xl flex items-center justify-center shadow-sm`}>
+                      {STEP_ICONS[i]}
                     </div>
                     <span className="text-5xl font-black text-[#D2D2D7] leading-none">{item.step}</span>
                   </div>
@@ -261,14 +178,10 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-
           <div className="mt-12 text-center">
             <Link href="/register">
-              <Button
-                size="lg"
-                className="bg-[#0071E3] hover:bg-[#0077ED] text-white px-8 py-6 text-base font-semibold rounded-full gap-2 shadow-md shadow-blue-200 transition-all duration-200"
-              >
-                Commencer maintenant
+              <Button size="lg" className="bg-[#0071E3] hover:bg-[#0077ED] text-white px-8 py-6 text-base font-semibold rounded-full gap-2 shadow-md shadow-blue-200 transition-all duration-200">
+                {tr.how.cta}
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
@@ -280,51 +193,20 @@ export default function HomePage() {
       <section id="doctors" className="py-24 px-4 bg-[#F5F5F7]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-[#0071E3] font-semibold text-xs uppercase tracking-widest mb-3">Nos spécialistes</p>
-            <h2 className="text-4xl md:text-5xl font-black text-[#1D1D1F]">Des médecins qui s'engagent.</h2>
-            <p className="text-[#6E6E73] text-lg mt-4 max-w-xl mx-auto">
-              Votre dossier est lu et analysé par un médecin spécialiste en exercice. Pas une IA.
-            </p>
+            <p className="text-[#0071E3] font-semibold text-xs uppercase tracking-widest mb-3">{tr.doctors.eyebrow}</p>
+            <h2 className="text-4xl md:text-5xl font-black text-[#1D1D1F]">{tr.doctors.h2}</h2>
+            <p className="text-[#6E6E73] text-lg mt-4 max-w-xl mx-auto">{tr.doctors.sub}</p>
           </div>
-
           <div className="grid md:grid-cols-2 gap-6">
-            {[
-              {
-                name: "Dr Robert Benguigui",
-                specialty: "Chirurgien-dentiste",
-                desc: "Spécialiste en chirurgie orale et dentisterie implantaire. Second avis sur diagnostics dentaires, plans de traitement, devis et extractions.",
-                tag: "Dentaire",
-                initial: "RB",
-                headerBg: "bg-gradient-to-br from-[#0071E3] to-[#0051A8]",
-                tagBg: "bg-[#0071E3]/10 text-[#0071E3]",
-                pillsBg: "bg-blue-50 text-[#0071E3]",
-                features: ["Diagnostics dentaires", "Plans de traitement", "Devis & chirurgie"],
-              },
-              {
-                name: "Dr Yohan Benchimol",
-                specialty: "Gynécologue obstétricien",
-                desc: "Expert en gynécologie médicale et obstétrique. Second avis sur diagnostics gynécologiques, suivis de grossesse et traitements hormonaux.",
-                tag: "Gynécologie",
-                initial: "YB",
-                headerBg: "bg-gradient-to-br from-[#5E5CE6] to-[#3634A3]",
-                tagBg: "bg-violet-50 text-violet-700",
-                pillsBg: "bg-violet-50 text-violet-700",
-                features: ["Diagnostics gynécologiques", "Suivi de grossesse", "Traitements hormonaux"],
-              },
-            ].map((doc) => (
-              <div
-                key={doc.name}
-                className="bg-white rounded-2xl border border-[#D2D2D7]/50 overflow-hidden hover:shadow-lg transition-all duration-200 group"
-              >
-                <div className={`${doc.headerBg} p-8`}>
+            {tr.doctors.list.map((doc, i) => (
+              <div key={doc.name} className="bg-white rounded-2xl border border-[#D2D2D7]/50 overflow-hidden hover:shadow-lg transition-all duration-200">
+                <div className={`${DOCTOR_STYLES[i].headerBg} p-8`}>
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-white text-lg font-black flex-shrink-0">
-                      {doc.initial}
+                      {DOCTOR_INITIALS[i]}
                     </div>
                     <div>
-                      <span className="inline-block text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full mb-1.5">
-                        {doc.tag}
-                      </span>
+                      <span className="inline-block text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full mb-1.5">{doc.tag}</span>
                       <h3 className="font-bold text-xl text-white">{doc.name}</h3>
                       <p className="text-white/70 text-sm">{doc.specialty}</p>
                     </div>
@@ -334,9 +216,7 @@ export default function HomePage() {
                   <p className="text-[#6E6E73] text-sm leading-relaxed mb-5">{doc.desc}</p>
                   <div className="flex flex-wrap gap-2">
                     {doc.features.map((f) => (
-                      <span key={f} className={`text-xs font-medium ${doc.pillsBg} px-3 py-1.5 rounded-full`}>
-                        {f}
-                      </span>
+                      <span key={f} className={`text-xs font-medium ${DOCTOR_STYLES[i].pillsBg} px-3 py-1.5 rounded-full`}>{f}</span>
                     ))}
                   </div>
                 </div>
@@ -350,41 +230,29 @@ export default function HomePage() {
       <section id="pricing" className="py-24 px-4 bg-white">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-[#0071E3] font-semibold text-xs uppercase tracking-widest mb-3">Tarif</p>
-            <h2 className="text-4xl md:text-5xl font-black text-[#1D1D1F]">Un prix. Zéro surprise.</h2>
-            <p className="text-[#6E6E73] text-lg mt-4 max-w-lg mx-auto">
-              Pas d'abonnement, pas de frais cachés. Vous payez une fois, vous recevez votre avis médical.
-            </p>
+            <p className="text-[#0071E3] font-semibold text-xs uppercase tracking-widest mb-3">{tr.pricing.eyebrow}</p>
+            <h2 className="text-4xl md:text-5xl font-black text-[#1D1D1F]">{tr.pricing.h2}</h2>
+            <p className="text-[#6E6E73] text-lg mt-4 max-w-lg mx-auto">{tr.pricing.sub}</p>
           </div>
-
           <div className="max-w-3xl mx-auto bg-white rounded-3xl border border-[#D2D2D7]/60 shadow-sm overflow-hidden">
             <div className="grid md:grid-cols-2">
-              {/* Price panel */}
               <div className="bg-gradient-to-br from-[#0071E3] to-[#0051A8] p-10 flex flex-col justify-between">
                 <div>
                   <div className="text-8xl font-black leading-none text-white mb-2">22€</div>
-                  <p className="text-blue-200 text-base">par demande · paiement unique</p>
-                  <p className="text-blue-300/60 text-sm mt-1">Dentaire ou Gynécologie</p>
+                  <p className="text-blue-200 text-base">{tr.pricing.priceLabel}</p>
+                  <p className="text-blue-300/60 text-sm mt-1">{tr.pricing.priceSub}</p>
                 </div>
                 <Link href="/register" className="mt-8 block">
                   <Button className="bg-white text-[#0071E3] hover:bg-blue-50 w-full py-6 text-base font-bold rounded-full gap-2 transition-all duration-200">
-                    Obtenir mon second avis
+                    {tr.pricing.cta}
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </div>
-              {/* Checklist panel */}
               <div className="p-10">
-                <p className="text-xs font-semibold text-[#6E6E73] uppercase tracking-widest mb-6">Ce qui est inclus</p>
+                <p className="text-xs font-semibold text-[#6E6E73] uppercase tracking-widest mb-6">{tr.pricing.included}</p>
                 <ul className="space-y-4">
-                  {[
-                    "Analyse par un médecin spécialiste diplômé",
-                    "Réponse détaillée sous 24 à 72h",
-                    "Accès à votre avis dans votre espace",
-                    "Documents médicaux chiffrés et sécurisés",
-                    "Paiement sécurisé par Stripe",
-                    "Conforme au RGPD",
-                  ].map((item) => (
+                  {tr.pricing.items.map((item) => (
                     <li key={item} className="flex items-start gap-3 text-sm text-[#1D1D1F]">
                       <CheckCircle className="h-4 w-4 text-[#34C759] flex-shrink-0 mt-0.5" />
                       {item}
@@ -405,12 +273,10 @@ export default function HomePage() {
               <Lock className="h-6 w-6 text-[#0071E3]" />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h3 className="font-bold text-lg text-[#1D1D1F] mb-2">Vos données médicales sont protégées</h3>
+              <h3 className="font-bold text-lg text-[#1D1D1F] mb-2">{tr.rgpd.title}</h3>
               <p className="text-[#6E6E73] text-sm leading-relaxed">
-                TrustMyDiag est conforme au RGPD. Vos documents sont chiffrés et accessibles uniquement au médecin concerné. Aucune revente de données. Droit à l'effacement garanti.{" "}
-                <Link href="/rgpd" className="text-[#0071E3] hover:underline font-medium">
-                  En savoir plus →
-                </Link>
+                {tr.rgpd.desc}{" "}
+                <Link href="/rgpd" className="text-[#0071E3] hover:underline font-medium">{tr.rgpd.link}</Link>
               </p>
             </div>
             <div className="grid grid-cols-2 gap-2 flex-shrink-0">
@@ -425,89 +291,68 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA BAND ── (seule section sombre, style Apple "think different") */}
+      {/* ── CTA BAND ── */}
       <section className="py-28 px-4 bg-[#1D1D1F]">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-[#6E6E73] font-semibold text-xs uppercase tracking-widest mb-4">Prêt à commencer ?</p>
-          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-5">
-            Un second avis médical,<br />maintenant.
-          </h2>
-          <p className="text-[#6E6E73] text-lg mb-10 max-w-lg mx-auto">
-            En quelques minutes, votre dossier est entre les mains d'un spécialiste diplômé.
-          </p>
+          <p className="text-[#6E6E73] font-semibold text-xs uppercase tracking-widest mb-4">{tr.cta.eyebrow}</p>
+          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-5">{tr.cta.h2}</h2>
+          <p className="text-[#6E6E73] text-lg mb-10 max-w-lg mx-auto">{tr.cta.sub}</p>
           <Link href="/register">
-            <Button
-              size="lg"
-              className="bg-[#0071E3] hover:bg-[#0077ED] text-white px-10 py-6 text-base font-bold rounded-full gap-2 shadow-lg shadow-blue-500/30 transition-all duration-200"
-            >
-              Commencer — 22€
+            <Button size="lg" className="bg-[#0071E3] hover:bg-[#0077ED] text-white px-10 py-6 text-base font-bold rounded-full gap-2 shadow-lg shadow-blue-500/30 transition-all duration-200">
+              {tr.cta.button}
               <ArrowRight className="h-5 w-5" />
             </Button>
           </Link>
-          <p className="text-[#6E6E73] text-xs mt-4">Paiement sécurisé par Stripe · Conforme RGPD</p>
+          <p className="text-[#6E6E73] text-xs mt-4">{tr.cta.trust}</p>
         </div>
       </section>
 
       {/* ── FOOTER ── */}
       <footer className="bg-[#F5F5F7] border-t border-[#D2D2D7]/60 pt-14 pb-8 px-4">
         <div className="max-w-5xl mx-auto">
-
-          {/* 4-column grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
-
-            {/* Brand */}
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 font-semibold text-[#1D1D1F] mb-3">
                 <Shield className="h-4 w-4 text-[#0071E3]" />
                 TrustMyDiag
               </div>
-              <p className="text-xs text-[#6E6E73] leading-relaxed max-w-[180px]">
-                Second avis médical en ligne par des spécialistes diplômés.
-              </p>
+              <p className="text-xs text-[#6E6E73] leading-relaxed max-w-[180px]">{tr.footer.tagline}</p>
             </div>
 
-            {/* Navigation */}
             <div>
-              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">Navigation</p>
+              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">{tr.footer.nav}</p>
               <ul className="space-y-3 text-sm text-[#6E6E73]">
-                <li><Link href="/#how" className="hover:text-[#1D1D1F] transition-colors">Comment ça marche</Link></li>
-                <li><Link href="/#doctors" className="hover:text-[#1D1D1F] transition-colors">Nos médecins</Link></li>
-                <li><Link href="/#pricing" className="hover:text-[#1D1D1F] transition-colors">Tarifs</Link></li>
-                <li><Link href="/login" className="hover:text-[#1D1D1F] transition-colors">Connexion</Link></li>
-                <li><Link href="/glossary" className="hover:text-[#1D1D1F] transition-colors">Glossaire</Link></li>
+                {tr.footer.navLinks.map((l) => (
+                  <li key={l.href}><Link href={l.href} className="hover:text-[#1D1D1F] transition-colors">{l.label}</Link></li>
+                ))}
               </ul>
             </div>
 
-            {/* Learn */}
             <div>
-              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">Learn</p>
+              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">{tr.footer.learn}</p>
               <ul className="space-y-3 text-sm text-[#6E6E73]">
-                <li><Link href="/blog" className="hover:text-[#1D1D1F] transition-colors">Blog</Link></li>
-                <li><Link href="/guides" className="hover:text-[#1D1D1F] transition-colors">Case Studies & Guides</Link></li>
-                <li><Link href="/testimonials" className="hover:text-[#1D1D1F] transition-colors">Testimonials</Link></li>
-                <li><Link href="/support" className="hover:text-[#1D1D1F] transition-colors">Customer Support</Link></li>
+                {tr.footer.learnLinks.map((l) => (
+                  <li key={l.href}><Link href={l.href} className="hover:text-[#1D1D1F] transition-colors">{l.label}</Link></li>
+                ))}
               </ul>
             </div>
 
-            {/* Company */}
             <div>
-              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">Company</p>
+              <p className="text-xs font-semibold text-[#1D1D1F] uppercase tracking-widest mb-4">{tr.footer.company}</p>
               <ul className="space-y-3 text-sm text-[#6E6E73]">
-                <li><Link href="/about" className="hover:text-[#1D1D1F] transition-colors">About</Link></li>
-                <li><Link href="/news" className="hover:text-[#1D1D1F] transition-colors">News</Link></li>
-                <li><Link href="/contact" className="hover:text-[#1D1D1F] transition-colors">Contact Us</Link></li>
+                {tr.footer.companyLinks.map((l) => (
+                  <li key={l.href}><Link href={l.href} className="hover:text-[#1D1D1F] transition-colors">{l.label}</Link></li>
+                ))}
               </ul>
             </div>
           </div>
 
-          {/* Bottom bar */}
           <div className="border-t border-[#D2D2D7]/60 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-[#6E6E73]">© {new Date().getFullYear()} TrustMyDiag</p>
+            <p className="text-xs text-[#6E6E73]">© {new Date().getFullYear()} {tr.footer.copyright}</p>
             <div className="flex flex-wrap justify-center gap-5 text-xs text-[#6E6E73]">
-              <Link href="/terms" className="hover:text-[#1D1D1F] transition-colors">Terms of Use</Link>
-              <Link href="/rgpd" className="hover:text-[#1D1D1F] transition-colors">Privacy Policy</Link>
-              <Link href="/accessibility" className="hover:text-[#1D1D1F] transition-colors">Accessibility</Link>
-              <Link href="/cookies" className="hover:text-[#1D1D1F] transition-colors">Cookie Policy</Link>
+              {tr.footer.legal.map((l) => (
+                <Link key={l.href} href={l.href} className="hover:text-[#1D1D1F] transition-colors">{l.label}</Link>
+              ))}
             </div>
           </div>
         </div>

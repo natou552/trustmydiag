@@ -4,29 +4,19 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Shield, ChevronDown, Menu, X, Globe } from "lucide-react";
-
-const LEARN_ITEMS = [
-  { label: "Blog", href: "/blog" },
-  { label: "Case Studies & Guides", href: "/guides" },
-  { label: "Testimonials", href: "/testimonials" },
-];
-
-const COMPANY_ITEMS = [
-  { label: "About", href: "/about" },
-  { label: "News", href: "/news" },
-  { label: "Contact Us", href: "/contact" },
-];
+import { useLang } from "@/contexts/language";
+import { t } from "@/lib/translations";
 
 function Dropdown({ label, items }: { label: string; items: { label: string; href: string }[] }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function onClickOutside(e: MouseEvent) {
+    function onOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     }
-    document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
+    document.addEventListener("mousedown", onOutside);
+    return () => document.removeEventListener("mousedown", onOutside);
   }, []);
 
   return (
@@ -48,7 +38,7 @@ function Dropdown({ label, items }: { label: string; items: { label: string; hre
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="block px-4 py-2.5 text-sm text-[#374151] hover:bg-[#F5F5F7] transition-colors first:rounded-t-xl last:rounded-b-xl"
+              className="block px-4 py-2.5 text-sm text-[#374151] hover:bg-[#F5F5F7] transition-colors"
             >
               {item.label}
             </Link>
@@ -61,8 +51,21 @@ function Dropdown({ label, items }: { label: string; items: { label: string; hre
 
 export function Header() {
   const { data: session } = useSession();
+  const { lang, toggle } = useLang();
+  const tr = t[lang].nav;
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [lang, setLang] = useState<"FR" | "EN">("FR");
+
+  const learnItems = [
+    { label: tr.blog, href: "/blog" },
+    { label: tr.guides, href: "/guides" },
+    { label: tr.testimonials, href: "/testimonials" },
+  ];
+
+  const companyItems = [
+    { label: tr.about, href: "/about" },
+    { label: tr.news, href: "/news" },
+    { label: tr.contact, href: "/contact" },
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-[#EEF1F7]/90 backdrop-blur-md border-b border-black/[0.06]">
@@ -77,53 +80,52 @@ export function Header() {
         {/* Nav desktop */}
         <nav className="hidden md:flex items-center gap-0.5 text-sm">
           <Link href="/#how" className="px-4 py-1.5 rounded-full text-[#374151] hover:bg-black/[0.06] transition-colors duration-150">
-            Comment ça marche
+            {tr.howItWorks}
           </Link>
           <Link href="/#doctors" className="px-4 py-1.5 rounded-full text-[#374151] hover:bg-black/[0.06] transition-colors duration-150">
-            Nos médecins
+            {tr.doctors}
           </Link>
           <Link href="/rgpd" className="px-4 py-1.5 rounded-full text-[#374151] hover:bg-black/[0.06] transition-colors duration-150">
-            Confidentialité
+            {tr.confidentiality}
           </Link>
-          <Dropdown label="Learn" items={LEARN_ITEMS} />
-          <Dropdown label="Company" items={COMPANY_ITEMS} />
+          <Dropdown label={tr.learn} items={learnItems} />
+          <Dropdown label={tr.company} items={companyItems} />
         </nav>
 
-        {/* Right side */}
+        {/* Right side desktop */}
         <div className="hidden md:flex items-center gap-2 shrink-0">
-          {/* Lang switcher */}
           <button
-            onClick={() => setLang(lang === "FR" ? "EN" : "FR")}
+            onClick={toggle}
             className="flex items-center gap-1.5 text-xs font-medium text-[#374151] px-3 py-1.5 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors duration-150"
           >
             <Globe className="h-3.5 w-3.5" />
-            {lang}
+            {lang === "fr" ? "FR" : "EN"}
           </button>
 
           {session ? (
             <>
               <Link href="/dashboard">
                 <button className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150">
-                  Mon espace
+                  {tr.mySpace}
                 </button>
               </Link>
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150"
               >
-                Déconnexion
+                {tr.logout}
               </button>
             </>
           ) : (
             <>
               <Link href="/login">
                 <button className="text-sm text-[#374151] px-4 py-1.5 rounded-full hover:bg-black/[0.06] transition-colors duration-150">
-                  Connexion
+                  {tr.login}
                 </button>
               </Link>
               <Link href="/register">
                 <button className="text-sm text-white bg-[#0071E3] hover:bg-[#0077ED] px-5 py-1.5 rounded-full font-medium transition-colors duration-150 shadow-sm">
-                  Commencer
+                  {tr.start}
                 </button>
               </Link>
             </>
@@ -133,35 +135,30 @@ export function Header() {
         {/* Mobile: lang + burger */}
         <div className="md:hidden flex items-center gap-2">
           <button
-            onClick={() => setLang(lang === "FR" ? "EN" : "FR")}
+            onClick={toggle}
             className="flex items-center gap-1 text-xs font-medium text-[#374151] px-2.5 py-1.5 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors"
           >
             <Globe className="h-3 w-3" />
-            {lang}
+            {lang === "fr" ? "FR" : "EN"}
           </button>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="p-2 rounded-full hover:bg-black/[0.06] transition-colors"
             aria-label="Menu"
           >
-            {mobileOpen
-              ? <X className="h-5 w-5 text-[#374151]" />
-              : <Menu className="h-5 w-5 text-[#374151]" />
-            }
+            {mobileOpen ? <X className="h-5 w-5 text-[#374151]" /> : <Menu className="h-5 w-5 text-[#374151]" />}
           </button>
         </div>
       </div>
 
-      {/* ── Mobile menu ── */}
+      {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden bg-[#EEF1F7] border-t border-black/[0.06] px-4 pb-5 pt-3">
-
-          {/* Main links */}
           <div className="flex flex-col gap-0.5">
             {[
-              { label: "Comment ça marche", href: "/#how" },
-              { label: "Nos médecins", href: "/#doctors" },
-              { label: "Confidentialité", href: "/rgpd" },
+              { label: tr.howItWorks, href: "/#how" },
+              { label: tr.doctors, href: "/#doctors" },
+              { label: tr.confidentiality, href: "/rgpd" },
             ].map((item) => (
               <Link
                 key={item.href}
@@ -174,10 +171,9 @@ export function Header() {
             ))}
           </div>
 
-          {/* Learn group */}
-          <p className="mt-4 mb-1 px-4 text-[10px] font-semibold text-[#6E6E73] uppercase tracking-widest">Learn</p>
+          <p className="mt-4 mb-1 px-4 text-[10px] font-semibold text-[#6E6E73] uppercase tracking-widest">{tr.learn}</p>
           <div className="flex flex-col gap-0.5">
-            {LEARN_ITEMS.map((item) => (
+            {learnItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -189,10 +185,9 @@ export function Header() {
             ))}
           </div>
 
-          {/* Company group */}
-          <p className="mt-4 mb-1 px-4 text-[10px] font-semibold text-[#6E6E73] uppercase tracking-widest">Company</p>
+          <p className="mt-4 mb-1 px-4 text-[10px] font-semibold text-[#6E6E73] uppercase tracking-widest">{tr.company}</p>
           <div className="flex flex-col gap-0.5">
-            {COMPANY_ITEMS.map((item) => (
+            {companyItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -204,32 +199,31 @@ export function Header() {
             ))}
           </div>
 
-          {/* Divider + auth */}
           <div className="mt-4 pt-4 border-t border-black/[0.06] flex gap-2">
             {session ? (
               <>
                 <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="flex-1">
                   <button className="w-full text-sm text-[#374151] px-4 py-2 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors">
-                    Mon espace
+                    {tr.mySpace}
                   </button>
                 </Link>
                 <button
                   onClick={() => { signOut({ callbackUrl: "/" }); setMobileOpen(false); }}
                   className="flex-1 text-sm text-[#374151] px-4 py-2 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors"
                 >
-                  Déconnexion
+                  {tr.logout}
                 </button>
               </>
             ) : (
               <>
                 <Link href="/login" onClick={() => setMobileOpen(false)} className="flex-1">
                   <button className="w-full text-sm text-[#374151] px-4 py-2 rounded-full border border-black/[0.1] hover:bg-black/[0.06] transition-colors">
-                    Connexion
+                    {tr.login}
                   </button>
                 </Link>
                 <Link href="/register" onClick={() => setMobileOpen(false)} className="flex-1">
                   <button className="w-full text-sm text-white bg-[#0071E3] hover:bg-[#0077ED] px-4 py-2 rounded-full font-medium transition-colors shadow-sm">
-                    Commencer
+                    {tr.start}
                   </button>
                 </Link>
               </>
