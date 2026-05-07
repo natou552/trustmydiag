@@ -215,7 +215,7 @@ function NewRequestForm() {
 
   const steps = [
     { n: 1, label: "Spécialité" },
-    { n: 2, label: "Anamnèse" },
+    { n: 2, label: "Antécédents" },
     { n: 3, label: "Documents" },
     { n: 4, label: "Paiement" },
   ];
@@ -279,7 +279,7 @@ function NewRequestForm() {
           {/* ── STEP 2 : Anamnèse dentaire ── */}
           {step === 2 && (
             <div>
-              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-1">Questionnaire dentaire</h2>
+              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-1">Antécédents dentaires</h2>
               <p className="text-sm text-gray-500 mb-6">Quelques questions rapides pour aider le chirurgien-dentiste à analyser votre situation.</p>
 
               <div className="space-y-6">
