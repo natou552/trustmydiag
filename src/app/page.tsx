@@ -433,12 +433,9 @@ export default function HomePage() {
             className="text-center mb-12"
           >
             <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>Transparence</p>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4" style={{ color: "#2D2A3E" }}>
-              Voyez ce que vous recevez pour 22€
-            </h2>
-            <p className="text-base max-w-xl mx-auto" style={{ color: "#6B6880" }}>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight" style={{ color: "#2D2A3E" }}>
               Vous recevrez une analyse structurée de 2 à 4 pages, rédigée par un spécialiste, avec un avis clair sur votre plan de traitement.
-            </p>
+            </h2>
           </motion.div>
 
           <motion.div
