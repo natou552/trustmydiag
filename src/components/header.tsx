@@ -92,7 +92,7 @@ export function Header() {
           backdropFilter: scrolled ? "saturate(180%) blur(20px)" : "none",
           WebkitBackdropFilter: scrolled ? "saturate(180%) blur(20px)" : "none",
           borderBottom: scrolled ? "1px solid rgba(139,127,240,0.07)" : "none",
-          padding: "18px 5%",
+          padding: "28px 5%",
           transition: "background 400ms ease, border-color 400ms ease",
         }}
       >
