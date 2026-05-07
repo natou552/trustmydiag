@@ -107,31 +107,7 @@ export function Header() {
           {/* CENTER — Floating pill nav, truly centered */}
           <nav
             className="hidden md:inline-flex items-center absolute left-1/2 -translate-x-1/2"
-            style={{
-              gap: "2px",
-              padding: "5px 6px",
-              borderRadius: "100px",
-              background: "rgba(255,255,255,0.18)",
-              backdropFilter: "blur(24px) saturate(200%)",
-              WebkitBackdropFilter: "blur(24px) saturate(200%)",
-              border: "1px solid rgba(255,255,255,0.45)",
-              boxShadow: "0 2px 16px rgba(139,127,240,0.08), inset 0 1px 0 rgba(255,255,255,0.5)",
-              transition: "all 0.3s ease",
-            }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = "rgba(255,255,255,0.28)";
-              el.style.boxShadow = "0 6px 28px rgba(139,127,240,0.12), inset 0 1px 0 rgba(255,255,255,0.6)";
-              el.style.borderColor = "rgba(255,255,255,0.6)";
-              el.style.transform = "translateX(-50%) translateY(-1px)";
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = "rgba(255,255,255,0.18)";
-              el.style.boxShadow = "0 2px 16px rgba(139,127,240,0.08), inset 0 1px 0 rgba(255,255,255,0.5)";
-              el.style.borderColor = "rgba(255,255,255,0.45)";
-              el.style.transform = "translateX(-50%) translateY(0)";
-            }}
+            style={{ gap: "2px" }}
           >
             {[
               { href: "/#how", label: tr.howItWorks },
