@@ -208,85 +208,6 @@ export default function HomePage() {
       {/* ── HOW IT WORKS — animé via GSAP ScrollTrigger ── */}
       <HowItWorksScroll steps={tr.how.steps} eyebrow={tr.how.eyebrow} h2={tr.how.h2} />
 
-      {/* ── DOCTORS ── */}
-      <section id="doctors" className="py-28 px-6" style={{ background: "transparent" }}>
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            className="text-center mb-20"
-          >
-            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>{tr.doctors.eyebrow}</p>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight" style={{ color: "#2D2A3E" }}>{tr.doctors.h2}</h2>
-            <p className="text-lg mt-4 max-w-lg mx-auto" style={{ color: "#6B6880" }}>{tr.doctors.sub}</p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {tr.doctors.list.map((doc, i) => {
-              const avatarGradients = [
-                "linear-gradient(135deg, #8B7FF0, #C4A8D4)",
-                "linear-gradient(135deg, #F9C4B0, #C4A8D4)",
-              ];
-              const pillStyles = [
-                { bg: "rgba(139,127,240,0.1)", color: "#8B7FF0" },
-                { bg: "rgba(249,196,176,0.3)", color: "#C4776A" },
-              ];
-              const initials = ["RB", "YB"];
-              return (
-                <motion.div
-                  key={doc.name}
-                  initial={{ opacity: 0, x: i === 0 ? -40 : 40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
-                  className="rounded-3xl overflow-hidden"
-                  style={{
-                    background: "rgba(255,255,255,0.6)",
-                    backdropFilter: "blur(20px) saturate(180%)",
-                    WebkitBackdropFilter: "blur(20px) saturate(180%)",
-                    border: "1px solid rgba(255,255,255,0.8)",
-                    boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
-                  }}
-                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                >
-                  <div className="p-8" style={{ background: "linear-gradient(135deg, rgba(244,243,248,0.8), rgba(238,240,251,0.6))" }}>
-                    <div className="flex items-center gap-4">
-                      <div
-                        className="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-base font-semibold flex-shrink-0"
-                        style={{ background: avatarGradients[i] }}
-                      >
-                        {initials[i]}
-                      </div>
-                      <div>
-                        <p className="text-xs mb-0.5" style={{ color: "#B0ABBD" }}>{doc.tag}</p>
-                        <h3 className="font-bold text-lg leading-tight" style={{ color: "#2D2A3E" }}>{doc.name}</h3>
-                        <p className="text-sm" style={{ color: "#8B7FF0" }}>{doc.specialty}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="px-8 py-7">
-                    <p className="text-sm leading-relaxed mb-5" style={{ color: "#6B6880" }}>{doc.desc}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {doc.features.map((f) => (
-                        <span
-                          key={f}
-                          className="text-xs px-3 py-1.5 rounded-full font-medium"
-                          style={{ background: pillStyles[i].bg, color: pillStyles[i].color }}
-                        >
-                          {f}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* ── SECOND REGARD, PAS SECOND JUGEMENT ── */}
       <section className="py-28 px-6" style={{ background: "transparent" }}>
         <div className="max-w-5xl mx-auto">
@@ -410,6 +331,85 @@ export default function HomePage() {
             </div>
           </motion.div>
 
+        </div>
+      </section>
+
+      {/* ── DOCTORS ── */}
+      <section id="doctors" className="py-28 px-6" style={{ background: "transparent" }}>
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="text-center mb-20"
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>{tr.doctors.eyebrow}</p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight" style={{ color: "#2D2A3E" }}>{tr.doctors.h2}</h2>
+            <p className="text-lg mt-4 max-w-lg mx-auto" style={{ color: "#6B6880" }}>{tr.doctors.sub}</p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {tr.doctors.list.map((doc, i) => {
+              const avatarGradients = [
+                "linear-gradient(135deg, #8B7FF0, #C4A8D4)",
+                "linear-gradient(135deg, #F9C4B0, #C4A8D4)",
+              ];
+              const pillStyles = [
+                { bg: "rgba(139,127,240,0.1)", color: "#8B7FF0" },
+                { bg: "rgba(249,196,176,0.3)", color: "#C4776A" },
+              ];
+              const initials = ["RB", "YB"];
+              return (
+                <motion.div
+                  key={doc.name}
+                  initial={{ opacity: 0, x: i === 0 ? -40 : 40 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
+                  className="rounded-3xl overflow-hidden"
+                  style={{
+                    background: "rgba(255,255,255,0.6)",
+                    backdropFilter: "blur(20px) saturate(180%)",
+                    WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                    border: "1px solid rgba(255,255,255,0.8)",
+                    boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
+                  }}
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                >
+                  <div className="p-8" style={{ background: "linear-gradient(135deg, rgba(244,243,248,0.8), rgba(238,240,251,0.6))" }}>
+                    <div className="flex items-center gap-4">
+                      <div
+                        className="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-base font-semibold flex-shrink-0"
+                        style={{ background: avatarGradients[i] }}
+                      >
+                        {initials[i]}
+                      </div>
+                      <div>
+                        <p className="text-xs mb-0.5" style={{ color: "#B0ABBD" }}>{doc.tag}</p>
+                        <h3 className="font-bold text-lg leading-tight" style={{ color: "#2D2A3E" }}>{doc.name}</h3>
+                        <p className="text-sm" style={{ color: "#8B7FF0" }}>{doc.specialty}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="px-8 py-7">
+                    <p className="text-sm leading-relaxed mb-5" style={{ color: "#6B6880" }}>{doc.desc}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {doc.features.map((f) => (
+                        <span
+                          key={f}
+                          className="text-xs px-3 py-1.5 rounded-full font-medium"
+                          style={{ background: pillStyles[i].bg, color: pillStyles[i].color }}
+                        >
+                          {f}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
