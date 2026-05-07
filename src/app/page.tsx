@@ -16,6 +16,7 @@ import { t } from "@/lib/translations";
 import { motion, useScroll, useTransform, type Variants, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { ScrollReveal } from "@/components/scroll-reveal";
 
 function FaqSection({ tr }: { tr: typeof t["fr"] | typeof t["en"] }) {
   const [open, setOpen] = useState<number | null>(null);
@@ -219,6 +220,9 @@ export default function HomePage() {
           </motion.div>
         </motion.div>
       </section>
+
+      {/* ── SCROLL REVEAL ── */}
+      <ScrollReveal />
 
       {/* ── MARQUEE ── */}
       <div className="py-4 overflow-hidden" style={{ borderTop: "1px solid rgba(139,127,240,0.1)", borderBottom: "1px solid rgba(139,127,240,0.1)", background: "rgba(255,255,255,0.6)" }}>
