@@ -300,7 +300,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SECOND REGARD, PAS SECOND JUGEMENT ── */}
-      <section className="py-28 px-6 overflow-hidden" style={{ background: "linear-gradient(160deg, #1E1C2E 0%, #2D2A3E 60%, #1A1828 100%)" }}>
+      <section className="py-28 px-6" style={{ background: "transparent" }}>
         <div className="max-w-5xl mx-auto">
 
           {/* Header */}
@@ -311,7 +311,7 @@ export default function HomePage() {
             <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>
               Notre philosophie
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight" style={{ color: "#F4F3F8" }}>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight" style={{ color: "#2D2A3E" }}>
               Comprendre votre plan de traitement,{" "}
               <em className="not-italic" style={{
                 background: "linear-gradient(135deg, #8B7FF0, #C4A8D4)",
@@ -320,7 +320,7 @@ export default function HomePage() {
                 backgroundClip: "text",
               }}>pas le contester.</em>
             </h2>
-            <p className="text-lg mt-5 max-w-xl mx-auto leading-relaxed" style={{ color: "#9B98A8" }}>
+            <p className="text-lg mt-5 max-w-xl mx-auto leading-relaxed" style={{ color: "#6B6880" }}>
               Avoir un doute sur un devis complexe, c&apos;est normal. Chercher à mieux comprendre, c&apos;est votre droit.
             </p>
           </motion.div>
@@ -348,11 +348,11 @@ export default function HomePage() {
                 transition={{ duration: 0.65, ease: "easeOut", delay: s.delay }}
                 className="rounded-3xl p-8"
                 style={{
-                  background: "rgba(255,255,255,0.07)",
+                  background: "rgba(255,255,255,0.6)",
                   backdropFilter: "blur(20px) saturate(180%)",
                   WebkitBackdropFilter: "blur(20px) saturate(180%)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  boxShadow: "0 1px 0 rgba(255,255,255,0.1) inset, 0 8px 32px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.15)",
+                  border: "1px solid rgba(255,255,255,0.8)",
+                  boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
                 }}
               >
                 <p className="text-6xl font-black mb-3" style={{
@@ -364,9 +364,9 @@ export default function HomePage() {
                 }}>
                   {s.figure}
                 </p>
-                <p className="text-sm leading-relaxed mb-4" style={{ color: "#B8B4CC" }}>{s.text}</p>
+                <p className="text-sm leading-relaxed mb-4" style={{ color: "#6B6880" }}>{s.text}</p>
                 <span className="text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full"
-                  style={{ background: "rgba(139,127,240,0.12)", color: "#8B7FF0", border: "1px solid rgba(139,127,240,0.2)" }}>
+                  style={{ background: "rgba(139,127,240,0.1)", color: "#8B7FF0", border: "1px solid rgba(139,127,240,0.2)" }}>
                   {s.source}
                 </span>
               </motion.div>
@@ -380,26 +380,27 @@ export default function HomePage() {
             transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
             className="rounded-3xl p-8 md:p-12"
             style={{
-              background: "rgba(255,255,255,0.04)",
-              backdropFilter: "blur(20px)",
-              border: "1px solid rgba(139,127,240,0.15)",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+              background: "rgba(255,255,255,0.6)",
+              backdropFilter: "blur(20px) saturate(180%)",
+              WebkitBackdropFilter: "blur(20px) saturate(180%)",
+              border: "1px solid rgba(255,255,255,0.8)",
+              boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
             }}
           >
-            <p className="text-base md:text-lg leading-relaxed mb-8" style={{ color: "#C4C2D4" }}>
+            <p className="text-base md:text-lg leading-relaxed mb-8" style={{ color: "#4A4458" }}>
               <span style={{ color: "#8B7FF0", fontSize: "36px", lineHeight: 1, float: "left", marginRight: "8px", marginTop: "-4px", fontFamily: "Georgia, serif" }}>"</span>
               Demander un second avis, ce n&apos;est pas remettre en cause votre médecin.
-              C&apos;est vous donner les outils pour <strong style={{ color: "#E8E6F0" }}>comprendre votre plan de traitement</strong> et
+              C&apos;est vous donner les outils pour <strong style={{ color: "#2D2A3E" }}>comprendre votre plan de traitement</strong> et
               aborder votre rendez-vous avec sérénité.
             </p>
 
             <div className="rounded-2xl p-6 mb-8" style={{
-              background: "rgba(139,127,240,0.08)",
-              border: "1px solid rgba(139,127,240,0.2)",
+              background: "rgba(139,127,240,0.07)",
+              border: "1px solid rgba(139,127,240,0.15)",
             }}>
-              <p className="text-sm md:text-base leading-relaxed" style={{ color: "#D4D0E8" }}>
+              <p className="text-sm md:text-base leading-relaxed" style={{ color: "#4A4458" }}>
                 Dans la grande majorité des cas, notre spécialiste{" "}
-                <strong style={{ color: "#A89EE8" }}>confirme le plan de traitement proposé</strong> — et vous repartez rassuré,
+                <strong style={{ color: "#8B7FF0" }}>confirme le plan de traitement proposé</strong> — et vous repartez rassuré,
                 convaincu d&apos;investir sereinement dans votre santé.
               </p>
             </div>
@@ -411,11 +412,11 @@ export default function HomePage() {
                 { icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z", label: "Aborder le rendez-vous en confiance" },
               ].map((item) => (
                 <div key={item.label} className="flex items-start gap-3 p-4 rounded-2xl"
-                  style={{ background: "rgba(255,255,255,0.07)", backdropFilter: "blur(20px) saturate(180%)", WebkitBackdropFilter: "blur(20px) saturate(180%)", border: "1px solid rgba(255,255,255,0.12)", boxShadow: "0 1px 0 rgba(255,255,255,0.1) inset, 0 4px 12px rgba(0,0,0,0.2)" }}>
+                  style={{ background: "rgba(255,255,255,0.6)", backdropFilter: "blur(20px) saturate(180%)", WebkitBackdropFilter: "blur(20px) saturate(180%)", border: "1px solid rgba(255,255,255,0.8)", boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 4px 12px rgba(139,127,240,0.08)" }}>
                   <svg className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: "#8B7FF0" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
-                  <p className="text-sm leading-snug" style={{ color: "#9B98A8" }}>{item.label}</p>
+                  <p className="text-sm leading-snug" style={{ color: "#6B6880" }}>{item.label}</p>
                 </div>
               ))}
             </div>
