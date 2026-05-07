@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "trustmydiag",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd '/Users/nathanaelbenguigui/Documents/TrustMyDiag CLAUDE/trustmydiag' && npm run dev"],
       "port": 3000
     }
   ]

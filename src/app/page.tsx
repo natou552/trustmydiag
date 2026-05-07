@@ -84,7 +84,7 @@ export default function HomePage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <div className="min-h-screen text-[#1D1D1F]" style={{ background: "#EDE8F4" }}>
+    <div className="min-h-screen text-[#1D1D1F]">
       <style>{`
         @media (max-width: 767px) {
           [style*="blur(20px)"] {

@@ -10,17 +10,42 @@ export const metadata: Metadata = {
   description: "Obtenez un second avis médical de nos médecins partenaires en envoyant votre compte rendu.",
 };
 
+const GRAIN = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E")`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={inter.variable}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-MCV5DCP9');` }} />
       </head>
-      <body className="font-sans antialiased bg-white text-gray-900">
+      <body className="font-sans antialiased">
         <noscript>
           <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MCV5DCP9" height="0" width="0" style={{ display: "none", visibility: "hidden" }} />
         </noscript>
-        <Providers>{children}</Providers>
+
+        {/* Ambient blobs — lumière diffuse fixe */}
+        <div aria-hidden="true" style={{
+          position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
+          background: [
+            "radial-gradient(ellipse 60% 52% at 82% 0%, rgba(199,182,255,0.18) 0%, transparent 64%)",
+            "radial-gradient(ellipse 55% 48% at 4% 100%, rgba(244,233,230,0.28) 0%, transparent 60%)",
+            "radial-gradient(ellipse 40% 35% at 50% 52%, rgba(255,255,255,0.38) 0%, transparent 70%)",
+          ].join(","),
+        }} />
+
+        {/* Grain premium presque invisible */}
+        <div aria-hidden="true" style={{
+          position: "fixed", inset: 0, zIndex: 9999, pointerEvents: "none",
+          backgroundImage: GRAIN,
+          backgroundSize: "200px 200px",
+          opacity: 0.32,
+          mixBlendMode: "multiply" as React.CSSProperties["mixBlendMode"],
+        }} />
+
+        {/* Contenu — au-dessus des blobs */}
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <Providers>{children}</Providers>
+        </div>
       </body>
     </html>
   );
