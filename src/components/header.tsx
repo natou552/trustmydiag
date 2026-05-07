@@ -21,30 +21,22 @@ function Dropdown({ label, items }: { label: string; items: { label: string; hre
   }, []);
 
   return (
-    <div ref={ref} className="relative">
+    <div
+      ref={ref}
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
       <button
-        onClick={() => setOpen(!open)}
         className="flex items-center gap-1 rounded-full text-sm transition-all duration-200"
         style={{
           padding: "6px 16px",
-          color: "#4A4458",
-          background: "rgba(255,255,255,0.5)",
+          color: open ? "#1a1a2e" : "#4A4458",
+          background: open ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.5)",
           backdropFilter: "blur(10px) saturate(160%)",
           WebkitBackdropFilter: "blur(10px) saturate(160%)",
           border: "1px solid rgba(255,255,255,0.65)",
-          boxShadow: "0 1px 4px rgba(139,127,240,0.06)",
-        }}
-        onMouseEnter={e => {
-          const el = e.currentTarget as HTMLElement;
-          el.style.background = "rgba(255,255,255,0.75)";
-          el.style.color = "#1a1a2e";
-          el.style.boxShadow = "0 2px 12px rgba(139,127,240,0.12)";
-        }}
-        onMouseLeave={e => {
-          const el = e.currentTarget as HTMLElement;
-          el.style.background = "rgba(255,255,255,0.5)";
-          el.style.color = "#4A4458";
-          el.style.boxShadow = "0 1px 4px rgba(139,127,240,0.06)";
+          boxShadow: open ? "0 2px 12px rgba(139,127,240,0.12)" : "0 1px 4px rgba(139,127,240,0.06)",
         }}
       >
         {label}
