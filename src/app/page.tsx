@@ -110,9 +110,9 @@ export default function HomePage() {
             transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
             className="text-6xl sm:text-7xl md:text-[88px] leading-[1.05] tracking-tight mb-6"
           >
-            <span style={{ fontWeight: 600, color: "#2D2A3E" }}>{tr.hero.h1}</span>
+            <span style={{ fontWeight: 400, color: "#2D2A3E" }}>{tr.hero.h1}</span>
             <br />
-            <span style={{ fontWeight: 600, color: "#2D2A3E" }}>{tr.hero.h1Mid} </span>
+            <span style={{ fontWeight: 400, color: "#2D2A3E" }}>{tr.hero.h1Mid} </span>
             <em className="not-italic" style={{
               fontWeight: 700,
               background: "linear-gradient(135deg, #8B7FF0 0%, #C4A8D4 100%)",
