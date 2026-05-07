@@ -5,6 +5,8 @@ import { Header } from "@/components/header";
 import { CheckCircle, Upload, FileText, ChevronRight, Stethoscope, Baby, X, Image as ImageIcon } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import { useUploadThing } from "@/lib/uploadthing-client";
+import { useLang } from "@/contexts/language";
+import { t } from "@/lib/translations";
 
 type Step = 1 | 2 | 3 | 4;
 
@@ -83,7 +85,7 @@ function Divider() {
   return <div style={{ height: "1px", background: "rgba(139,127,240,0.08)" }} />;
 }
 
-function IntensityPicker({ value, onChange }: { value: number; onChange: (n: number) => void }) {
+function IntensityPicker({ value, onChange, low, high }: { value: number; onChange: (n: number) => void; low: string; high: string }) {
   return (
     <>
       <div className="flex gap-2 flex-wrap">
@@ -101,16 +103,16 @@ function IntensityPicker({ value, onChange }: { value: number; onChange: (n: num
         ))}
       </div>
       <div className="flex justify-between text-xs mt-1.5" style={{ color: "#B0ABBD" }}>
-        <span>Faible</span><span>Insupportable</span>
+        <span>{low}</span><span>{high}</span>
       </div>
     </>
   );
 }
 
-function MessageField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+function MessageField({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder: string }) {
   return (
     <textarea value={value} onChange={(e) => onChange(e.target.value)}
-      placeholder="Précisez votre situation, vos inquiétudes ou vos questions…"
+      placeholder={placeholder}
       rows={3} className="w-full text-sm resize-none focus:outline-none placeholder:text-[#C8C4D4]"
       style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(139,127,240,0.18)", borderRadius: "12px", padding: "12px 16px", color: "#2D2A3E" }}
       onFocus={e => (e.target.style.border = "1px solid rgba(139,127,240,0.5)")}
@@ -119,7 +121,7 @@ function MessageField({ value, onChange }: { value: string; onChange: (v: string
   );
 }
 
-function FilePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
+function FilePreview({ file, onRemove, moLabel }: { file: File; onRemove: () => void; moLabel: string }) {
   const isImage = file.type.startsWith("image/");
   const sizeMb = (file.size / 1024 / 1024).toFixed(1);
   return (
@@ -129,7 +131,7 @@ function FilePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
         : <FileText className="h-5 w-5 flex-shrink-0" style={{ color: "#8B7FF0" }} />}
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium truncate" style={{ color: "#2D2A3E" }}>{file.name}</p>
-        <p className="text-xs" style={{ color: "#B0ABBD" }}>{sizeMb} Mo</p>
+        <p className="text-xs" style={{ color: "#B0ABBD" }}>{sizeMb} {moLabel}</p>
       </div>
       <button onClick={onRemove} className="transition-colors flex-shrink-0" style={{ color: "#B0ABBD" }}
         onMouseEnter={e => (e.currentTarget.style.color = "#e57373")}
@@ -140,8 +142,7 @@ function FilePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
   );
 }
 
-function formatDental(a: DentalAnamnesis): string {
-  const hasPain = a.symptoms.some((s) => s.toLowerCase().includes("douleur") || s.toLowerCase().includes("sensibilité"));
+function formatDental(a: DentalAnamnesis, hasPain: boolean): string {
   const lines = [
     "=== ANTÉCÉDENTS DENTAIRES ===", "",
     `Motif principal : ${a.reason || "Non renseigné"}`,
@@ -157,8 +158,7 @@ function formatDental(a: DentalAnamnesis): string {
   return lines.join("\n");
 }
 
-function formatGyno(a: GynoAnamnesis): string {
-  const hasPain = a.symptoms.some((s) => s.toLowerCase().includes("douleur"));
+function formatGyno(a: GynoAnamnesis, hasPain: boolean): string {
   const lines = [
     "=== ANTÉCÉDENTS GYNÉCOLOGIQUES ===", "",
     `Motif principal : ${a.reason || "Non renseigné"}`,
@@ -195,6 +195,9 @@ function NavBtn({ label, onClick, primary, disabled }: { label: React.ReactNode;
 }
 
 function NewRequestForm() {
+  const { lang } = useLang();
+  const tr = t[lang].newRequest;
+
   const [step, setStep] = useState<Step>(1);
   const [specialty, setSpecialty] = useState<"DENTAL" | "GYNECOLOGY" | "">("");
   const [dental, setDental] = useState<DentalAnamnesis>(defaultDental);
@@ -225,11 +228,20 @@ function NewRequestForm() {
     setGyno((prev) => ({ ...prev, [key]: value }));
   }
 
+  // Pain detection by option index (language-agnostic)
+  const dentalPainOpts = [1, 2, 3].map(i => tr.step2dental.symptomsOptions[i] as string);
+  const gynoPainOpts = [1].map(i => tr.step2gyno.symptomsOptions[i] as string);
+  const hasDentalPain = dental.symptoms.some(s => dentalPainOpts.includes(s));
+  const hasGynoPain = gyno.symptoms.some(s => gynoPainOpts.includes(s));
+
+  const noneOptDental = tr.step2dental.symptomsOptions[0];
+  const noneOptGyno = tr.step2gyno.symptomsOptions[0];
+  const noneOptDentalPast = tr.step2dental.pastOptions[0];
+  const noneOptGynoPast = tr.step2gyno.pastOptions[0];
+
   const canProceedDental = dental.reason !== "" && dental.symptoms.length > 0;
   const canProceedGyno = gyno.reason !== "" && gyno.symptoms.length > 0;
   const canProceedAnamnesis = specialty === "DENTAL" ? canProceedDental : canProceedGyno;
-  const hasDentalPain = dental.symptoms.some((s) => s.toLowerCase().includes("douleur") || s.toLowerCase().includes("sensibilité"));
-  const hasGynoPain = gyno.symptoms.some((s) => s.toLowerCase().includes("douleur"));
 
   async function handleUpload() {
     if (files.length === 0) return;
@@ -241,14 +253,14 @@ function NewRequestForm() {
         setUploadedKeys(results.map((r) => r.key));
         setStep(4);
       }
-    } catch { setError("Erreur lors de l'envoi. Réessayez."); }
+    } catch { setError(tr.step3.errorUpload); }
     setUploading(false);
   }
 
   async function handleSubmitAndPay() {
     setLoading(true); setError("");
     try {
-      const message = specialty === "DENTAL" ? formatDental(dental) : formatGyno(gyno);
+      const message = specialty === "DENTAL" ? formatDental(dental, hasDentalPain) : formatGyno(gyno, hasGynoPain);
       const res = await fetch("/api/requests", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ specialty, pdfUrl: JSON.stringify(uploadedUrls), pdfKey: JSON.stringify(uploadedKeys), message }),
@@ -262,15 +274,8 @@ function NewRequestForm() {
       const checkoutData = await checkoutRes.json();
       if (!checkoutRes.ok) throw new Error(checkoutData.error);
       window.location.href = checkoutData.url;
-    } catch { setError("Une erreur est survenue. Réessayez."); setLoading(false); }
+    } catch { setError(tr.step4.errorSubmit); setLoading(false); }
   }
-
-  const steps = [
-    { n: 1, label: "Spécialité" },
-    { n: 2, label: "Antécédents" },
-    { n: 3, label: "Documents" },
-    { n: 4, label: "Paiement" },
-  ];
 
   return (
     <div className="min-h-screen">
@@ -278,26 +283,29 @@ function NewRequestForm() {
       <div className="max-w-2xl mx-auto px-4 py-12">
 
         <div className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#8B7FF0" }}>Nouvelle demande</p>
-          <h1 className="text-3xl font-bold tracking-tight" style={{ color: "#2D2A3E" }}>Second avis médical</h1>
-          <p className="text-sm mt-1.5" style={{ color: "#6B6880" }}>Complétez les étapes ci-dessous pour soumettre votre dossier.</p>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#8B7FF0" }}>{tr.pageEyebrow}</p>
+          <h1 className="text-3xl font-bold tracking-tight" style={{ color: "#2D2A3E" }}>{tr.pageTitle}</h1>
+          <p className="text-sm mt-1.5" style={{ color: "#6B6880" }}>{tr.pageSub}</p>
         </div>
 
         {/* Stepper */}
         <div className="flex items-center gap-2 mb-8">
-          {steps.map((s, i) => (
-            <div key={s.n} className="flex items-center gap-2 flex-1">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
-                style={step > s.n ? { background: "#4CAF82", color: "white" }
-                  : step === s.n ? { background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", color: "white", boxShadow: "0 2px 8px rgba(139,127,240,0.4)" }
-                  : { background: "rgba(139,127,240,0.08)", color: "#B0ABBD" }}>
-                {step > s.n ? <CheckCircle className="h-4 w-4" /> : s.n}
+          {tr.steps.map((label, i) => {
+            const n = i + 1;
+            return (
+              <div key={n} className="flex items-center gap-2 flex-1">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
+                  style={step > n ? { background: "#4CAF82", color: "white" }
+                    : step === n ? { background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", color: "white", boxShadow: "0 2px 8px rgba(139,127,240,0.4)" }
+                    : { background: "rgba(139,127,240,0.08)", color: "#B0ABBD" }}>
+                  {step > n ? <CheckCircle className="h-4 w-4" /> : n}
+                </div>
+                <span className="text-sm font-medium hidden sm:block" style={{ color: step >= n ? "#2D2A3E" : "#B0ABBD" }}>{label}</span>
+                {i < tr.steps.length - 1 && <div className="h-px flex-1 transition-colors duration-500"
+                  style={{ background: step > n ? "#4CAF82" : "rgba(139,127,240,0.12)" }} />}
               </div>
-              <span className="text-sm font-medium hidden sm:block" style={{ color: step >= s.n ? "#2D2A3E" : "#B0ABBD" }}>{s.label}</span>
-              {i < steps.length - 1 && <div className="h-px flex-1 transition-colors duration-500"
-                style={{ background: step > s.n ? "#4CAF82" : "rgba(139,127,240,0.12)" }} />}
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div style={cardStyle} className="p-8">
@@ -305,13 +313,13 @@ function NewRequestForm() {
           {/* ── STEP 1 : Spécialité ── */}
           {step === 1 && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>Étape 1</p>
-              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>Choisissez la spécialité</h2>
-              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>Sélectionnez le médecin correspondant à votre compte rendu.</p>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>{tr.step1.eyebrow}</p>
+              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>{tr.step1.title}</h2>
+              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>{tr.step1.sub}</p>
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { value: "DENTAL" as const, label: "Dentaire", sub: "Dr. xxxxxx xxxx", desc: "Chirurgien-dentiste", icon: <Stethoscope className="h-6 w-6" /> },
-                  { value: "GYNECOLOGY" as const, label: "Gynécologie", sub: "Dr. xxxxxx xxxx", desc: "Gynécologue obstétricien", icon: <Baby className="h-6 w-6" /> },
+                  { value: "DENTAL" as const, label: tr.step1.dental.label, sub: tr.step1.dental.sub, desc: tr.step1.dental.desc, icon: <Stethoscope className="h-6 w-6" /> },
+                  { value: "GYNECOLOGY" as const, label: tr.step1.gynecology.label, sub: tr.step1.gynecology.sub, desc: tr.step1.gynecology.desc, icon: <Baby className="h-6 w-6" /> },
                 ].map((opt) => (
                   <button key={opt.value} onClick={() => setSpecialty(opt.value)}
                     className="p-6 rounded-2xl text-left transition-all duration-200"
@@ -326,7 +334,7 @@ function NewRequestForm() {
                 ))}
               </div>
               <div className="mt-7 flex justify-end">
-                <NavBtn label={<>Suivant <ChevronRight className="h-4 w-4" /></>} onClick={() => setStep(2)} primary disabled={!specialty} />
+                <NavBtn label={<>{tr.step1.next} <ChevronRight className="h-4 w-4" /></>} onClick={() => setStep(2)} primary disabled={!specialty} />
               </div>
             </div>
           )}
@@ -334,41 +342,41 @@ function NewRequestForm() {
           {/* ── STEP 2 : Antécédents DENTAIRE ── */}
           {step === 2 && specialty === "DENTAL" && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>Étape 2 · Dentaire</p>
-              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>Antécédents dentaires</h2>
-              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>Quelques questions pour aider le chirurgien-dentiste à analyser votre dossier.</p>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>{tr.step2dental.eyebrow}</p>
+              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>{tr.step2dental.title}</h2>
+              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>{tr.step2dental.sub}</p>
 
               <div className="space-y-7">
-                <FieldGroup label="Pourquoi consultez-vous ?" required>
+                <FieldGroup label={tr.step2dental.reasonLabel} required>
                   <div className="flex flex-wrap gap-2">
-                    {["Valider un devis", "Comprendre un diagnostic", "Douleur ou gêne", "Traitement proposé", "Autre"].map((r) => (
+                    {tr.step2dental.reasonOptions.map((r) => (
                       <RadioChip key={r} label={r} selected={dental.reason === r} onSelect={() => setD("reason", r)} />
                     ))}
                   </div>
                 </FieldGroup>
                 <Divider />
-                <FieldGroup label="Soin(s) concerné(s)" hint="plusieurs choix possibles">
+                <FieldGroup label={tr.step2dental.treatmentsLabel} hint={tr.multipleChoices}>
                   <div className="flex flex-wrap gap-2">
-                    {["Implant", "Couronne / bridge", "Extraction", "Dévitalisation", "Détartrage / soin courant", "Prothèse", "Orthodontie / aligneurs", "Autre"].map((t) => (
-                      <Chip key={t} label={t} selected={dental.treatments.includes(t)}
-                        onToggle={() => setD("treatments", toggleMulti(dental.treatments, t))} />
+                    {tr.step2dental.treatmentsOptions.map((t2) => (
+                      <Chip key={t2} label={t2} selected={dental.treatments.includes(t2)}
+                        onToggle={() => setD("treatments", toggleMulti(dental.treatments, t2))} />
                     ))}
                   </div>
                 </FieldGroup>
                 <Divider />
-                <FieldGroup label="Symptômes actuels" required hint="plusieurs choix possibles">
+                <FieldGroup label={tr.step2dental.symptomsLabel} required hint={tr.multipleChoices}>
                   <div className="flex flex-wrap gap-2">
-                    {["Aucun", "Douleur spontanée", "Sensibilité chaud / froid", "Sensibilité à la pression", "Saignement des gencives", "Mobilité d'une dent", "Gonflement / abcès"].map((s) => (
+                    {tr.step2dental.symptomsOptions.map((s) => (
                       <Chip key={s} label={s} selected={dental.symptoms.includes(s)}
-                        onToggle={() => setD("symptoms", toggleMulti(dental.symptoms, s, "Aucun"))} />
+                        onToggle={() => setD("symptoms", toggleMulti(dental.symptoms, s, noneOptDental))} />
                     ))}
                   </div>
                 </FieldGroup>
-                {dental.symptoms.length > 0 && !dental.symptoms.includes("Aucun") && (
+                {dental.symptoms.length > 0 && !dental.symptoms.includes(noneOptDental) && (
                   <><Divider />
-                    <FieldGroup label="Depuis quand ?">
+                    <FieldGroup label={tr.step2dental.durationLabel}>
                       <div className="flex flex-wrap gap-2">
-                        {["Moins de 48h", "Quelques jours", "Plusieurs semaines", "Plus d'un mois"].map((d) => (
+                        {tr.step2dental.durationOptions.map((d) => (
                           <RadioChip key={d} label={d} selected={dental.duration === d} onSelect={() => setD("duration", d)} />
                         ))}
                       </div>
@@ -377,48 +385,47 @@ function NewRequestForm() {
                 )}
                 {hasDentalPain && (
                   <><Divider />
-                    <FieldGroup label="Intensité de la douleur sur 10">
-                      <IntensityPicker value={dental.intensity} onChange={(n) => setD("intensity", n)} />
+                    <FieldGroup label={tr.step2dental.intensityLabel}>
+                      <IntensityPicker value={dental.intensity} onChange={(n) => setD("intensity", n)}
+                        low={tr.step2dental.intensityLow} high={tr.step2dental.intensityHigh} />
                     </FieldGroup>
                   </>
                 )}
                 <Divider />
-                <FieldGroup label="Avez-vous un devis chiffré ?">
+                <FieldGroup label={tr.step2dental.quoteLabel}>
                   <div className="flex gap-2">
-                    {["Oui", "Non"].map((h) => (
+                    {tr.step2dental.quoteOptions.map((h) => (
                       <RadioChip key={h} label={h} selected={dental.hasQuote === h} onSelect={() => setD("hasQuote", h)} />
                     ))}
                   </div>
                 </FieldGroup>
                 <Divider />
-                <FieldGroup label="Dernière visite chez le dentiste">
+                <FieldGroup label={tr.step2dental.lastVisitLabel}>
                   <div className="flex flex-wrap gap-2">
-                    {["Moins de 6 mois", "6 mois – 1 an", "1 à 2 ans", "Plus de 2 ans"].map((v) => (
+                    {tr.step2dental.lastVisitOptions.map((v) => (
                       <RadioChip key={v} label={v} selected={dental.lastVisit === v} onSelect={() => setD("lastVisit", v)} />
                     ))}
                   </div>
                 </FieldGroup>
                 <Divider />
-                <FieldGroup label="Traitements dentaires déjà réalisés" hint="plusieurs choix possibles">
+                <FieldGroup label={tr.step2dental.pastLabel} hint={tr.multipleChoices}>
                   <div className="flex flex-wrap gap-2">
-                    {["Aucun", "Couronnes", "Implants", "Dévitalisations", "Prothèse", "Orthodontie"].map((p) => (
+                    {tr.step2dental.pastOptions.map((p) => (
                       <Chip key={p} label={p} selected={dental.pastTreatments.includes(p)}
-                        onToggle={() => setD("pastTreatments", toggleMulti(dental.pastTreatments, p, "Aucun"))} />
+                        onToggle={() => setD("pastTreatments", toggleMulti(dental.pastTreatments, p, noneOptDentalPast))} />
                     ))}
                   </div>
                 </FieldGroup>
                 <Divider />
-                <FieldGroup label="Message au médecin" hint="optionnel">
-                  <MessageField value={dental.doctorMessage} onChange={(v) => setD("doctorMessage", v)} />
+                <FieldGroup label={tr.step2dental.messageLabel} hint={tr.optional}>
+                  <MessageField value={dental.doctorMessage} onChange={(v) => setD("doctorMessage", v)} placeholder={tr.messagePlaceholder} />
                 </FieldGroup>
               </div>
 
-              <p className="text-xs text-center mt-6" style={{ color: "#B0ABBD" }}>
-                Strictement confidentiel · transmis uniquement au chirurgien-dentiste assigné
-              </p>
+              <p className="text-xs text-center mt-6" style={{ color: "#B0ABBD" }}>{tr.step2dental.confidential}</p>
               <div className="mt-5 flex justify-between">
-                <NavBtn label="Retour" onClick={() => setStep(1)} />
-                <NavBtn label={<>Suivant <ChevronRight className="h-4 w-4" /></>} onClick={() => setStep(3)} primary disabled={!canProceedAnamnesis} />
+                <NavBtn label={t[lang === "fr" ? "fr" : "en"].newRequest.step3.back} onClick={() => setStep(1)} />
+                <NavBtn label={<>{tr.step1.next} <ChevronRight className="h-4 w-4" /></>} onClick={() => setStep(3)} primary disabled={!canProceedAnamnesis} />
               </div>
             </div>
           )}
@@ -426,41 +433,41 @@ function NewRequestForm() {
           {/* ── STEP 2 : Antécédents GYNÉCOLOGIE ── */}
           {step === 2 && specialty === "GYNECOLOGY" && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>Étape 2 · Gynécologie</p>
-              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>Antécédents gynécologiques</h2>
-              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>Quelques questions pour aider le gynécologue à analyser votre dossier.</p>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>{tr.step2gyno.eyebrow}</p>
+              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>{tr.step2gyno.title}</h2>
+              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>{tr.step2gyno.sub}</p>
 
               <div className="space-y-7">
-                <FieldGroup label="Pourquoi consultez-vous ?" required>
+                <FieldGroup label={tr.step2gyno.reasonLabel} required>
                   <div className="flex flex-wrap gap-2">
-                    {["Valider un diagnostic", "Résultat d'examen", "Douleur pelvienne", "Traitement proposé", "Désir de grossesse", "Autre"].map((r) => (
+                    {tr.step2gyno.reasonOptions.map((r) => (
                       <RadioChip key={r} label={r} selected={gyno.reason === r} onSelect={() => setG("reason", r)} />
                     ))}
                   </div>
                 </FieldGroup>
                 <Divider />
-                <FieldGroup label="Examen / soin concerné" hint="plusieurs choix possibles">
+                <FieldGroup label={tr.step2gyno.examLabel} hint={tr.multipleChoices}>
                   <div className="flex flex-wrap gap-2">
-                    {["Échographie", "IRM pelvienne", "Frottis / colposcopie", "Hystéroscopie", "Cœlioscopie", "Bilan hormonal", "Contraception", "Autre"].map((e) => (
+                    {tr.step2gyno.examOptions.map((e) => (
                       <Chip key={e} label={e} selected={gyno.examConcerned.includes(e)}
                         onToggle={() => setG("examConcerned", toggleMulti(gyno.examConcerned, e))} />
                     ))}
                   </div>
                 </FieldGroup>
                 <Divider />
-                <FieldGroup label="Symptômes actuels" required hint="plusieurs choix possibles">
+                <FieldGroup label={tr.step2gyno.symptomsLabel} required hint={tr.multipleChoices}>
                   <div className="flex flex-wrap gap-2">
-                    {["Aucun", "Douleurs pelviennes", "Règles irrégulières / abondantes", "Spotting / saignements", "Pertes inhabituelles", "Douleurs lors des rapports", "Gonflement abdominal"].map((s) => (
+                    {tr.step2gyno.symptomsOptions.map((s) => (
                       <Chip key={s} label={s} selected={gyno.symptoms.includes(s)}
-                        onToggle={() => setG("symptoms", toggleMulti(gyno.symptoms, s, "Aucun"))} />
+                        onToggle={() => setG("symptoms", toggleMulti(gyno.symptoms, s, noneOptGyno))} />
                     ))}
                   </div>
                 </FieldGroup>
-                {gyno.symptoms.length > 0 && !gyno.symptoms.includes("Aucun") && (
+                {gyno.symptoms.length > 0 && !gyno.symptoms.includes(noneOptGyno) && (
                   <><Divider />
-                    <FieldGroup label="Depuis quand ?">
+                    <FieldGroup label={tr.step2gyno.durationLabel}>
                       <div className="flex flex-wrap gap-2">
-                        {["Moins d'une semaine", "Quelques semaines", "Plusieurs mois", "Plus d'un an"].map((d) => (
+                        {tr.step2gyno.durationOptions.map((d) => (
                           <RadioChip key={d} label={d} selected={gyno.duration === d} onSelect={() => setG("duration", d)} />
                         ))}
                       </div>
@@ -469,48 +476,47 @@ function NewRequestForm() {
                 )}
                 {hasGynoPain && (
                   <><Divider />
-                    <FieldGroup label="Intensité de la douleur sur 10">
-                      <IntensityPicker value={gyno.intensity} onChange={(n) => setG("intensity", n)} />
+                    <FieldGroup label={tr.step2gyno.intensityLabel}>
+                      <IntensityPicker value={gyno.intensity} onChange={(n) => setG("intensity", n)}
+                        low={tr.step2gyno.intensityLow} high={tr.step2gyno.intensityHigh} />
                     </FieldGroup>
                   </>
                 )}
                 <Divider />
-                <FieldGroup label="Situation actuelle">
+                <FieldGroup label={tr.step2gyno.situationLabel}>
                   <div className="flex flex-wrap gap-2">
-                    {["Pas d'antécédents particuliers", "Enceinte / désir de grossesse", "Post-partum", "Ménopause", "Suivi gynécologique en cours"].map((s) => (
+                    {tr.step2gyno.situationOptions.map((s) => (
                       <RadioChip key={s} label={s} selected={gyno.situation === s} onSelect={() => setG("situation", s)} />
                     ))}
                   </div>
                 </FieldGroup>
                 <Divider />
-                <FieldGroup label="Dernière consultation gynécologique">
+                <FieldGroup label={tr.step2gyno.lastConsultLabel}>
                   <div className="flex flex-wrap gap-2">
-                    {["Moins de 6 mois", "6 mois – 1 an", "1 à 2 ans", "Plus de 2 ans"].map((v) => (
+                    {tr.step2gyno.lastConsultOptions.map((v) => (
                       <RadioChip key={v} label={v} selected={gyno.lastConsultation === v} onSelect={() => setG("lastConsultation", v)} />
                     ))}
                   </div>
                 </FieldGroup>
                 <Divider />
-                <FieldGroup label="Antécédents gynécologiques" hint="plusieurs choix possibles">
+                <FieldGroup label={tr.step2gyno.pastLabel} hint={tr.multipleChoices}>
                   <div className="flex flex-wrap gap-2">
-                    {["Aucun", "Fibrome", "Kyste ovarien", "Endométriose", "Cancer gynécologique", "Chirurgie pelvienne"].map((p) => (
+                    {tr.step2gyno.pastOptions.map((p) => (
                       <Chip key={p} label={p} selected={gyno.pastHistory.includes(p)}
-                        onToggle={() => setG("pastHistory", toggleMulti(gyno.pastHistory, p, "Aucun"))} />
+                        onToggle={() => setG("pastHistory", toggleMulti(gyno.pastHistory, p, noneOptGynoPast))} />
                     ))}
                   </div>
                 </FieldGroup>
                 <Divider />
-                <FieldGroup label="Message au médecin" hint="optionnel">
-                  <MessageField value={gyno.doctorMessage} onChange={(v) => setG("doctorMessage", v)} />
+                <FieldGroup label={tr.step2gyno.messageLabel} hint={tr.optional}>
+                  <MessageField value={gyno.doctorMessage} onChange={(v) => setG("doctorMessage", v)} placeholder={tr.messagePlaceholder} />
                 </FieldGroup>
               </div>
 
-              <p className="text-xs text-center mt-6" style={{ color: "#B0ABBD" }}>
-                Strictement confidentiel · transmis uniquement au gynécologue assigné
-              </p>
+              <p className="text-xs text-center mt-6" style={{ color: "#B0ABBD" }}>{tr.step2gyno.confidential}</p>
               <div className="mt-5 flex justify-between">
-                <NavBtn label="Retour" onClick={() => setStep(1)} />
-                <NavBtn label={<>Suivant <ChevronRight className="h-4 w-4" /></>} onClick={() => setStep(3)} primary disabled={!canProceedAnamnesis} />
+                <NavBtn label={tr.step3.back} onClick={() => setStep(1)} />
+                <NavBtn label={<>{tr.step1.next} <ChevronRight className="h-4 w-4" /></>} onClick={() => setStep(3)} primary disabled={!canProceedAnamnesis} />
               </div>
             </div>
           )}
@@ -518,9 +524,9 @@ function NewRequestForm() {
           {/* ── STEP 3 : Documents ── */}
           {step === 3 && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>Étape 3</p>
-              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>Vos documents</h2>
-              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>PDF, photos (JPG, PNG, HEIC) · Max 5 fichiers · 16 Mo chacun</p>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>{tr.step3.eyebrow}</p>
+              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>{tr.step3.title}</h2>
+              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>{tr.step3.sub}</p>
 
               <div {...getRootProps()} className="rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 mb-4"
                 style={isDragActive ? { border: "2px dashed #8B7FF0", background: "rgba(139,127,240,0.06)" }
@@ -529,10 +535,10 @@ function NewRequestForm() {
                 <div className="w-12 h-12 rounded-2xl mx-auto mb-4 flex items-center justify-center" style={{ background: "rgba(139,127,240,0.1)" }}>
                   <Upload className="h-5 w-5" style={{ color: "#8B7FF0" }} />
                 </div>
-                <p className="font-semibold text-sm" style={{ color: "#2D2A3E" }}>Glissez vos fichiers ici</p>
-                <p className="text-xs mt-1" style={{ color: "#B0ABBD" }}>ou cliquez pour parcourir</p>
+                <p className="font-semibold text-sm" style={{ color: "#2D2A3E" }}>{tr.step3.dropzone}</p>
+                <p className="text-xs mt-1" style={{ color: "#B0ABBD" }}>{tr.step3.dropzoneSub}</p>
                 <div className="flex justify-center gap-2 mt-4">
-                  {["PDF", "JPG / PNG", "HEIC (iPhone)"].map((f) => (
+                  {tr.step3.formats.map((f) => (
                     <span key={f} className="text-[10px] px-2.5 py-1 rounded-full font-medium"
                       style={{ background: "rgba(139,127,240,0.08)", color: "#8B7FF0" }}>{f}</span>
                   ))}
@@ -541,10 +547,10 @@ function NewRequestForm() {
 
               {files.length > 0 && (
                 <div className="space-y-2 mb-4">
-                  {files.map((f, i) => <FilePreview key={i} file={f} onRemove={() => setFiles((p) => p.filter((_, j) => j !== i))} />)}
+                  {files.map((f, i) => <FilePreview key={i} file={f} moLabel={tr.step3.mo} onRemove={() => setFiles((p) => p.filter((_, j) => j !== i))} />)}
                   {files.length < 5 && (
                     <p className="text-xs text-center pt-1" style={{ color: "#B0ABBD" }}>
-                      {files.length}/5 · Vous pouvez en ajouter {5 - files.length} de plus
+                      {tr.step3.fileCount(files.length, 5)}
                     </p>
                   )}
                 </div>
@@ -554,9 +560,9 @@ function NewRequestForm() {
                 style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.15)", color: "#dc2626" }}>{error}</div>}
 
               <div className="mt-6 flex justify-between">
-                <NavBtn label="Retour" onClick={() => setStep(2)} />
+                <NavBtn label={tr.step3.back} onClick={() => setStep(2)} />
                 <NavBtn onClick={handleUpload} disabled={files.length === 0 || uploading} primary
-                  label={uploading ? `Envoi… (${files.length} fichier${files.length > 1 ? "s" : ""})` : <><span>Suivant</span><ChevronRight className="h-4 w-4" /></>} />
+                  label={uploading ? tr.step3.uploading(files.length) : <><span>{tr.step1.next}</span><ChevronRight className="h-4 w-4" /></>} />
               </div>
             </div>
           )}
@@ -564,42 +570,40 @@ function NewRequestForm() {
           {/* ── STEP 4 : Paiement ── */}
           {step === 4 && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>Étape 4</p>
-              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>Récapitulatif</h2>
-              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>Vérifiez votre demande avant de procéder au paiement.</p>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>{tr.step4.eyebrow}</p>
+              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>{tr.step4.title}</h2>
+              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>{tr.step4.sub}</p>
 
               <div className="rounded-2xl p-5 space-y-3 mb-6" style={{ background: "rgba(139,127,240,0.04)", border: "1px solid rgba(139,127,240,0.12)" }}>
                 <div className="flex justify-between text-sm">
-                  <span style={{ color: "#6B6880" }}>Spécialité</span>
-                  <span className="font-medium" style={{ color: "#2D2A3E" }}>{specialty === "DENTAL" ? "Dentaire — Dr Benguigui" : "Gynécologie — Dr. xxxxxx xxxx"}</span>
+                  <span style={{ color: "#6B6880" }}>{tr.step4.specialty}</span>
+                  <span className="font-medium" style={{ color: "#2D2A3E" }}>{specialty === "DENTAL" ? tr.step4.specialtyDental : tr.step4.specialtyGyno}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span style={{ color: "#6B6880" }}>Motif</span>
+                  <span style={{ color: "#6B6880" }}>{tr.step4.reason}</span>
                   <span className="font-medium" style={{ color: "#2D2A3E" }}>{(specialty === "DENTAL" ? dental.reason : gyno.reason) || "—"}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span style={{ color: "#6B6880" }}>Documents</span>
+                  <span style={{ color: "#6B6880" }}>{tr.step4.documents}</span>
                   <span className="font-medium flex items-center gap-1.5" style={{ color: "#4CAF82" }}>
                     <CheckCircle className="h-3.5 w-3.5" />
-                    {uploadedUrls.length} fichier{uploadedUrls.length > 1 ? "s" : ""} envoyé{uploadedUrls.length > 1 ? "s" : ""}
+                    {tr.step4.filesSent(uploadedUrls.length)}
                   </span>
                 </div>
                 <div className="pt-3 flex justify-between font-bold" style={{ borderTop: "1px solid rgba(139,127,240,0.12)" }}>
-                  <span style={{ color: "#2D2A3E" }}>Total</span>
+                  <span style={{ color: "#2D2A3E" }}>{tr.step4.total}</span>
                   <span className="text-xl" style={{ color: "#8B7FF0" }}>22,00 €</span>
                 </div>
               </div>
 
-              <p className="text-xs text-center mb-6" style={{ color: "#B0ABBD" }}>
-                Paiement sécurisé par Stripe · Aucune donnée bancaire stockée
-              </p>
+              <p className="text-xs text-center mb-6" style={{ color: "#B0ABBD" }}>{tr.step4.stripe}</p>
 
               {error && <div className="text-sm rounded-xl px-4 py-3 mb-4"
                 style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.15)", color: "#dc2626" }}>{error}</div>}
 
               <div className="flex justify-between">
-                <NavBtn label="Retour" onClick={() => setStep(3)} />
-                <NavBtn onClick={handleSubmitAndPay} disabled={loading} primary label={loading ? "Redirection…" : "Payer 22 €"} />
+                <NavBtn label={tr.step4.back} onClick={() => setStep(3)} />
+                <NavBtn onClick={handleSubmitAndPay} disabled={loading} primary label={loading ? tr.step4.redirecting : tr.step4.pay} />
               </div>
             </div>
           )}

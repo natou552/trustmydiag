@@ -57,7 +57,7 @@ function FaqSection({ tr }: { tr: typeof t["fr"] | typeof t["en"] }) {
         </div>
         <div className="mt-8 text-center">
           <Link href="/faq" className="text-sm font-medium" style={{ color: "#8B7FF0" }}>
-            Voir toutes les questions →
+            {tr.faq.seeAll}
           </Link>
         </div>
       </div>
@@ -218,38 +218,25 @@ export default function HomePage() {
             className="text-center mb-16"
           >
             <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>
-              Notre philosophie
+              {tr.philosophy.eyebrow}
             </p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight" style={{ color: "#2D2A3E" }}>
-              Comprendre votre plan de traitement,{" "}
+              {tr.philosophy.h2a}{" "}
               <em className="not-italic" style={{
                 background: "linear-gradient(135deg, #8B7FF0, #C4A8D4)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-              }}>pas le contester.</em>
+              }}>{tr.philosophy.h2b}</em>
             </h2>
             <p className="text-lg mt-5 max-w-xl mx-auto leading-relaxed" style={{ color: "#6B6880" }}>
-              Avoir un doute sur un devis complexe, c&apos;est normal. Chercher à mieux comprendre, c&apos;est votre droit.
+              {tr.philosophy.sub}
             </p>
           </motion.div>
 
           {/* Deux stats */}
           <div className="grid md:grid-cols-2 gap-5 mb-5">
-            {[
-              {
-                figure: "45%",
-                text: "des Français ont déjà renoncé à des soins dentaires à cause du coût — implants, prothèses, greffes osseux.",
-                source: "Sondage IFOP",
-                delay: 0,
-              },
-              {
-                figure: "36%",
-                text: "des patients se déclarent insatisfaits de l'information sur les coûts reçue lors de leur consultation.",
-                source: "Sondage SOFRES",
-                delay: 0.1,
-              },
-            ].map((s) => (
+            {tr.philosophy.stats.map((s, idx) => ({ ...s, delay: idx * 0.1 })).map((s) => (
               <motion.div
                 key={s.figure}
                 initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }}
@@ -298,9 +285,7 @@ export default function HomePage() {
           >
             <p className="text-base md:text-lg leading-relaxed mb-8" style={{ color: "#4A4458" }}>
               <span style={{ color: "#8B7FF0", fontSize: "36px", lineHeight: 1, float: "left", marginRight: "8px", marginTop: "-4px", fontFamily: "Georgia, serif" }}>"</span>
-              Demander un second avis, ce n&apos;est pas remettre en cause votre médecin.
-              C&apos;est vous donner les outils pour <strong style={{ color: "#2D2A3E" }}>comprendre votre plan de traitement</strong> et
-              aborder votre rendez-vous avec sérénité.
+              {tr.philosophy.quote} <strong style={{ color: "#2D2A3E" }}>{tr.philosophy.quoteStrong}</strong> {tr.philosophy.quoteEnd}
             </p>
 
             <div className="rounded-2xl p-6 mb-8" style={{
@@ -308,17 +293,17 @@ export default function HomePage() {
               border: "1px solid rgba(139,127,240,0.15)",
             }}>
               <p className="text-sm md:text-base leading-relaxed" style={{ color: "#4A4458" }}>
-                Dans la grande majorité des cas, notre spécialiste{" "}
-                <strong style={{ color: "#8B7FF0" }}>confirme le plan de traitement proposé</strong> — et vous repartez rassuré,
-                convaincu d&apos;investir sereinement dans votre santé.
+                {tr.philosophy.highlight}{" "}
+                <strong style={{ color: "#8B7FF0" }}>{tr.philosophy.highlightStrong}</strong>{" "}
+                {tr.philosophy.highlightEnd}
               </p>
             </div>
 
             <div className="grid sm:grid-cols-3 gap-4">
               {[
-                { icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", label: "Notre spécialiste éclaire votre décision" },
-                { icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z", label: "Second regard complémentaire au premier" },
-                { icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z", label: "Aborder le rendez-vous en confiance" },
+                { icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", label: tr.philosophy.features[0] },
+                { icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z", label: tr.philosophy.features[1] },
+                { icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z", label: tr.philosophy.features[2] },
               ].map((item) => (
                 <div key={item.label} className="flex items-start gap-3 p-4 rounded-2xl"
                   style={{ background: "rgba(255,255,255,0.6)", backdropFilter: "blur(20px) saturate(180%)", WebkitBackdropFilter: "blur(20px) saturate(180%)", border: "1px solid rgba(255,255,255,0.8)", boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 4px 12px rgba(139,127,240,0.08)" }}>
@@ -423,12 +408,12 @@ export default function HomePage() {
             viewport={{ once: true, margin: "-80px" }}
             className="text-center mb-12"
           >
-            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>Transparence</p>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>{tr.report.eyebrow}</p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4" style={{ color: "#2D2A3E" }}>
-              Un rapport médical complet. Signé par un médecin.
+              {tr.report.h2}
             </h2>
             <p className="text-base max-w-xl mx-auto" style={{ color: "#6B6880" }}>
-              Vous recevrez une analyse structurée de 2 à 4 pages, rédigée par un spécialiste, avec un avis clair sur votre plan de traitement.
+              {tr.report.sub}
             </p>
           </motion.div>
 
@@ -452,15 +437,15 @@ export default function HomePage() {
                 <span className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
                 <span className="w-3 h-3 rounded-full bg-[#28C840]" />
               </div>
-              <span className="text-xs ml-2" style={{ color: "#B0ABBD" }}>rapport-second-avis-exemple.pdf</span>
+              <span className="text-xs ml-2" style={{ color: "#B0ABBD" }}>{tr.report.filename}</span>
             </div>
 
             <div className="p-8 md:p-12 grid md:grid-cols-2 gap-10">
               <div className="space-y-5">
                 {[
-                  { label: "Contexte patient", color: "#8B7FF0", bars: [1, 4/5, 3/4] },
-                  { label: "Analyse du compte rendu", color: "#6B6880", bars: [1, 5/6, 1, 2/3] },
-                  { label: "Avis du spécialiste", color: "#6B6880", barColor: "rgba(139,127,240,0.15)", bars: [1, 4/5, 1, 3/5, 5/6] },
+                  { label: tr.report.sections[0], color: "#8B7FF0", bars: [1, 4/5, 3/4] },
+                  { label: tr.report.sections[1], color: "#6B6880", bars: [1, 5/6, 1, 2/3] },
+                  { label: tr.report.sections[2], color: "#6B6880", barColor: "rgba(139,127,240,0.15)", bars: [1, 4/5, 1, 3/5, 5/6] },
                 ].map((section) => (
                   <div key={section.label}>
                     <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: section.color }}>{section.label}</p>
@@ -475,7 +460,7 @@ export default function HomePage() {
 
               <div className="space-y-5">
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: "#6B6880" }}>Recommandations</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: "#6B6880" }}>{tr.report.recommendations}</p>
                   <div className="space-y-3">
                     {[1, 2, 3].map((i) => (
                       <div key={i} className="flex items-start gap-2.5">
@@ -491,7 +476,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="rounded-2xl p-5" style={{ background: "rgba(139,127,240,0.06)", border: "1px solid rgba(139,127,240,0.12)" }}>
-                  <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: "#8B7FF0" }}>Conclusion médicale</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: "#8B7FF0" }}>{tr.report.conclusion}</p>
                   <div className="space-y-2">
                     {[1, 5/6, 4/5].map((w, i) => (
                       <div key={i} className="h-2.5 rounded-full" style={{ width: `${w * 100}%`, background: "rgba(139,127,240,0.15)" }} />
@@ -518,9 +503,9 @@ export default function HomePage() {
                 style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 6px 20px rgba(139,127,240,0.3)" }}
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /></svg>
-                Télécharger l&apos;exemple (PDF)
+                {tr.report.downloadBtn}
               </a>
-              <p className="text-xs" style={{ color: "#B0ABBD" }}>Données 100% anonymisées · Cas réel</p>
+              <p className="text-xs" style={{ color: "#B0ABBD" }}>{tr.report.disclaimer}</p>
             </div>
           </motion.div>
         </div>

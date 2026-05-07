@@ -7,18 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Header } from "@/components/header";
 import { PlusCircle, FileText, Clock, CheckCircle2, Trash2 } from "lucide-react";
-
-const STATUS_LABELS: Record<string, { label: string; color: "default" | "secondary" | "destructive" | "outline"; icon: React.ReactNode }> = {
-  PENDING_PAYMENT: { label: "En attente de paiement", color: "outline", icon: <Clock className="h-3 w-3" /> },
-  PAID: { label: "Payé", color: "secondary", icon: <Clock className="h-3 w-3" /> },
-  IN_REVIEW: { label: "En cours d'analyse", color: "secondary", icon: <Clock className="h-3 w-3" /> },
-  COMPLETED: { label: "Avis reçu", color: "default", icon: <CheckCircle2 className="h-3 w-3" /> },
-};
-
-const SPECIALTY_LABELS: Record<string, string> = {
-  DENTAL: "Dentaire — Dr Benguigui",
-  GYNECOLOGY: "Gynécologie — Dr. xxxxxx xxxx",
-};
+import { useLang } from "@/contexts/language";
+import { t } from "@/lib/translations";
 
 type Request = {
   id: string;
@@ -36,9 +26,23 @@ export function DashboardClient({ session, requests: initialRequests }: {
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { lang } = useLang();
+  const tr = t[lang].dashboard;
   const [requests, setRequests] = useState<Request[]>(initialRequests);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState(searchParams.get("payment") === "success");
+
+  const STATUS_CONFIG: Record<string, { label: string; color: "default" | "secondary" | "destructive" | "outline"; icon: React.ReactNode }> = {
+    PENDING_PAYMENT: { label: tr.status.pendingPayment, color: "outline", icon: <Clock className="h-3 w-3" /> },
+    PAID: { label: tr.status.paid, color: "secondary", icon: <Clock className="h-3 w-3" /> },
+    IN_REVIEW: { label: tr.status.inReview, color: "secondary", icon: <Clock className="h-3 w-3" /> },
+    COMPLETED: { label: tr.status.completed, color: "default", icon: <CheckCircle2 className="h-3 w-3" /> },
+  };
+
+  const SPECIALTY_LABELS: Record<string, string> = {
+    DENTAL: tr.specialty.dental,
+    GYNECOLOGY: tr.specialty.gynecology,
+  };
 
   useEffect(() => {
     if (searchParams.get("payment") === "success") {
@@ -51,7 +55,7 @@ export function DashboardClient({ session, requests: initialRequests }: {
   }, []);
 
   async function handleDelete(id: string) {
-    if (!confirm("Supprimer cette demande ?")) return;
+    if (!confirm(tr.deleteConfirm)) return;
     setDeleting(id);
     await fetch(`/api/requests/${id}`, { method: "DELETE" });
     setRequests((prev) => prev.filter((r) => r.id !== id));
@@ -65,18 +69,18 @@ export function DashboardClient({ session, requests: initialRequests }: {
         {paymentSuccess && (
           <div className="bg-green-50 border border-green-100 text-green-700 rounded-xl px-5 py-4 mb-6 flex items-center gap-3">
             <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
-            <p className="text-sm font-medium">Paiement confirmé ! Votre dossier a été transmis au médecin. Mise à jour en cours…</p>
+            <p className="text-sm font-medium">{tr.paymentSuccess}</p>
           </div>
         )}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-[#1e3a5f]">Mon espace</h1>
-            <p className="text-gray-500 text-sm mt-1">Bonjour, {session.user.name}</p>
+            <h1 className="text-2xl font-bold text-[#1e3a5f]">{tr.title}</h1>
+            <p className="text-gray-500 text-sm mt-1">{tr.greeting} {session.user.name}</p>
           </div>
           <Link href="/dashboard/new">
             <Button className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white gap-2">
               <PlusCircle className="h-4 w-4" />
-              Nouvelle demande
+              {tr.newRequest}
             </Button>
           </Link>
         </div>
@@ -84,18 +88,18 @@ export function DashboardClient({ session, requests: initialRequests }: {
         {requests.length === 0 ? (
           <div className="bg-white rounded-2xl border border-gray-100 p-16 text-center">
             <FileText className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-lg font-semibold text-gray-700 mb-2">Aucune demande pour l'instant</h2>
-            <p className="text-gray-400 text-sm mb-6">Envoyez votre premier compte rendu pour obtenir un second avis médical.</p>
+            <h2 className="text-lg font-semibold text-gray-700 mb-2">{tr.emptyTitle}</h2>
+            <p className="text-gray-400 text-sm mb-6">{tr.emptySub}</p>
             <Link href="/dashboard/new">
               <Button className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
-                Commencer une demande
+                {tr.startRequest}
               </Button>
             </Link>
           </div>
         ) : (
           <div className="space-y-4">
             {requests.map((req) => {
-              const status = STATUS_LABELS[req.status] || STATUS_LABELS.PENDING_PAYMENT;
+              const status = STATUS_CONFIG[req.status] || STATUS_CONFIG.PENDING_PAYMENT;
               const canDelete = req.status === "PENDING_PAYMENT";
               return (
                 <div key={req.id} className="bg-white rounded-2xl border border-gray-100 hover:shadow-sm transition-shadow">
@@ -112,14 +116,14 @@ export function DashboardClient({ session, requests: initialRequests }: {
                           </Badge>
                         </div>
                         <p className="text-sm text-gray-400">
-                          Demande #{req.id.slice(-8).toUpperCase()} · {new Date(req.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+                          {tr.requestLabel}{req.id.slice(-8).toUpperCase()} · {new Date(req.createdAt).toLocaleDateString(lang === "fr" ? "fr-FR" : "en-GB", { day: "numeric", month: "long", year: "numeric" })}
                         </p>
                         {req.message && (
                           <p className="text-sm text-gray-500 mt-2 truncate">{req.message}</p>
                         )}
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
-                        <span className="text-xs text-gray-400 hidden sm:block">Voir le détail →</span>
+                        <span className="text-xs text-gray-400 hidden sm:block">{tr.seeDetail}</span>
                       </div>
                     </div>
                   </Link>
@@ -127,13 +131,13 @@ export function DashboardClient({ session, requests: initialRequests }: {
                     {req.status === "PENDING_PAYMENT" && (
                       <Link href={`/dashboard/new?resume=${req.id}`} onClick={(e) => e.stopPropagation()}>
                         <Button size="sm" variant="outline" className="text-[#1e3a5f] border-[#1e3a5f]">
-                          Payer
+                          {tr.pay}
                         </Button>
                       </Link>
                     )}
                     {req.status === "COMPLETED" && req.pdfUrl && (
                       <a href={req.pdfUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
-                        <Button size="sm" variant="outline">Voir le PDF</Button>
+                        <Button size="sm" variant="outline">{tr.seePdf}</Button>
                       </a>
                     )}
                     {canDelete && (
