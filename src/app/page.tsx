@@ -98,7 +98,7 @@ export default function HomePage() {
       {/* ── HERO ── */}
       <section
         ref={heroRef}
-        className="relative overflow-hidden pt-24 pb-28 px-6 text-center"
+        className="relative overflow-hidden pt-14 pb-28 px-6 text-center"
         style={{ background: "transparent" }}
       >
 
