@@ -34,6 +34,18 @@ function Dropdown({ label, items }: { label: string; items: { label: string; hre
           border: "1px solid rgba(255,255,255,0.65)",
           boxShadow: "0 1px 4px rgba(139,127,240,0.06)",
         }}
+        onMouseEnter={e => {
+          const el = e.currentTarget as HTMLElement;
+          el.style.background = "rgba(255,255,255,0.75)";
+          el.style.color = "#1a1a2e";
+          el.style.boxShadow = "0 2px 12px rgba(139,127,240,0.12)";
+        }}
+        onMouseLeave={e => {
+          const el = e.currentTarget as HTMLElement;
+          el.style.background = "rgba(255,255,255,0.5)";
+          el.style.color = "#4A4458";
+          el.style.boxShadow = "0 1px 4px rgba(139,127,240,0.06)";
+        }}
       >
         {label}
         <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
