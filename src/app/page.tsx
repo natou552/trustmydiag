@@ -20,7 +20,7 @@ import { HowItWorksScroll } from "@/components/how-it-works-scroll";
 function FaqSection({ tr }: { tr: typeof t["fr"] | typeof t["en"] }) {
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <section className="py-24 px-6" style={{ background: "transparent" }}>
+    <section className="py-20 px-6" style={{ background: "transparent" }}>
       <div className="max-w-3xl mx-auto">
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} className="text-center mb-12">
           <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>{tr.faq.eyebrow}</p>
@@ -98,7 +98,7 @@ export default function HomePage() {
       {/* ── HERO ── */}
       <section
         ref={heroRef}
-        className="relative overflow-hidden pt-14 pb-28 px-6 text-center"
+        className="relative overflow-hidden pt-14 pb-20 px-6 text-center"
         style={{ background: "transparent" }}
       >
 
@@ -209,7 +209,7 @@ export default function HomePage() {
       <HowItWorksScroll steps={tr.how.steps} eyebrow={tr.how.eyebrow} h2={tr.how.h2} />
 
       {/* ── SECOND REGARD, PAS SECOND JUGEMENT ── */}
-      <section className="py-28 px-6" style={{ background: "transparent" }}>
+      <section className="py-20 px-6" style={{ background: "transparent" }}>
         <div className="max-w-5xl mx-auto">
 
           {/* Header */}
@@ -335,7 +335,7 @@ export default function HomePage() {
       </section>
 
       {/* ── DOCTORS ── */}
-      <section id="doctors" className="py-28 px-6" style={{ background: "transparent" }}>
+      <section id="doctors" className="py-20 px-6" style={{ background: "transparent" }}>
         <div className="max-w-5xl mx-auto">
           <motion.div
             variants={fadeUp}
@@ -414,7 +414,7 @@ export default function HomePage() {
       </section>
 
       {/* ── EXEMPLE RAPPORT ── */}
-      <section className="py-24 px-6" style={{ background: "transparent" }}>
+      <section className="py-20 px-6" style={{ background: "transparent" }}>
         <div className="max-w-4xl mx-auto">
           <motion.div
             variants={fadeUp}
