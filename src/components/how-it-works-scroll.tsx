@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { Upload, CreditCard, MessageSquare } from "lucide-react";
+import { Upload, Stethoscope, MessageSquare } from "lucide-react";
 
 type Step = { step: string | number; title: string; desc: string };
 
@@ -21,7 +21,7 @@ const GRADIENTS = [
 
 const ICONS = [
   <Upload key="u" className="h-5 w-5" />,
-  <CreditCard key="c" className="h-5 w-5" />,
+  <Stethoscope key="s" className="h-5 w-5" />,
   <MessageSquare key="m" className="h-5 w-5" />,
 ];
 
