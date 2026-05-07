@@ -162,7 +162,7 @@ function NewRequestForm() {
               <p className="text-sm text-gray-500 mb-6">Sélectionnez le médecin correspondant à votre compte rendu.</p>
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { value: "DENTAL" as const, label: "Dentaire", sub: "Dr Robert Benguigui", desc: "Chirurgien-dentiste", icon: <Stethoscope className="h-6 w-6" /> },
+                  { value: "DENTAL" as const, label: "Dentaire", sub: "Dr. xxxxxx xxxx", desc: "Chirurgien-dentiste", icon: <Stethoscope className="h-6 w-6" /> },
                   { value: "GYNECOLOGY" as const, label: "Gynécologie", sub: "Dr. xxxxxx xxxx", desc: "Gynécologue obstétricien", icon: <Baby className="h-6 w-6" /> },
                 ].map((opt) => (
                   <button

@@ -32,8 +32,8 @@ export const articles: Article[] = [
     readingTime: 7,
     excerpt:
       "Avant d'accepter un devis pour des implants ou une couronne, un second regard de spécialiste vous permet de mieux comprendre votre plan de traitement et d'aborder votre soin en toute confiance.",
-    author: "Dr. Robert Benguigui",
-    authorRole: "Chirurgien-dentiste — N° RPPS 10000111715",
+    author: "Dr. xxxxxx xxxx",
+    authorRole: "Chirurgien-dentiste — N° RPPS xxxxxxxxxxx",
     content: [
       {
         type: "p",
@@ -287,8 +287,8 @@ export const articles: Article[] = [
     readingTime: 5,
     excerpt:
       "La loi Kouchner de 2002 consacre le droit à l'information et au consentement éclairé. Mais saviez-vous que vous avez aussi le droit légal de consulter un autre médecin avant tout acte invasif ?",
-    author: "Dr. Robert Benguigui",
-    authorRole: "Chirurgien-dentiste — N° RPPS 10000111715",
+    author: "Dr. xxxxxx xxxx",
+    authorRole: "Chirurgien-dentiste — N° RPPS xxxxxxxxxxx",
     content: [
       {
         type: "p",
@@ -399,8 +399,8 @@ export const articles: Article[] = [
     readingTime: 5,
     excerpt:
       "Un second avis de qualité repose sur des documents complets. Voici la liste exhaustive des pièces à rassembler pour obtenir une réponse précise et rapide.",
-    author: "Dr. Robert Benguigui",
-    authorRole: "Chirurgien-dentiste — N° RPPS 10000111715",
+    author: "Dr. xxxxxx xxxx",
+    authorRole: "Chirurgien-dentiste — N° RPPS xxxxxxxxxxx",
     content: [
       {
         type: "p",

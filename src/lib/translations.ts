@@ -64,7 +64,7 @@ export const t = {
       sub: "Votre dossier est lu et analysé par un médecin spécialiste en exercice. Pas une IA.",
       list: [
         {
-          name: "Dr Robert Benguigui",
+          name: "Dr. xxxxxx xxxx",
           specialty: "Chirurgien-dentiste",
           desc: "Spécialiste en chirurgie orale et dentisterie implantaire. Second avis sur diagnostics dentaires, plans de traitement, devis et extractions.",
           tag: "Dentaire",
@@ -248,7 +248,7 @@ export const t = {
       sub: "Your file is read and analyzed by a practicing specialist doctor. Not an AI.",
       list: [
         {
-          name: "Dr Robert Benguigui",
+          name: "Dr. xxxxxx xxxx",
           specialty: "Dental surgeon",
           desc: "Specialist in oral surgery and implant dentistry. Second opinion on dental diagnoses, treatment plans, quotes and extractions.",
           tag: "Dental",
