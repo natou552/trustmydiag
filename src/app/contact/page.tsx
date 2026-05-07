@@ -19,6 +19,8 @@ export default function ContactPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -26,9 +28,23 @@ export default function ContactPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
+      setSubmitted(true);
+    } catch {
+      setError("Une erreur est survenue. Veuillez réessayer ou écrire directement à contact@trustmydiag.com.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -137,11 +153,16 @@ export default function ContactPage() {
                   />
                 </div>
 
+                {error && (
+                  <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">{error}</p>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full bg-[#0071E3] text-white py-3 rounded-full font-semibold text-sm hover:bg-[#0077ED] transition-colors"
+                  disabled={loading}
+                  className="w-full bg-[#0071E3] text-white py-3 rounded-full font-semibold text-sm hover:bg-[#0077ED] transition-colors disabled:opacity-60"
                 >
-                  Envoyer le message
+                  {loading ? "Envoi en cours…" : "Envoyer le message"}
                 </button>
               </form>
             )}

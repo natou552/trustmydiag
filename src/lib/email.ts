@@ -58,6 +58,49 @@ export async function sendDoctorNotification(
   });
 }
 
+export async function sendContactEmail(name: string, email: string, subject: string, message: string) {
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: "contact@trustmydiag.com",
+    replyTo: email,
+    subject: `[Contact] ${subject} — ${name}`,
+    html: `
+      <h2>Nouveau message de contact</h2>
+      <p><strong>Nom :</strong> ${name}</p>
+      <p><strong>Email :</strong> ${email}</p>
+      <p><strong>Sujet :</strong> ${subject}</p>
+      <p><strong>Message :</strong></p>
+      <blockquote style="border-left:4px solid #8B7FF0;padding:12px;margin:16px 0;background:#f4f3f8">${message.replace(/\n/g, "<br>")}</blockquote>
+    `,
+  });
+  if (error) throw new Error(`Resend error (contact): ${JSON.stringify(error)}`);
+}
+
+export async function sendContactConfirmation(name: string, email: string, subject: string) {
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: email,
+    subject: "Nous avons bien reçu votre message — TrustMyDiag",
+    html: `
+      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#2D2A3E">
+        <div style="background:linear-gradient(135deg,#8B7FF0,#6B5FD0);padding:32px;border-radius:12px 12px 0 0;text-align:center">
+          <h1 style="color:white;margin:0;font-size:22px">Message reçu ✓</h1>
+        </div>
+        <div style="background:#ffffff;padding:32px;border-radius:0 0 12px 12px;border:1px solid #eee">
+          <p style="margin:0 0 16px">Bonjour <strong>${name}</strong>,</p>
+          <p style="margin:0 0 16px;color:#6B6880">Merci de nous avoir contactés. Nous avons bien reçu votre message concernant : <strong>${subject}</strong>.</p>
+          <p style="margin:0 0 24px;color:#6B6880">Notre équipe vous répondra dans un délai de <strong style="color:#2D2A3E">48 heures ouvrées</strong>.</p>
+          <div style="background:#f4f3f8;border-radius:8px;padding:16px;margin-bottom:24px">
+            <p style="margin:0;font-size:13px;color:#9B98A8">Si votre demande est urgente, vous pouvez nous écrire directement à <a href="mailto:contact@trustmydiag.com" style="color:#8B7FF0">contact@trustmydiag.com</a>.</p>
+          </div>
+          <p style="margin:0;font-size:13px;color:#9B98A8">L'équipe TrustMyDiag</p>
+        </div>
+      </div>
+    `,
+  });
+  if (error) throw new Error(`Resend error (confirmation): ${JSON.stringify(error)}`);
+}
+
 export async function sendReplyToPatient(email: string, name: string, requestId: string, reply: string) {
   await resend.emails.send({
     from: FROM,
