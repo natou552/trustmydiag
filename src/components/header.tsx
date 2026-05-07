@@ -178,14 +178,21 @@ export function Header() {
             {session ? (
               <>
                 <Link href="/dashboard">
-                  <button className="text-sm px-4 py-1.5 rounded-full transition-colors duration-150" style={{ color: "#6B6880" }}>
+                  <button
+                    className="text-sm px-4 py-1.5 rounded-full font-medium transition-all duration-150"
+                    style={{ color: "#8B7FF0", background: "rgba(139,127,240,0.08)", border: "1px solid rgba(139,127,240,0.2)" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(139,127,240,0.14)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(139,127,240,0.08)"; }}
+                  >
                     {tr.mySpace}
                   </button>
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
-                  className="text-sm px-4 py-1.5 rounded-full transition-colors duration-150"
-                  style={{ color: "#6B6880" }}
+                  className="text-sm px-4 py-1.5 rounded-full font-medium transition-all duration-150"
+                  style={{ color: "#9B7EAA", background: "rgba(196,168,212,0.1)", border: "1px solid rgba(196,168,212,0.25)" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(196,168,212,0.18)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(196,168,212,0.1)"; }}
                 >
                   {tr.logout}
                 </button>
