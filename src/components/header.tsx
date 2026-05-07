@@ -26,7 +26,7 @@ function Dropdown({ label, items }: { label: string; items: { label: string; hre
         onClick={() => setOpen(!open)}
         className="flex items-center gap-1 rounded-full text-sm transition-all duration-200"
         style={{
-          padding: "4px 11px",
+          padding: "6px 16px",
           color: "#4A4458",
           background: "rgba(255,255,255,0.5)",
           backdropFilter: "blur(10px) saturate(160%)",
@@ -114,7 +114,7 @@ export function Header() {
           {/* CENTER — Floating pill nav, truly centered */}
           <nav
             className="hidden md:inline-flex items-center absolute left-1/2 -translate-x-1/2"
-            style={{ gap: "2px" }}
+            style={{ gap: "8px" }}
           >
             {[
               { href: "/#how", label: tr.howItWorks },
@@ -124,7 +124,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 style={{
-                  padding: "4px 11px",
+                  padding: "6px 16px",
                   borderRadius: "100px",
                   fontSize: "14px",
                   color: "#4A4458",
