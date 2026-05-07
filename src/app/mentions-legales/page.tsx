@@ -44,7 +44,7 @@ const sections = [
     content: [
       "Les seconds avis médicaux sont délivrés par des médecins diplômés, inscrits au Conseil National de l'Ordre des Médecins et identifiables via le Répertoire Partagé des Professionnels de Santé (RPPS) :",
       "Dr. Robert Benguigui — Chirurgien-dentiste — N° RPPS : 10000111715",
-      "Dr. Yohan Benchimol — Gynécologue obstétricien — N° RPPS : 10102162764",
+      "Dr. xxxxxx xxxx — Gynécologue obstétricien — N° RPPS : xxxxxxxxxxx",
     ],
   },
   {

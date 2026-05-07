@@ -71,7 +71,7 @@ export const t = {
           features: ["Diagnostics dentaires", "Plans de traitement", "Devis & chirurgie"],
         },
         {
-          name: "Dr Yohan Benchimol",
+          name: "Dr. xxxxxx xxxx",
           specialty: "Gynécologue obstétricien",
           desc: "Expert en gynécologie médicale et obstétrique. Second avis sur diagnostics gynécologiques, suivis de grossesse et traitements hormonaux.",
           tag: "Gynécologie",
@@ -255,7 +255,7 @@ export const t = {
           features: ["Dental diagnoses", "Treatment plans", "Quotes & surgery"],
         },
         {
-          name: "Dr Yohan Benchimol",
+          name: "Dr. xxxxxx xxxx",
           specialty: "Obstetrician-gynecologist",
           desc: "Expert in medical gynecology and obstetrics. Second opinion on gynecological diagnoses, pregnancy follow-up and hormonal treatments.",
           tag: "Gynecology",

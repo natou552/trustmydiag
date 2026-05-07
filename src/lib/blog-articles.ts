@@ -166,8 +166,8 @@ export const articles: Article[] = [
     readingTime: 7,
     excerpt:
       "Résultats de frottis, échographie pelvienne, bilan hormonal… Les comptes rendus médicaux sont souvent difficiles à déchiffrer. Nos experts gynécologues vous expliquent comment interpréter les termes clés de votre dossier.",
-    author: "Dr. Yohan Benchimol",
-    authorRole: "Gynécologue obstétricien — N° RPPS 10102162764",
+    author: "Dr. xxxxxx xxxx",
+    authorRole: "Gynécologue obstétricien — N° RPPS xxxxxxxxxxx",
     content: [
       {
         type: "p",

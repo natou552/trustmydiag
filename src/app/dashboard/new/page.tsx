@@ -163,7 +163,7 @@ function NewRequestForm() {
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
                   { value: "DENTAL" as const, label: "Dentaire", sub: "Dr Robert Benguigui", desc: "Chirurgien-dentiste", icon: <Stethoscope className="h-6 w-6" /> },
-                  { value: "GYNECOLOGY" as const, label: "Gynécologie", sub: "Dr Yohan Benchimol", desc: "Gynécologue obstétricien", icon: <Baby className="h-6 w-6" /> },
+                  { value: "GYNECOLOGY" as const, label: "Gynécologie", sub: "Dr. xxxxxx xxxx", desc: "Gynécologue obstétricien", icon: <Baby className="h-6 w-6" /> },
                 ].map((opt) => (
                   <button
                     key={opt.value}
@@ -265,7 +265,7 @@ function NewRequestForm() {
               <div className="bg-[#f8fafc] rounded-xl p-5 space-y-3 mb-6 border border-gray-100">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Spécialité</span>
-                  <span className="font-medium">{specialty === "DENTAL" ? "Dentaire — Dr Benguigui" : "Gynécologie — Dr Benchimol"}</span>
+                  <span className="font-medium">{specialty === "DENTAL" ? "Dentaire — Dr Benguigui" : "Gynécologie — Dr. xxxxxx xxxx"}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Documents</span>

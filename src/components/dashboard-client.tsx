@@ -17,7 +17,7 @@ const STATUS_LABELS: Record<string, { label: string; color: "default" | "seconda
 
 const SPECIALTY_LABELS: Record<string, string> = {
   DENTAL: "Dentaire — Dr Benguigui",
-  GYNECOLOGY: "Gynécologie — Dr Benchimol",
+  GYNECOLOGY: "Gynécologie — Dr. xxxxxx xxxx",
 };
 
 type Request = {
