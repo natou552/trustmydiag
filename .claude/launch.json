@@ -4,8 +4,9 @@
     {
       "name": "trustmydiag",
       "runtimeExecutable": "bash",
-      "runtimeArgs": ["-c", "cd '/Users/nathanaelbenguigui/Documents/TrustMyDiag CLAUDE/trustmydiag' && npm run dev"],
-      "port": 3000
+      "runtimeArgs": ["-c", "cd '/Users/nathanaelbenguigui/Documents/TrustMyDiag CLAUDE/trustmydiag' && PORT=${PORT:-3000} npx next dev --port ${PORT:-3000}"],
+      "port": 3000,
+      "autoPort": true
     }
   ]
 }

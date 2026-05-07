@@ -6,17 +6,16 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { sendOtpSms } from "@/lib/sms";
 
-// POST /api/auth/setup-mfa — send OTP to phone OR verify OTP to enable MFA
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
 
   const body = await req.json();
 
-  // Step: send OTP to new phone number
+  // Send OTP to account email
   if (body.action === "send") {
-    const { phone } = body;
-    if (!phone) return NextResponse.json({ error: "Numéro requis" }, { status: 400 });
+    const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+    if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 });
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const hashedOtp = await bcrypt.hash(otp, 8);
@@ -25,7 +24,6 @@ export async function POST(req: Request) {
     await prisma.user.update({
       where: { id: session.user.id },
       data: {
-        phone,
         mfaToken,
         mfaTokenExpiry: new Date(Date.now() + 10 * 60 * 1000),
         otpCode: hashedOtp,
@@ -33,11 +31,11 @@ export async function POST(req: Request) {
       },
     });
 
-    await sendOtpSms(phone, otp);
+    await sendOtpSms(user.email, otp);
     return NextResponse.json({ ok: true, mfaToken });
   }
 
-  // Step: verify OTP and enable MFA
+  // Verify OTP and enable MFA
   if (body.action === "verify") {
     const { otp, mfaToken } = body;
     if (!otp || !mfaToken) return NextResponse.json({ error: "Données manquantes" }, { status: 400 });
@@ -59,7 +57,6 @@ export async function POST(req: Request) {
     await prisma.user.update({
       where: { id: session.user.id },
       data: {
-        phoneVerified: true,
         mfaEnabled: true,
         mfaToken: null,
         mfaTokenExpiry: null,
@@ -75,7 +72,7 @@ export async function POST(req: Request) {
   if (body.action === "disable") {
     await prisma.user.update({
       where: { id: session.user.id },
-      data: { mfaEnabled: false, phone: null, phoneVerified: false },
+      data: { mfaEnabled: false },
     });
     return NextResponse.json({ ok: true });
   }

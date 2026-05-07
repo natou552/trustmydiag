@@ -7,14 +7,14 @@ export default async function SecurityPage() {
   const session = await requireAuth();
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { phone: true, phoneVerified: true, mfaEnabled: true },
+    select: { email: true, mfaEnabled: true },
   });
 
   return (
     <div className="min-h-screen">
       <Header />
       <SecurityClient
-        phone={user?.phone ?? null}
+        email={user?.email ?? session.user.email ?? ""}
         mfaEnabled={user?.mfaEnabled ?? false}
       />
     </div>

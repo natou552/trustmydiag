@@ -2,28 +2,24 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
-import { Shield, SmartphoneNfc, CheckCircle2, Lock, ArrowLeft } from "lucide-react";
+import { Shield, Mail, CheckCircle2, Lock, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
-type Step = "idle" | "phone" | "otp" | "done";
+type Step = "idle" | "otp" | "done";
 
 export function SecurityClient({
-  phone,
+  email,
   mfaEnabled,
 }: {
-  phone: string | null;
+  email: string;
   mfaEnabled: boolean;
 }) {
   const [step, setStep] = useState<Step>("idle");
-  const [phoneInput, setPhoneInput] = useState(phone ?? "");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [mfaToken, setMfaToken] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [enabled, setEnabled] = useState(mfaEnabled);
-  const [currentPhone, setCurrentPhone] = useState(phone);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   async function sendOtp() {
@@ -32,13 +28,15 @@ export function SecurityClient({
     const res = await fetch("/api/auth/setup-mfa", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "send", phone: phoneInput }),
+      body: JSON.stringify({ action: "send" }),
     });
     setLoading(false);
     if (!res.ok) { const d = await res.json(); setError(d.error); return; }
     const data = await res.json();
     setMfaToken(data.mfaToken);
+    setOtp(["", "", "", "", "", ""]);
     setStep("otp");
+    setTimeout(() => inputRefs.current[0]?.focus(), 100);
   }
 
   function handleOtpChange(index: number, value: string) {
@@ -73,7 +71,6 @@ export function SecurityClient({
     setLoading(false);
     if (!res.ok) { const d = await res.json(); setError(d.error); return; }
     setEnabled(true);
-    setCurrentPhone(phoneInput);
     setStep("done");
   }
 
@@ -86,7 +83,6 @@ export function SecurityClient({
     });
     setLoading(false);
     setEnabled(false);
-    setCurrentPhone(null);
     setStep("idle");
   }
 
@@ -109,11 +105,11 @@ export function SecurityClient({
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
         <div className="flex items-start gap-4 mb-6">
           <div className="w-10 h-10 bg-[#f0edff] rounded-xl flex items-center justify-center flex-shrink-0">
-            <SmartphoneNfc className="h-5 w-5 text-[#8B7FF0]" />
+            <Mail className="h-5 w-5 text-[#8B7FF0]" />
           </div>
           <div className="flex-1">
             <div className="flex items-center justify-between">
-              <h2 className="font-semibold text-[#1e3a5f]">Double authentification (SMS)</h2>
+              <h2 className="font-semibold text-[#1e3a5f]">Double authentification (email)</h2>
               {enabled && (
                 <span className="flex items-center gap-1 text-xs text-green-600 bg-green-50 border border-green-100 px-2.5 py-1 rounded-full font-medium">
                   <CheckCircle2 className="h-3 w-3" /> Activée
@@ -121,76 +117,40 @@ export function SecurityClient({
               )}
             </div>
             <p className="text-sm text-gray-500 mt-1">
-              À chaque connexion, un code à 6 chiffres vous sera envoyé par SMS pour confirmer votre identité.
+              À chaque connexion, un code à 6 chiffres sera envoyé à <strong>{email}</strong>.
             </p>
-            {currentPhone && (
-              <p className="text-xs text-gray-400 mt-1">Numéro : <strong className="text-gray-600">{currentPhone}</strong></p>
-            )}
           </div>
         </div>
 
-        {/* Idle state */}
+        {/* Idle */}
         {step === "idle" && (
           <>
             {enabled ? (
-              <div className="space-y-3">
-                <Button
-                  variant="outline"
-                  onClick={() => { setStep("phone"); setOtp(["","","","","",""]); }}
-                  className="w-full border-[#8B7FF0] text-[#8B7FF0] hover:bg-[#f0edff]"
-                >
-                  Changer de numéro
-                </Button>
-                <Button
-                  variant="outline"
-                  disabled={loading}
-                  onClick={disableMfa}
-                  className="w-full border-red-200 text-red-500 hover:bg-red-50"
-                >
-                  {loading ? "Désactivation…" : "Désactiver la double authentification"}
-                </Button>
-              </div>
+              <Button
+                variant="outline"
+                disabled={loading}
+                onClick={disableMfa}
+                className="w-full border-red-200 text-red-500 hover:bg-red-50"
+              >
+                {loading ? "Désactivation…" : "Désactiver la double authentification"}
+              </Button>
             ) : (
               <Button
-                onClick={() => setStep("phone")}
+                disabled={loading}
+                onClick={sendOtp}
                 className="w-full bg-[#1e3a5f] hover:bg-[#162d4a] text-white"
               >
-                Activer la double authentification
+                {loading ? "Envoi du code…" : "Activer la double authentification"}
               </Button>
             )}
           </>
         )}
 
-        {/* Step: phone */}
-        {step === "phone" && (
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="phone">Numéro de téléphone</Label>
-              <Input
-                id="phone"
-                type="tel"
-                placeholder="+33 6 12 34 56 78"
-                value={phoneInput}
-                onChange={(e) => setPhoneInput(e.target.value)}
-                className="mt-1"
-              />
-              <p className="text-xs text-gray-400 mt-1">Format international recommandé : +33 6...</p>
-            </div>
-            {error && <div className="bg-red-50 text-red-700 text-sm rounded-lg px-4 py-3 border border-red-100">{error}</div>}
-            <div className="flex gap-3">
-              <Button variant="outline" onClick={() => { setStep("idle"); setError(""); }} className="flex-1">Annuler</Button>
-              <Button disabled={loading || !phoneInput} onClick={sendOtp} className="flex-1 bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
-                {loading ? "Envoi…" : "Envoyer le code"}
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {/* Step: OTP */}
+        {/* OTP */}
         {step === "otp" && (
           <div className="space-y-5">
             <p className="text-sm text-gray-500">
-              Code envoyé au <strong>{phoneInput}</strong>. Saisissez-le ci-dessous :
+              Un code a été envoyé à <strong>{email}</strong>. Saisissez-le ci-dessous :
             </p>
             <div className="flex justify-center gap-3" onPaste={handlePaste}>
               {otp.map((digit, i) => (
@@ -203,16 +163,14 @@ export function SecurityClient({
                   value={digit}
                   onChange={(e) => handleOtpChange(i, e.target.value)}
                   onKeyDown={(e) => handleOtpKey(i, e)}
-                  className="w-11 h-14 text-center text-xl font-bold border-2 rounded-xl focus:outline-none focus:border-[#8B7FF0] transition-colors"
+                  className="w-11 h-14 text-center text-xl font-bold border-2 rounded-xl focus:outline-none transition-colors"
                   style={{ borderColor: digit ? "#8B7FF0" : "#e5e7eb" }}
                 />
               ))}
             </div>
             {error && <div className="bg-red-50 text-red-700 text-sm rounded-lg px-4 py-3 border border-red-100 text-center">{error}</div>}
             <div className="flex gap-3">
-              <Button variant="outline" onClick={() => { setStep("phone"); setError(""); setOtp(["","","","","",""]); }} className="flex-1">
-                Retour
-              </Button>
+              <Button variant="outline" onClick={() => { setStep("idle"); setError(""); }} className="flex-1">Annuler</Button>
               <Button
                 disabled={loading || otp.join("").length < 6}
                 onClick={verifyOtp}
@@ -221,6 +179,10 @@ export function SecurityClient({
                 {loading ? "Vérification…" : "Confirmer"}
               </Button>
             </div>
+            <p className="text-xs text-center text-gray-400">
+              Pas reçu ? Vérifiez vos spams ou{" "}
+              <button onClick={sendOtp} className="text-[#8B7FF0] hover:underline">renvoyez le code</button>
+            </p>
           </div>
         )}
 
@@ -231,17 +193,16 @@ export function SecurityClient({
               <CheckCircle2 className="h-6 w-6 text-green-600" />
             </div>
             <p className="font-semibold text-[#1e3a5f]">Double authentification activée !</p>
-            <p className="text-sm text-gray-500">Votre compte est désormais protégé par un code SMS à chaque connexion.</p>
+            <p className="text-sm text-gray-500">À chaque connexion, un code vous sera envoyé à <strong>{email}</strong>.</p>
             <Button onClick={() => setStep("idle")} variant="outline" className="mt-2">Fermer</Button>
           </div>
         )}
       </div>
 
-      {/* Info card */}
       <div className="mt-4 bg-[#f8f7ff] border border-[#e8e5ff] rounded-xl p-4 flex gap-3">
         <Shield className="h-5 w-5 text-[#8B7FF0] flex-shrink-0 mt-0.5" />
         <p className="text-sm text-[#6B6880]">
-          La double authentification ajoute une couche de sécurité supplémentaire à votre compte. Même si votre mot de passe est compromis, personne ne pourra se connecter sans accès à votre téléphone.
+          La double authentification ajoute une couche de sécurité supplémentaire. Même si votre mot de passe est compromis, personne ne pourra se connecter sans accès à votre boîte email.
         </p>
       </div>
     </div>

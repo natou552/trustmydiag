@@ -105,8 +105,8 @@ function MfaForm() {
           </div>
           <h1 className="text-2xl font-bold text-[#1e3a5f]">Vérification</h1>
           <p className="text-gray-500 text-sm mt-1">
-            Entrez le code à 6 chiffres envoyé par SMS
-            {email && <><br /><span className="text-xs">sur le numéro lié à <strong>{email}</strong></span></>}
+            Entrez le code à 6 chiffres envoyé par email
+            {email && <><br /><span className="text-xs">à l'adresse <strong>{email}</strong></span></>}
           </p>
         </div>
 
@@ -144,8 +144,8 @@ function MfaForm() {
         </form>
 
         <p className="text-center text-sm text-gray-400 mt-6">
-          Code non reçu ?{" "}
-          <Link href="/login" className="text-[#8B7FF0] hover:underline">Recommencer la connexion</Link>
+          Email non reçu ? Vérifiez vos spams ou{" "}
+          <Link href="/login" className="text-[#8B7FF0] hover:underline">recommencez la connexion</Link>
         </p>
       </div>
     </div>

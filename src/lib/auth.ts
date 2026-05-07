@@ -53,8 +53,8 @@ export const authOptions: NextAuthOptions = {
         const isValid = await bcrypt.compare(credentials.password, user.password);
         if (!isValid) return null;
 
-        // MFA enabled: generate token + OTP, send SMS
-        if (user.mfaEnabled && user.phone) {
+        // MFA enabled: generate token + OTP, send by email
+        if (user.mfaEnabled) {
           const mfaToken = crypto.randomBytes(32).toString("hex");
           const otp = Math.floor(100000 + Math.random() * 900000).toString();
           const hashedOtp = await bcrypt.hash(otp, 8);
@@ -70,9 +70,9 @@ export const authOptions: NextAuthOptions = {
           });
 
           try {
-            await sendOtpSms(user.phone, otp);
+            await sendOtpSms(user.email, otp);
           } catch (err) {
-            console.error("[auth] sendOtpSms failed:", err);
+            console.error("[auth] sendOtpEmail failed:", err);
           }
 
           throw new Error(`MFA_REQUIRED:${mfaToken}`);
