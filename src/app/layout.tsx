@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         }} />
 
         {/* Grain premium presque invisible */}
-        <div aria-hidden="true" style={{
+        <div aria-hidden="true" className="grain-overlay" style={{
           position: "fixed", inset: 0, zIndex: 9999, pointerEvents: "none",
           backgroundImage: GRAIN,
           backgroundSize: "200px 200px",

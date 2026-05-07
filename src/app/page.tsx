@@ -13,7 +13,7 @@ import {
 import { useLang } from "@/contexts/language";
 import { t } from "@/lib/translations";
 import { motion, useScroll, useTransform, type Variants, AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { HowItWorksScroll } from "@/components/how-it-works-scroll";
 
@@ -66,33 +66,33 @@ function FaqSection({ tr }: { tr: typeof t["fr"] | typeof t["en"] }) {
 }
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
 };
 
 const stagger = (delay = 0): Variants => ({
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: "easeOut", delay } },
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut", delay } },
 });
 
 export default function HomePage() {
   const { lang } = useLang();
   const tr = t[lang];
   const heroRef = useRef<HTMLElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   return (
     <div className="min-h-screen text-[#1D1D1F]">
-      <style>{`
-        @media (max-width: 767px) {
-          [style*="blur(20px)"] {
-            backdrop-filter: blur(8px) saturate(140%) !important;
-            -webkit-backdrop-filter: blur(8px) saturate(140%) !important;
-          }
-        }
-      `}</style>
       <Header />
 
       {/* ── HERO ── */}
@@ -102,7 +102,7 @@ export default function HomePage() {
         style={{ background: "transparent" }}
       >
 
-        <motion.div className="max-w-4xl mx-auto relative" style={{ y: heroY, opacity: heroOpacity }}>
+        <motion.div className="max-w-4xl mx-auto relative" style={isMobile ? {} : { y: heroY, opacity: heroOpacity }}>
           {/* H1 */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
