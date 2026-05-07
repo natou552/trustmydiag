@@ -437,7 +437,7 @@ export default function HomePage() {
               Voyez ce que vous recevez pour 22€
             </h2>
             <p className="text-base max-w-xl mx-auto" style={{ color: "#6B6880" }}>
-              Un exemple réel de rapport médical (anonymisé). Vous recevrez exactement ce niveau de détail.
+              Vous recevrez une analyse structurée de 2 à 4 pages, rédigée par un spécialiste, avec un avis clair sur votre plan de traitement.
             </p>
           </motion.div>
 
