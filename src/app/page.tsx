@@ -348,10 +348,11 @@ export default function HomePage() {
                 transition={{ duration: 0.65, ease: "easeOut", delay: s.delay }}
                 className="rounded-3xl p-8"
                 style={{
-                  background: "rgba(255,255,255,0.04)",
-                  backdropFilter: "blur(20px)",
-                  border: "1px solid rgba(139,127,240,0.15)",
-                  boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+                  background: "rgba(255,255,255,0.07)",
+                  backdropFilter: "blur(20px) saturate(180%)",
+                  WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  boxShadow: "0 1px 0 rgba(255,255,255,0.1) inset, 0 8px 32px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.15)",
                 }}
               >
                 <p className="text-6xl font-black mb-3" style={{
@@ -410,7 +411,7 @@ export default function HomePage() {
                 { icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z", label: "Aborder le rendez-vous en confiance" },
               ].map((item) => (
                 <div key={item.label} className="flex items-start gap-3 p-4 rounded-2xl"
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                  style={{ background: "rgba(255,255,255,0.07)", backdropFilter: "blur(20px) saturate(180%)", WebkitBackdropFilter: "blur(20px) saturate(180%)", border: "1px solid rgba(255,255,255,0.12)", boxShadow: "0 1px 0 rgba(255,255,255,0.1) inset, 0 4px 12px rgba(0,0,0,0.2)" }}>
                   <svg className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: "#8B7FF0" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
