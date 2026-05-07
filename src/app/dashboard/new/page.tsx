@@ -17,6 +17,7 @@ type DentalAnamnesis = {
   duration: string;
   intensity: number;
   hasQuote: string;
+  quoteAmount: string;
   lastVisit: string;
   pastTreatments: string[];
   doctorMessage: string;
@@ -36,7 +37,7 @@ type GynoAnamnesis = {
 
 const defaultDental: DentalAnamnesis = {
   reason: "", treatments: [], symptoms: [], duration: "",
-  intensity: 0, hasQuote: "", lastVisit: "", pastTreatments: [], doctorMessage: "",
+  intensity: 0, hasQuote: "", quoteAmount: "", lastVisit: "", pastTreatments: [], doctorMessage: "",
 };
 
 const defaultGyno: GynoAnamnesis = {
@@ -150,7 +151,7 @@ function formatDental(a: DentalAnamnesis, hasPain: boolean): string {
     `Symptômes : ${a.symptoms.length ? a.symptoms.join(", ") : "Non renseigné"}`,
     ...(a.duration ? [`Depuis : ${a.duration}`] : []),
     ...(hasPain && a.intensity > 0 ? [`Intensité douleur : ${a.intensity}/10`] : []), "",
-    `Devis chiffré disponible : ${a.hasQuote || "Non renseigné"}`,
+    `Devis chiffré disponible : ${a.hasQuote || "Non renseigné"}${a.quoteAmount ? ` — ${a.quoteAmount}` : ""}`,
     `Dernière visite dentiste : ${a.lastVisit || "Non renseigné"}`,
     `Traitements passés : ${a.pastTreatments.length ? a.pastTreatments.join(", ") : "Aucun"}`,
   ];
@@ -393,11 +394,26 @@ function NewRequestForm() {
                 )}
                 <Divider />
                 <FieldGroup label={tr.step2dental.quoteLabel}>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 mb-3">
                     {tr.step2dental.quoteOptions.map((h) => (
                       <RadioChip key={h} label={h} selected={dental.hasQuote === h} onSelect={() => setD("hasQuote", h)} />
                     ))}
                   </div>
+                  {dental.hasQuote === tr.step2dental.quoteOptions[0] && (
+                    <div className="mt-2">
+                      <p className="text-xs font-medium mb-1.5" style={{ color: "#6B6880" }}>{tr.step2dental.quoteAmountLabel}</p>
+                      <input
+                        type="text"
+                        value={dental.quoteAmount}
+                        onChange={e => setD("quoteAmount", e.target.value)}
+                        placeholder={tr.step2dental.quoteAmountPlaceholder}
+                        className="w-full text-sm focus:outline-none placeholder:text-[#C8C4D4]"
+                        style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(139,127,240,0.18)", borderRadius: "12px", padding: "10px 16px", color: "#2D2A3E" }}
+                        onFocus={e => (e.target.style.border = "1px solid rgba(139,127,240,0.5)")}
+                        onBlur={e => (e.target.style.border = "1px solid rgba(139,127,240,0.18)")}
+                      />
+                    </div>
+                  )}
                 </FieldGroup>
                 <Divider />
                 <FieldGroup label={tr.step2dental.lastVisitLabel}>
