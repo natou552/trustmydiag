@@ -27,9 +27,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div aria-hidden="true" style={{
           position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
           background: [
-            "radial-gradient(ellipse 100% 90% at 15% 22%, rgba(199,182,255,0.32) 0%, transparent 62%)",
+            "radial-gradient(ellipse 100% 90% at 15% 28%, rgba(199,182,255,0.30) 0%, transparent 60%)",
             "radial-gradient(ellipse 85% 75% at 88% 95%, rgba(244,210,200,0.28) 0%, transparent 65%)",
           ].join(","),
+        }} />
+
+        {/* Fondu blanc en haut — masque tout contraste avec la barre du navigateur */}
+        <div aria-hidden="true" style={{
+          position: "fixed", top: 0, left: 0, right: 0,
+          height: "18vh", zIndex: 1, pointerEvents: "none",
+          background: "linear-gradient(to bottom, #ffffff 0%, #ffffff 30%, transparent 100%)",
         }} />
 
         {/* Grain premium presque invisible */}
