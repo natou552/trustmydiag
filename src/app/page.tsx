@@ -428,47 +428,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FAQ ── */}
-      <FaqSection tr={tr} />
-
-      {/* ── CTA ── */}
-      <section
-        className="py-32 px-6 text-center"
-        style={{
-          background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 40%, #FDE8E0 100%)",
-        }}
-      >
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(ellipse at 50% 50%, rgba(139,127,240,0.12) 0%, transparent 60%)",
-        }} />
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="max-w-2xl mx-auto relative"
-        >
-          <p className="text-xs font-semibold uppercase tracking-widest mb-6" style={{ color: "#8B7FF0" }}>{tr.cta.eyebrow}</p>
-          <h2 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6" style={{ color: "#2D2A3E" }}>
-            {tr.cta.h2}
-          </h2>
-          <p className="text-lg mb-10" style={{ color: "#6B6880" }}>{tr.cta.sub}</p>
-          <Link href="/register">
-            <button
-              className="inline-flex items-center gap-2 text-white text-sm font-semibold px-10 py-4 rounded-full transition-all duration-200"
-              style={{
-                background: "linear-gradient(135deg, #8B7FF0 0%, #6B5FD0 100%)",
-                boxShadow: "0 12px 32px rgba(139,127,240,0.35)",
-              }}
-            >
-              {tr.cta.button}
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </Link>
-          <p className="text-xs mt-5" style={{ color: "#B0ABBD" }}>{tr.cta.trust}</p>
-        </motion.div>
-      </section>
-
       {/* ── FOOTER ── */}
       <footer className="pt-14 pb-8 px-6" style={{ background: "#2D2A3E", color: "#9B98A8" }}>
         <div className="max-w-5xl mx-auto">
