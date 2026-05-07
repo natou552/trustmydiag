@@ -40,22 +40,34 @@ export async function sendDoctorNotification(
   requestId: string,
   specialty: string,
   message: string | null,
-  pdfUrl: string
+  pdfUrls: string[]
 ) {
-  await resend.emails.send({
+  const docLinks = pdfUrls
+    .map((url, i) => {
+      const isImage = /\.(jpg|jpeg|png|heic|webp)/i.test(url) || url.includes("image");
+      const label = isImage ? `Photo ${i + 1}` : `Document ${i + 1}`;
+      return `<a href="${url}" style="display:inline-block;margin:4px 8px 4px 0;padding:8px 16px;background:#1e3a5f;color:white;border-radius:6px;text-decoration:none;font-size:14px">${label}</a>`;
+    })
+    .join("");
+
+  const { error } = await resend.emails.send({
     from: FROM,
     to: doctorEmail,
     subject: `Nouvelle demande de second avis — ${specialty} — TrustMyDiag`,
     html: `
-      <h2>Nouvelle demande reçue</h2>
-      <p><strong>Patient :</strong> ${patientName}</p>
-      <p><strong>Spécialité :</strong> ${specialty}</p>
-      <p><strong>Référence :</strong> #${requestId}</p>
-      ${message ? `<p><strong>Message du patient :</strong><br>${message}</p>` : ""}
-      <p><a href="${pdfUrl}">Télécharger le compte rendu (PDF)</a></p>
-      <p><a href="${process.env.NEXTAUTH_URL}/admin">Accéder à l'interface médecin</a></p>
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#2D2A3E">
+        <h2 style="color:#1e3a5f">Nouvelle demande reçue</h2>
+        <p><strong>Patient :</strong> ${patientName}</p>
+        <p><strong>Spécialité :</strong> ${specialty}</p>
+        <p><strong>Référence :</strong> #${requestId}</p>
+        ${message ? `<div style="background:#f4f3f8;border-left:4px solid #8B7FF0;padding:12px 16px;margin:16px 0;border-radius:4px;white-space:pre-wrap;font-size:13px">${message.replace(/</g, "&lt;")}</div>` : ""}
+        ${pdfUrls.length > 0 ? `<p><strong>Documents transmis :</strong></p><p>${docLinks}</p>` : ""}
+        <p style="margin-top:24px"><a href="${process.env.NEXTAUTH_URL}/admin" style="display:inline-block;padding:10px 20px;background:#8B7FF0;color:white;border-radius:6px;text-decoration:none">Accéder à l'interface médecin</a></p>
+      </div>
     `,
   });
+
+  if (error) throw new Error(`Resend error (doctor notification): ${JSON.stringify(error)}`);
 }
 
 export async function sendContactEmail(name: string, email: string, subject: string, message: string) {
