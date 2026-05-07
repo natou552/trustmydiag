@@ -69,8 +69,9 @@ function FieldGroup({ label, required, hint, children }: { label: string; requir
   return (
     <div>
       <div className="flex items-baseline gap-2 mb-2.5">
-        <p className="text-sm font-semibold" style={{ color: "#2D2A3E" }}>{label}</p>
-        {required && <span className="text-xs font-medium" style={{ color: "#8B7FF0" }}>requis</span>}
+        <p className="text-sm font-semibold" style={{ color: "#2D2A3E" }}>
+          {label}{required && <span style={{ color: "#8B7FF0", marginLeft: "2px" }}>*</span>}
+        </p>
         {hint && <span className="text-xs" style={{ color: "#B0ABBD" }}>{hint}</span>}
       </div>
       {children}
