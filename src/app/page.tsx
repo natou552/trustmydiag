@@ -84,7 +84,15 @@ export default function HomePage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <div className="min-h-screen text-[#1D1D1F]" style={{ background: "linear-gradient(160deg, #DDD9F5 0%, #E8E6F0 40%, #F0D0C4 100%)", backgroundAttachment: "fixed" }}>
+    <div className="min-h-screen text-[#1D1D1F]" style={{ background: "linear-gradient(160deg, #F0ECF9 0%, #E8DFF5 20%, #ECCDE8 42%, #F4C4C0 64%, #F8CDB8 84%, #FAD8C8 100%)" }}>
+      <style>{`
+        @media (max-width: 767px) {
+          [style*="blur(20px)"] {
+            backdrop-filter: blur(8px) saturate(140%) !important;
+            -webkit-backdrop-filter: blur(8px) saturate(140%) !important;
+          }
+        }
+      `}</style>
       <Header />
 
       {/* ── HERO ── */}

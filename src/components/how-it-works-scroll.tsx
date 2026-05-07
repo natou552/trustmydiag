@@ -95,25 +95,18 @@ export function HowItWorksScroll({ steps, eyebrow, h2 }: Props) {
           },
         });
 
-        // Chaque carte se révèle indépendamment avec un effet "surgir"
-        cards.forEach((card, i) => {
-          // Alternance gauche / droite / gauche pour donner du rythme
-          const xFrom = i % 2 === 0 ? -40 : 40;
-
+        // Chaque carte se révèle en entrant dans le viewport — animations légères pour mobile
+        cards.forEach((card) => {
           gsap.from(card, {
             opacity: 0,
-            x: xFrom,
-            y: 50,
-            scale: 0.93,
-            rotation: i % 2 === 0 ? -3 : 3,
-            duration: 0.65,
-            ease: "power3.out",
+            y: 28,
+            duration: 0.5,
+            ease: "power2.out",
             scrollTrigger: {
               trigger: card,
-              start: "top 88%",       // déclenche quand la carte entre dans le viewport
-              toggleActions: "play none none reverse",
+              start: "top 90%",
+              toggleActions: "play none none none",
             },
-            delay: 0,                 // pas de delay global — le scroll se charge du timing
           });
         });
       });
