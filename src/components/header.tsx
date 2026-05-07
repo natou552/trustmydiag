@@ -24,9 +24,15 @@ function Dropdown({ label, items }: { label: string; items: { label: string; hre
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className={`flex items-center gap-1 px-4 py-1.5 rounded-full text-sm text-[#374151] transition-colors duration-150 ${
-          open ? "bg-white shadow-sm" : "hover:bg-black/[0.06]"
-        }`}
+        className="flex items-center gap-1 px-4 py-2 rounded-full text-sm transition-all duration-200"
+        style={{
+          color: "#4A4458",
+          background: "rgba(255,255,255,0.45)",
+          backdropFilter: "blur(12px) saturate(180%)",
+          WebkitBackdropFilter: "blur(12px) saturate(180%)",
+          border: "1px solid rgba(255,255,255,0.6)",
+          boxShadow: "0 1px 6px rgba(139,127,240,0.07)",
+        }}
       >
         {label}
         <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
@@ -121,17 +127,23 @@ export function Header() {
                   borderRadius: "100px",
                   fontSize: "14px",
                   color: "#4A4458",
-                  background: "transparent",
-                  transition: "background 0.2s, color 0.2s",
+                  background: "rgba(255,255,255,0.45)",
+                  backdropFilter: "blur(12px) saturate(180%)",
+                  WebkitBackdropFilter: "blur(12px) saturate(180%)",
+                  border: "1px solid rgba(255,255,255,0.6)",
+                  boxShadow: "0 1px 6px rgba(139,127,240,0.07)",
+                  transition: "background 0.2s, color 0.2s, box-shadow 0.2s",
                   whiteSpace: "nowrap",
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.55)";
+                  (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.75)";
                   (e.currentTarget as HTMLElement).style.color = "#1a1a2e";
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 12px rgba(139,127,240,0.12)";
                 }}
                 onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.background = "transparent";
+                  (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.45)";
                   (e.currentTarget as HTMLElement).style.color = "#4A4458";
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 1px 6px rgba(139,127,240,0.07)";
                 }}
               >
                 {item.label}
