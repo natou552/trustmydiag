@@ -101,6 +101,44 @@ export const t = {
       desc: "TrustMyDiag est conforme au RGPD. Vos documents sont chiffrés et accessibles uniquement au médecin concerné. Aucune revente de données. Droit à l'effacement garanti.",
       link: "En savoir plus →",
     },
+    faq: {
+      eyebrow: "FAQ",
+      h2: "Questions fréquentes",
+      items: [
+        {
+          q: "C'est quoi exactement un second avis médical ?",
+          a: "C'est l'analyse indépendante de votre dossier médical (compte rendu, devis, résultats d'examens) par un médecin spécialiste qui n'est pas votre praticien habituel. Il vous donne son regard professionnel sur le diagnostic, le traitement proposé ou le devis reçu.",
+        },
+        {
+          q: "En quoi est-ce différent d'une téléconsultation ?",
+          a: "Une téléconsultation remplace une consultation classique en temps réel. Le second avis TrustMyDiag est une analyse approfondie de documents existants — pas une nouvelle consultation. Le médecin prend le temps d'étudier votre dossier complet et vous répond par écrit de façon détaillée.",
+        },
+        {
+          q: "Quels types de documents puis-je envoyer ?",
+          a: "Comptes rendus médicaux, radios, devis dentaires, résultats d'analyses, ordonnances, photos (JPG, PNG, HEIC depuis iPhone), PDF. Jusqu'à 5 fichiers de 16 Mo chacun.",
+        },
+        {
+          q: "Dans quel délai vais-je recevoir ma réponse ?",
+          a: "Le délai garanti est de 72h. En pratique, la majorité des avis sont rendus sous 24 à 48h ouvrées après réception du paiement.",
+        },
+        {
+          q: "Est-ce que mes données médicales sont sécurisées ?",
+          a: "Oui. Vos documents sont chiffrés en transit et au repos. Seul le médecin concerné y a accès. Nous sommes conformes au RGPD et en cours de certification HDS (Hébergeur de Données de Santé). Aucune donnée n'est revendue.",
+        },
+        {
+          q: "Pourquoi 22€ ?",
+          a: "C'est le prix le plus bas possible pour une analyse sérieuse par un vrai médecin diplômé. Pas d'abonnement, pas de frais cachés. Vous payez uniquement pour l'avis que vous recevez.",
+        },
+        {
+          q: "Le médecin peut-il me prescrire un traitement ?",
+          a: "Non. Le second avis TrustMyDiag est un avis d'expert indépendant, pas une consultation médicale. Le médecin ne peut pas établir de prescriptions ni de certificats. Il analyse votre dossier et vous donne son éclairage professionnel.",
+        },
+        {
+          q: "Que se passe-t-il si je ne suis pas satisfait ?",
+          a: "Contactez-nous à contact@trustmydiag.com. Nous examinons chaque demande au cas par cas. Si l'avis rendu est incomplet ou ne répond pas à votre question, nous nous engageons à y remédier.",
+        },
+      ],
+    },
     cta: {
       eyebrow: "Prêt à commencer ?",
       h2: "Un second avis médical, maintenant.",
@@ -121,6 +159,7 @@ export const t = {
       learn: "Ressources",
       learnLinks: [
         { label: "Blog", href: "/blog" },
+        { label: "FAQ", href: "/faq" },
         { label: "Témoignages", href: "/testimonials" },
         { label: "Support client", href: "/support" },
       ],
@@ -245,6 +284,44 @@ export const t = {
       title: "Your medical data is protected",
       desc: "TrustMyDiag is GDPR compliant. Your documents are encrypted and accessible only to the relevant doctor. No data resale. Right to erasure guaranteed.",
       link: "Learn more →",
+    },
+    faq: {
+      eyebrow: "FAQ",
+      h2: "Frequently asked questions",
+      items: [
+        {
+          q: "What exactly is a medical second opinion?",
+          a: "It's an independent analysis of your medical file (report, quote, test results) by a specialist doctor who is not your usual practitioner. They give you their professional perspective on the diagnosis, proposed treatment, or quote you received.",
+        },
+        {
+          q: "How is it different from a teleconsultation?",
+          a: "A teleconsultation replaces a classic real-time consultation. TrustMyDiag's second opinion is an in-depth analysis of existing documents — not a new consultation. The doctor takes time to study your full file and responds in writing in detail.",
+        },
+        {
+          q: "What types of documents can I send?",
+          a: "Medical reports, X-rays, dental quotes, lab results, prescriptions, photos (JPG, PNG, HEIC from iPhone), PDFs. Up to 5 files of 16 MB each.",
+        },
+        {
+          q: "How long will it take to receive my response?",
+          a: "The guaranteed deadline is 72h. In practice, most opinions are delivered within 24 to 48 business hours after payment is received.",
+        },
+        {
+          q: "Is my medical data secure?",
+          a: "Yes. Your documents are encrypted in transit and at rest. Only the relevant doctor has access. We are GDPR compliant and in the process of obtaining HDS certification. No data is ever sold.",
+        },
+        {
+          q: "Why €22?",
+          a: "It's the lowest possible price for a serious analysis by a real qualified doctor. No subscription, no hidden fees. You only pay for the opinion you receive.",
+        },
+        {
+          q: "Can the doctor prescribe a treatment?",
+          a: "No. TrustMyDiag's second opinion is an independent expert opinion, not a medical consultation. The doctor cannot issue prescriptions or certificates. They analyze your file and give you their professional insight.",
+        },
+        {
+          q: "What if I'm not satisfied?",
+          a: "Contact us at contact@trustmydiag.com. We review each request on a case-by-case basis. If the opinion provided is incomplete or doesn't answer your question, we commit to addressing it.",
+        },
+      ],
     },
     cta: {
       eyebrow: "Ready to start?",
