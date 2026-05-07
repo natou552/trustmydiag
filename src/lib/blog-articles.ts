@@ -26,8 +26,8 @@ export const articles: Article[] = [
     metaTitle: "Second avis dentaire : quand et pourquoi le demander ? | TrustMyDiag",
     metaDescription:
       "Implants, couronnes, prothèses : avant d'accepter un devis dentaire complexe, un second regard de spécialiste vous permet de mieux comprendre votre plan de traitement et d'investir sereinement dans votre santé. Guide complet.",
-    date: "12 avril 2025",
-    dateISO: "2025-04-12",
+    date: "12 avril 2026",
+    dateISO: "2026-04-12",
     category: "Dentaire",
     readingTime: 7,
     excerpt:
@@ -160,8 +160,8 @@ export const articles: Article[] = [
     metaTitle: "Comprendre son bilan gynécologique : frottis, échographie, hormones | TrustMyDiag",
     metaDescription:
       "Frottis cervical, échographie pelvienne, bilan hormonal… Nos gynécologues experts vous expliquent comment interpréter les résultats de votre suivi gynécologique et quand demander un second avis.",
-    date: "28 mars 2025",
-    dateISO: "2025-03-28",
+    date: "28 mars 2026",
+    dateISO: "2026-03-28",
     category: "Gynécologie",
     readingTime: 7,
     excerpt:
@@ -281,8 +281,8 @@ export const articles: Article[] = [
     metaTitle: "Second avis médical : vos droits légaux en France | TrustMyDiag",
     metaDescription:
       "La loi Kouchner de 2002 vous garantit le droit au second avis médical avant tout acte invasif. Découvrez vos droits, comment les exercer et pourquoi ce recours est souvent essentiel.",
-    date: "5 mars 2025",
-    dateISO: "2025-03-05",
+    date: "5 mars 2026",
+    dateISO: "2026-03-05",
     category: "Droits des patients",
     readingTime: 5,
     excerpt:
@@ -393,8 +393,8 @@ export const articles: Article[] = [
     metaTitle: "Comment préparer son dossier médical pour un second avis ? | TrustMyDiag",
     metaDescription:
       "Ordonnances, radios, comptes rendus d'opération, résultats d'analyse… Découvrez la liste complète des documents à rassembler pour obtenir un second avis médical précis et rapide.",
-    date: "18 février 2025",
-    dateISO: "2025-02-18",
+    date: "18 février 2026",
+    dateISO: "2026-02-18",
     category: "Conseils pratiques",
     readingTime: 5,
     excerpt:
