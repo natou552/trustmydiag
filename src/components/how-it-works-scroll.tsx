@@ -127,8 +127,8 @@ export function HowItWorksScroll({ steps, eyebrow, h2 }: Props) {
     <section
       id="how"
       ref={sectionRef}
-      className="py-20 md:py-28 px-6 mx-3 md:mx-5 my-2 rounded-[28px]"
-      style={{ background: "linear-gradient(160deg, #E2DEFA 0%, #EAE8F2 40%, #F2D5C8 100%)", backdropFilter: "blur(24px) saturate(180%)", WebkitBackdropFilter: "blur(24px) saturate(180%)", border: "1px solid rgba(255,255,255,0.85)", boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 20px 60px rgba(139,127,240,0.14), 0 4px 20px rgba(0,0,0,0.05)" }}
+      className="py-20 md:py-28 px-6"
+      style={{ background: "transparent" }}
     >
       <div className="max-w-5xl mx-auto">
 
@@ -152,10 +152,11 @@ export function HowItWorksScroll({ steps, eyebrow, h2 }: Props) {
               key={item.step}
               className="rounded-3xl p-8 relative overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.7)",
-                backdropFilter: "blur(20px)",
-                border: "1px solid rgba(255,255,255,0.9)",
-                boxShadow: "0 4px 24px rgba(139,127,240,0.07)",
+                background: "rgba(255,255,255,0.6)",
+                backdropFilter: "blur(20px) saturate(180%)",
+                WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                border: "1px solid rgba(255,255,255,0.8)",
+                boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
               }}
             >
               {/* Gradient top border */}

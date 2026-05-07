@@ -98,12 +98,8 @@ export default function HomePage() {
       {/* ── HERO ── */}
       <section
         ref={heroRef}
-        className="relative overflow-hidden pt-12 pb-28 px-6 text-center mx-3 md:mx-5 mt-3 rounded-[28px]"
-        style={{
-          background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 35%, #FDE8E0 65%, #F4F3F8 100%)",
-          boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 20px 60px rgba(139,127,240,0.14), 0 4px 20px rgba(0,0,0,0.05)",
-          border: "1px solid rgba(255,255,255,0.85)",
-        }}
+        className="relative overflow-hidden pt-12 pb-28 px-6 text-center"
+        style={{ background: "transparent" }}
       >
         {/* Orbs décoratifs */}
         <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-30 pointer-events-none"
@@ -192,10 +188,11 @@ export default function HomePage() {
                 key={s.value}
                 className="flex flex-col items-center px-4 py-5 rounded-2xl"
                 style={{
-                  background: "rgba(255,255,255,0.55)",
-                  backdropFilter: "blur(20px)",
-                  border: "1px solid rgba(255,255,255,0.9)",
-                  boxShadow: "0 4px 20px rgba(139,127,240,0.08)",
+                  background: "rgba(255,255,255,0.6)",
+                  backdropFilter: "blur(20px) saturate(180%)",
+                  WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                  border: "1px solid rgba(255,255,255,0.8)",
+                  boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 24px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
                 }}
               >
                 <span className="text-2xl font-bold" style={{ color: "#8B7FF0" }}>{s.value}</span>
@@ -207,7 +204,7 @@ export default function HomePage() {
       </section>
 
       {/* ── MARQUEE ── */}
-      <div className="py-4 overflow-hidden mx-3 md:mx-5 my-2 rounded-2xl" style={{ background: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.85)", boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 24px rgba(139,127,240,0.08)" }}>
+      <div className="py-4 overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.4)", borderBottom: "1px solid rgba(255,255,255,0.4)" }}>
         <div className="flex whitespace-nowrap">
           <div className="marquee-inner flex gap-12 items-center">
             {tr.marquee.map((item, i) => (
@@ -224,7 +221,7 @@ export default function HomePage() {
       <HowItWorksScroll steps={tr.how.steps} eyebrow={tr.how.eyebrow} h2={tr.how.h2} />
 
       {/* ── DOCTORS ── */}
-      <section id="doctors" className="py-28 px-6 mx-3 md:mx-5 my-2 rounded-[28px]" style={{ background: "rgba(255,255,255,0.6)", backdropFilter: "blur(24px) saturate(180%)", WebkitBackdropFilter: "blur(24px) saturate(180%)", border: "1px solid rgba(255,255,255,0.85)", boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 20px 60px rgba(139,127,240,0.12), 0 4px 20px rgba(0,0,0,0.04)" }}>
+      <section id="doctors" className="py-28 px-6" style={{ background: "transparent" }}>
         <div className="max-w-5xl mx-auto">
           <motion.div
             variants={fadeUp}
@@ -258,10 +255,11 @@ export default function HomePage() {
                   transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
                   className="rounded-3xl overflow-hidden"
                   style={{
-                    background: "rgba(255,255,255,0.75)",
-                    backdropFilter: "blur(20px)",
-                    border: "1px solid rgba(255,255,255,0.9)",
-                    boxShadow: "0 4px 24px rgba(139,127,240,0.08)",
+                    background: "rgba(255,255,255,0.6)",
+                    backdropFilter: "blur(20px) saturate(180%)",
+                    WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                    border: "1px solid rgba(255,255,255,0.8)",
+                    boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
                   }}
                   whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 >
@@ -302,7 +300,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SECOND REGARD, PAS SECOND JUGEMENT ── */}
-      <section className="py-28 px-6 overflow-hidden mx-3 md:mx-5 my-2 rounded-[28px]" style={{ background: "linear-gradient(160deg, #1E1C2E 0%, #2D2A3E 60%, #1A1828 100%)", boxShadow: "0 1px 0 rgba(139,127,240,0.3) inset, 0 20px 60px rgba(0,0,0,0.25), 0 4px 20px rgba(0,0,0,0.12)" }}>
+      <section className="py-28 px-6 overflow-hidden" style={{ background: "linear-gradient(160deg, #1E1C2E 0%, #2D2A3E 60%, #1A1828 100%)" }}>
         <div className="max-w-5xl mx-auto">
 
           {/* Header */}
@@ -426,7 +424,7 @@ export default function HomePage() {
       </section>
 
       {/* ── EXEMPLE RAPPORT ── */}
-      <section className="py-24 px-6 mx-3 md:mx-5 my-2 rounded-[28px]" style={{ background: "rgba(255,255,255,0.6)", backdropFilter: "blur(24px) saturate(180%)", WebkitBackdropFilter: "blur(24px) saturate(180%)", border: "1px solid rgba(255,255,255,0.85)", boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 20px 60px rgba(139,127,240,0.12), 0 4px 20px rgba(0,0,0,0.04)" }}>
+      <section className="py-24 px-6" style={{ background: "transparent" }}>
         <div className="max-w-4xl mx-auto">
           <motion.div
             variants={fadeUp}
@@ -451,10 +449,11 @@ export default function HomePage() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="rounded-3xl overflow-hidden"
             style={{
-              background: "rgba(255,255,255,0.75)",
-              backdropFilter: "blur(20px)",
-              border: "1px solid rgba(255,255,255,0.9)",
-              boxShadow: "0 8px 32px rgba(139,127,240,0.1)",
+              background: "rgba(255,255,255,0.6)",
+              backdropFilter: "blur(20px) saturate(180%)",
+              WebkitBackdropFilter: "blur(20px) saturate(180%)",
+              border: "1px solid rgba(255,255,255,0.8)",
+              boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
             }}
           >
             <div className="flex items-center gap-3 px-6 py-4" style={{ borderBottom: "1px solid rgba(139,127,240,0.08)", background: "rgba(255,255,255,0.5)" }}>
@@ -538,7 +537,7 @@ export default function HomePage() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="pt-14 pb-8 px-6 mx-3 md:mx-5 my-2 mb-3 rounded-[28px]" style={{ background: "#2D2A3E", color: "#9B98A8", boxShadow: "0 1px 0 rgba(139,127,240,0.2) inset, 0 20px 60px rgba(0,0,0,0.2)" }}>
+      <footer className="pt-14 pb-8 px-6" style={{ background: "#2D2A3E", color: "#9B98A8" }}>
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
             <div className="col-span-2 md:col-span-1">
