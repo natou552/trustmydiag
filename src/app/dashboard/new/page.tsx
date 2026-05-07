@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,98 @@ import { CheckCircle, Upload, FileText, ChevronRight, Stethoscope, Baby, X, Imag
 import { useDropzone } from "react-dropzone";
 import { useUploadThing } from "@/lib/uploadthing-client";
 
-type Step = 1 | 2 | 3;
+type Step = 1 | 2 | 3 | 4;
+
+type Anamnesis = {
+  symptoms: string[];
+  duration: string;
+  intensity: number;
+  chronicDiseases: string[];
+  hospitalized: string;
+  medications: string;
+  smoking: string;
+  physicalActivity: string;
+  stress: string;
+  familyHistory: string[];
+  priorConsultation: string;
+  availableDocuments: string[];
+  doctorMessage: string;
+};
+
+const defaultAnamnesis: Anamnesis = {
+  symptoms: [],
+  duration: "",
+  intensity: 0,
+  chronicDiseases: [],
+  hospitalized: "",
+  medications: "",
+  smoking: "",
+  physicalActivity: "",
+  stress: "",
+  familyHistory: [],
+  priorConsultation: "",
+  availableDocuments: [],
+  doctorMessage: "",
+};
+
+function toggleMulti(arr: string[], val: string, exclusive?: string): string[] {
+  if (exclusive && val === exclusive) return [exclusive];
+  const without = arr.filter((v) => v !== exclusive);
+  return without.includes(val) ? without.filter((v) => v !== val) : [...without, val];
+}
+
+function Chip({ label, selected, onToggle }: { label: string; selected: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      className={`px-3 py-1.5 rounded-full text-sm border transition-all font-medium ${
+        selected
+          ? "bg-[#1e3a5f] border-[#1e3a5f] text-white"
+          : "bg-white border-gray-200 text-gray-600 hover:border-[#1e3a5f]/50 hover:text-[#1e3a5f]"
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
+function RadioChip({ label, selected, onSelect }: { label: string; selected: boolean; onSelect: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={`px-3 py-1.5 rounded-full text-sm border transition-all font-medium ${
+        selected
+          ? "bg-[#1e3a5f] border-[#1e3a5f] text-white"
+          : "bg-white border-gray-200 text-gray-600 hover:border-[#1e3a5f]/50 hover:text-[#1e3a5f]"
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
+function SectionBlock({ number, title, subtitle, children }: { number: number; title: string; subtitle: string; children: React.ReactNode }) {
+  return (
+    <div className="border border-gray-100 rounded-2xl p-5">
+      <div className="flex items-start gap-3 mb-5">
+        <div className="w-6 h-6 rounded-full bg-[#1e3a5f] text-white text-xs flex items-center justify-center font-bold flex-shrink-0 mt-0.5">
+          {number}
+        </div>
+        <div>
+          <h3 className="font-semibold text-[#1e3a5f] text-sm">{title}</h3>
+          <p className="text-xs text-gray-400 mt-0.5">{subtitle}</p>
+        </div>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function FieldLabel({ children }: { children: React.ReactNode }) {
+  return <p className="text-sm font-medium text-gray-700 mb-2">{children}</p>;
+}
 
 function FilePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
   const isImage = file.type.startsWith("image/");
@@ -26,36 +117,59 @@ function FilePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
         <p className="text-sm font-medium text-gray-900 truncate">{file.name}</p>
         <p className="text-xs text-gray-400">{sizeMb} Mo</p>
       </div>
-      <button
-        onClick={onRemove}
-        className="text-gray-300 hover:text-red-400 transition-colors flex-shrink-0"
-      >
+      <button onClick={onRemove} className="text-gray-300 hover:text-red-400 transition-colors flex-shrink-0">
         <X className="h-4 w-4" />
       </button>
     </div>
   );
 }
 
+function formatAnamnesis(a: Anamnesis): string {
+  const lines = [
+    "=== QUESTIONNAIRE D'ANAMNÈSE ===",
+    "",
+    "1. MOTIF DE LA DEMANDE",
+    `Symptômes : ${a.symptoms.length ? a.symptoms.join(", ") : "Non renseigné"}`,
+    `Durée : ${a.duration || "Non renseigné"}`,
+    `Intensité : ${a.intensity > 0 ? `${a.intensity}/10` : "Non renseigné"}`,
+    "",
+    "2. ANTÉCÉDENTS MÉDICAUX",
+    `Maladies chroniques : ${a.chronicDiseases.length ? a.chronicDiseases.join(", ") : "Non renseigné"}`,
+    `Hospitalisé(e) / opéré(e) : ${a.hospitalized || "Non renseigné"}`,
+    `Médicaments quotidiens : ${a.medications || "Non renseigné"}`,
+    "",
+    "3. MODE DE VIE & FACTEURS DE RISQUE",
+    `Tabagisme : ${a.smoking || "Non renseigné"}`,
+    `Activité physique : ${a.physicalActivity || "Non renseigné"}`,
+    `Niveau de stress : ${a.stress || "Non renseigné"}`,
+    `Antécédents familiaux : ${a.familyHistory.length ? a.familyHistory.join(", ") : "Non renseigné"}`,
+    "",
+    "4. CONTEXTE & ATTENTES",
+    `Consultation antérieure : ${a.priorConsultation || "Non renseigné"}`,
+    `Documents disponibles : ${a.availableDocuments.length ? a.availableDocuments.join(", ") : "Aucun"}`,
+  ];
+  if (a.doctorMessage.trim()) {
+    lines.push("", "MESSAGE AU MÉDECIN :", a.doctorMessage.trim());
+  }
+  return lines.join("\n");
+}
+
 function NewRequestForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>(1);
   const [specialty, setSpecialty] = useState<"DENTAL" | "GYNECOLOGY" | "">("");
+  const [anamnesis, setAnamnesis] = useState<Anamnesis>(defaultAnamnesis);
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [uploadedUrls, setUploadedUrls] = useState<string[]>([]);
   const [uploadedKeys, setUploadedKeys] = useState<string[]>([]);
-  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const { startUpload } = useUploadThing("medicalUploader");
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles((prev) => {
-      const combined = [...prev, ...acceptedFiles];
-      return combined.slice(0, 5);
-    });
+    setFiles((prev) => [...prev, ...acceptedFiles].slice(0, 5));
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -75,6 +189,10 @@ function NewRequestForm() {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   }
 
+  function setA<K extends keyof Anamnesis>(key: K, value: Anamnesis[K]) {
+    setAnamnesis((prev) => ({ ...prev, [key]: value }));
+  }
+
   async function handleUpload() {
     if (files.length === 0) return;
     setUploading(true);
@@ -84,7 +202,7 @@ function NewRequestForm() {
       if (results && results.length > 0) {
         setUploadedUrls(results.map((r) => r.url));
         setUploadedKeys(results.map((r) => r.key));
-        setStep(3);
+        setStep(4);
       }
     } catch {
       setError("Erreur lors de l'envoi. Réessayez.");
@@ -103,7 +221,7 @@ function NewRequestForm() {
           specialty,
           pdfUrl: JSON.stringify(uploadedUrls),
           pdfKey: JSON.stringify(uploadedKeys),
-          message,
+          message: formatAnamnesis(anamnesis),
         }),
       });
       const data = await res.json();
@@ -124,10 +242,13 @@ function NewRequestForm() {
     }
   }
 
+  const canProceedAnamnesis = anamnesis.symptoms.length > 0 && anamnesis.duration !== "" && anamnesis.intensity > 0;
+
   const steps = [
     { n: 1, label: "Spécialité" },
-    { n: 2, label: "Documents" },
-    { n: 3, label: "Paiement" },
+    { n: 2, label: "Anamnèse" },
+    { n: 3, label: "Documents" },
+    { n: 4, label: "Paiement" },
   ];
 
   return (
@@ -135,7 +256,7 @@ function NewRequestForm() {
       <Header />
       <div className="max-w-2xl mx-auto px-4 py-10">
         <h1 className="text-2xl font-bold text-[#1e3a5f] mb-2">Nouvelle demande</h1>
-        <p className="text-gray-500 text-sm mb-8">Obtenez un second avis médical en 3 étapes</p>
+        <p className="text-gray-500 text-sm mb-8">Obtenez un second avis médical — veuillez compléter ce questionnaire avant de joindre vos documents.</p>
 
         {/* Stepper */}
         <div className="flex items-center gap-2 mb-10">
@@ -155,7 +276,8 @@ function NewRequestForm() {
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 p-8">
-          {/* Step 1 */}
+
+          {/* ── STEP 1 : Spécialité ── */}
           {step === 1 && (
             <div>
               <h2 className="text-lg font-semibold text-[#1e3a5f] mb-2">Choisissez la spécialité</h2>
@@ -187,13 +309,192 @@ function NewRequestForm() {
             </div>
           )}
 
-          {/* Step 2 */}
+          {/* ── STEP 2 : Anamnèse ── */}
           {step === 2 && (
+            <div>
+              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-1">Questionnaire d&apos;anamnèse</h2>
+              <p className="text-sm text-gray-500 mb-6">Ces informations aident le médecin à analyser votre situation. <span className="text-[#1e3a5f] font-medium">* Les 3 premiers champs sont requis.</span></p>
+
+              <div className="space-y-4">
+
+                {/* Section 1 */}
+                <SectionBlock number={1} title="Motif de la demande" subtitle="Décrivez votre symptôme principal">
+                  <div className="space-y-4">
+                    <div>
+                      <FieldLabel>Quel est votre symptôme principal ? <span className="text-red-400">*</span></FieldLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {["Douleur", "Essoufflement", "Fatigue inhabituelle", "Troubles du sommeil", "Vertiges / malaises", "Trouble digestif", "Autre"].map((s) => (
+                          <Chip key={s} label={s} selected={anamnesis.symptoms.includes(s)}
+                            onToggle={() => setA("symptoms", toggleMulti(anamnesis.symptoms, s))} />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <FieldLabel>Depuis quand ? <span className="text-red-400">*</span></FieldLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {["Moins de 48h", "Quelques jours", "Plusieurs semaines", "Plus d'un mois", "Chronique (> 3 mois)"].map((d) => (
+                          <RadioChip key={d} label={d} selected={anamnesis.duration === d} onSelect={() => setA("duration", d)} />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <FieldLabel>Intensité de la gêne sur 10 <span className="text-red-400">*</span></FieldLabel>
+                      <div className="flex gap-1.5 flex-wrap">
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                          <button key={n} type="button" onClick={() => setA("intensity", n)}
+                            className={`w-9 h-9 rounded-lg text-sm font-semibold border transition-all ${
+                              anamnesis.intensity === n
+                                ? "bg-[#1e3a5f] border-[#1e3a5f] text-white"
+                                : n <= (anamnesis.intensity || 0)
+                                ? "bg-[#1e3a5f]/10 border-[#1e3a5f]/30 text-[#1e3a5f]"
+                                : "bg-white border-gray-200 text-gray-500 hover:border-[#1e3a5f]/40"
+                            }`}
+                          >
+                            {n}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>Faible</span>
+                        <span>Insupportable</span>
+                      </div>
+                    </div>
+                  </div>
+                </SectionBlock>
+
+                {/* Section 2 */}
+                <SectionBlock number={2} title="Antécédents médicaux" subtitle="Pathologies, traitements et hospitalisations">
+                  <div className="space-y-4">
+                    <div>
+                      <FieldLabel>Avez-vous des maladies chroniques connues ?</FieldLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {["Aucune", "Diabète", "Hypertension", "Asthme / BPCO", "Cardiopathie", "Pathologie thyroïdienne", "Cancer (passé ou actif)"].map((d) => (
+                          <Chip key={d} label={d} selected={anamnesis.chronicDiseases.includes(d)}
+                            onToggle={() => setA("chronicDiseases", toggleMulti(anamnesis.chronicDiseases, d, "Aucune"))} />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <FieldLabel>Avez-vous été hospitalisé(e) ou opéré(e) ?</FieldLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {["Non", "Oui, il y a moins d'un an", "Oui, il y a plus d'un an"].map((h) => (
+                          <RadioChip key={h} label={h} selected={anamnesis.hospitalized === h} onSelect={() => setA("hospitalized", h)} />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <FieldLabel>Prenez-vous des médicaments au quotidien ?</FieldLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {["Non", "Oui (1 à 2)", "Oui (3 ou plus)"].map((m) => (
+                          <RadioChip key={m} label={m} selected={anamnesis.medications === m} onSelect={() => setA("medications", m)} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </SectionBlock>
+
+                {/* Section 3 */}
+                <SectionBlock number={3} title="Mode de vie & facteurs de risque" subtitle="Habitudes et contexte de santé">
+                  <div className="space-y-4">
+                    <div>
+                      <FieldLabel>Tabagisme</FieldLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {["Non-fumeur", "Ex-fumeur", "Fumeur actif"].map((s) => (
+                          <RadioChip key={s} label={s} selected={anamnesis.smoking === s} onSelect={() => setA("smoking", s)} />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <FieldLabel>Activité physique</FieldLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {["Sédentaire", "Légère (marche)", "Régulière (≥ 2×/sem.)", "Intensive"].map((a) => (
+                          <RadioChip key={a} label={a} selected={anamnesis.physicalActivity === a} onSelect={() => setA("physicalActivity", a)} />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <FieldLabel>Niveau de stress perçu</FieldLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {["Faible", "Modéré", "Élevé", "Très élevé"].map((s) => (
+                          <RadioChip key={s} label={s} selected={anamnesis.stress === s} onSelect={() => setA("stress", s)} />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <FieldLabel>Antécédents familiaux au 1er degré</FieldLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {["Aucun", "Maladie cardiovasculaire", "Cancer", "Diabète", "Maladie génétique"].map((f) => (
+                          <Chip key={f} label={f} selected={anamnesis.familyHistory.includes(f)}
+                            onToggle={() => setA("familyHistory", toggleMulti(anamnesis.familyHistory, f, "Aucun"))} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </SectionBlock>
+
+                {/* Section 4 */}
+                <SectionBlock number={4} title="Contexte & attentes" subtitle="Consultation antérieure et documents disponibles">
+                  <div className="space-y-4">
+                    <div>
+                      <FieldLabel>Avez-vous déjà consulté pour ce problème ?</FieldLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {["Non, c'est une première", "Oui, sans résolution", "Oui, je cherche un 2e avis"].map((p) => (
+                          <RadioChip key={p} label={p} selected={anamnesis.priorConsultation === p} onSelect={() => setA("priorConsultation", p)} />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <FieldLabel>Documents médicaux disponibles</FieldLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {["Aucun", "Ordonnance", "Résultats d'analyses", "Imagerie (radio, IRM…)", "Compte-rendu hospitalier"].map((d) => (
+                          <Chip key={d} label={d} selected={anamnesis.availableDocuments.includes(d)}
+                            onToggle={() => setA("availableDocuments", toggleMulti(anamnesis.availableDocuments, d, "Aucun"))} />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <FieldLabel>Message au médecin (optionnel)</FieldLabel>
+                      <textarea
+                        value={anamnesis.doctorMessage}
+                        onChange={(e) => setA("doctorMessage", e.target.value)}
+                        placeholder="Décrivez votre situation, vos questions ou vos inquiétudes…"
+                        rows={3}
+                        className="w-full text-sm border border-gray-200 rounded-xl px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f]/40 placeholder:text-gray-400"
+                      />
+                    </div>
+                  </div>
+                </SectionBlock>
+
+              </div>
+
+              <p className="text-xs text-gray-400 mt-4 text-center">
+                TrustMyDiag — Ce questionnaire est strictement confidentiel et transmis uniquement au médecin assigné.
+              </p>
+
+              <div className="mt-6 flex justify-between">
+                <Button variant="outline" onClick={() => setStep(1)}>Retour</Button>
+                <Button onClick={() => setStep(3)} disabled={!canProceedAnamnesis} className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white gap-2">
+                  Suivant <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* ── STEP 3 : Documents ── */}
+          {step === 3 && (
             <div>
               <h2 className="text-lg font-semibold text-[#1e3a5f] mb-1">Déposez vos documents</h2>
               <p className="text-sm text-gray-500 mb-6">PDF, photos (JPG, PNG, HEIC) · Max 5 fichiers · 16 Mo chacun</p>
 
-              {/* Zone de drop */}
               <div
                 {...getRootProps()}
                 className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors mb-4 ${
@@ -211,7 +512,6 @@ function NewRequestForm() {
                 </div>
               </div>
 
-              {/* Liste des fichiers */}
               {files.length > 0 && (
                 <div className="space-y-2 mb-6">
                   {files.map((f, i) => (
@@ -225,18 +525,6 @@ function NewRequestForm() {
                 </div>
               )}
 
-              <div className="mt-2">
-                <Label htmlFor="message">Message au médecin (optionnel)</Label>
-                <Textarea
-                  id="message"
-                  placeholder="Décrivez votre situation, vos questions ou vos inquiétudes…"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="mt-1 resize-none"
-                  rows={4}
-                />
-              </div>
-
               {error && (
                 <div className="bg-red-50 text-red-700 text-sm rounded-lg px-4 py-3 border border-red-100 mt-4">
                   {error}
@@ -244,7 +532,7 @@ function NewRequestForm() {
               )}
 
               <div className="mt-6 flex justify-between">
-                <Button variant="outline" onClick={() => setStep(1)}>Retour</Button>
+                <Button variant="outline" onClick={() => setStep(2)}>Retour</Button>
                 <Button
                   onClick={handleUpload}
                   disabled={files.length === 0 || uploading}
@@ -256,8 +544,8 @@ function NewRequestForm() {
             </div>
           )}
 
-          {/* Step 3 */}
-          {step === 3 && (
+          {/* ── STEP 4 : Paiement ── */}
+          {step === 4 && (
             <div>
               <h2 className="text-lg font-semibold text-[#1e3a5f] mb-2">Récapitulatif & paiement</h2>
               <p className="text-sm text-gray-500 mb-6">Vérifiez votre demande avant de payer.</p>
@@ -268,17 +556,17 @@ function NewRequestForm() {
                   <span className="font-medium">{specialty === "DENTAL" ? "Dentaire — Dr Benguigui" : "Gynécologie — Dr. xxxxxx xxxx"}</span>
                 </div>
                 <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Anamnèse</span>
+                  <span className="font-medium text-green-600 flex items-center gap-1">
+                    <CheckCircle className="h-3 w-3" /> Complétée
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Documents</span>
                   <span className="font-medium text-green-600 flex items-center gap-1">
                     <CheckCircle className="h-3 w-3" /> {uploadedUrls.length} fichier{uploadedUrls.length > 1 ? "s" : ""} envoyé{uploadedUrls.length > 1 ? "s" : ""}
                   </span>
                 </div>
-                {message && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Message</span>
-                    <span className="font-medium max-w-[200px] truncate">{message}</span>
-                  </div>
-                )}
                 <div className="border-t border-gray-200 pt-3 flex justify-between font-bold">
                   <span>Total</span>
                   <span className="text-[#1e3a5f] text-lg">22,00 €</span>
@@ -296,13 +584,14 @@ function NewRequestForm() {
               )}
 
               <div className="flex justify-between">
-                <Button variant="outline" onClick={() => setStep(2)}>Retour</Button>
+                <Button variant="outline" onClick={() => setStep(3)}>Retour</Button>
                 <Button onClick={handleSubmitAndPay} disabled={loading} className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white px-8">
                   {loading ? "Redirection…" : "Payer 22 €"}
                 </Button>
               </div>
             </div>
           )}
+
         </div>
       </div>
     </div>
