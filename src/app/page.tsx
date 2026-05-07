@@ -84,7 +84,7 @@ export default function HomePage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <div className="min-h-screen text-[#1D1D1F]" style={{ background: "linear-gradient(175deg, #FBFAFD 0%, #F7F4FC 28%, #F2EAF8 55%, #F6D0C8 82%, #FAD8C8 100%)" }}>
+    <div className="min-h-screen text-[#1D1D1F]" style={{ background: "linear-gradient(155deg, #DAD5EE 0%, #E2CCE8 28%, #ECCAC0 58%, #F2D0C4 82%, #F6D8CC 100%)" }}>
       <style>{`
         @media (max-width: 767px) {
           [style*="blur(20px)"] {
@@ -101,25 +101,6 @@ export default function HomePage() {
         className="relative overflow-hidden pt-12 pb-28 px-6 text-center"
         style={{ background: "transparent" }}
       >
-        {/* Blobs couleur — coins bas gauche / bas droite comme hellopearl */}
-        <div className="absolute -bottom-10 -right-8 w-[480px] h-[380px] pointer-events-none"
-          style={{ background: "radial-gradient(ellipse, rgba(249,196,176,0.45) 0%, transparent 68%)", filter: "blur(48px)" }} />
-        <div className="absolute bottom-0 -left-8 w-[400px] h-[340px] pointer-events-none"
-          style={{ background: "radial-gradient(ellipse, rgba(196,168,212,0.35) 0%, transparent 68%)", filter: "blur(56px)" }} />
-        <div className="absolute top-4 right-1/3 w-64 h-64 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse, rgba(139,127,240,0.07) 0%, transparent 70%)", filter: "blur(64px)" }} />
-
-        {/* Vagues organiques en bas du hero */}
-        <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden" style={{ height: 190 }}>
-          <svg viewBox="0 0 1440 190" preserveAspectRatio="none" style={{ width: "100%", height: "100%", display: "block" }}>
-            <path d="M0 85 C220 48 440 115 660 75 C880 35 1060 98 1240 62 C1340 43 1400 72 1440 58 L1440 190 L0 190 Z"
-              fill="rgba(139,127,240,0.08)" />
-            <path d="M0 112 C260 78 520 138 780 105 C960 80 1120 128 1320 96 C1385 84 1420 105 1440 98 L1440 190 L0 190 Z"
-              fill="rgba(196,168,212,0.13)" />
-            <path d="M0 143 C320 116 640 158 960 138 C1100 128 1260 150 1440 134 L1440 190 L0 190 Z"
-              fill="rgba(249,196,176,0.17)" />
-          </svg>
-        </div>
 
         <motion.div className="max-w-3xl mx-auto relative" style={{ y: heroY, opacity: heroOpacity }}>
           {/* H1 */}
