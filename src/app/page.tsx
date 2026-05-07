@@ -111,17 +111,23 @@ export default function HomePage() {
             className="text-5xl sm:text-6xl md:text-[70px] leading-[1.1] tracking-tight mb-6"
           >
             <span style={{ fontWeight: 600, color: "#2D2A3E" }}>{tr.hero.h1}</span>
-            {" "}
-            <br className="hidden md:block" />
+            <br />
+            <span style={{ fontWeight: 600, color: "#2D2A3E" }}>{tr.hero.h1Mid} </span>
             <em className="not-italic" style={{
               fontWeight: 700,
               background: "linear-gradient(135deg, #8B7FF0 0%, #C4A8D4 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
-            }}>
-              {tr.hero.h1Accent}
-            </em>
+            }}>{tr.hero.h1AccentInline}</em>
+            <br />
+            <em className="not-italic" style={{
+              fontWeight: 700,
+              background: "linear-gradient(135deg, #8B7FF0 0%, #C4A8D4 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}>{tr.hero.h1Accent}</em>
           </motion.h1>
 
           <motion.p
