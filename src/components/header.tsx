@@ -240,27 +240,31 @@ export function Header() {
             </Link>
 
           <button
-            className="relative w-9 h-9 flex flex-col items-center justify-center gap-[5px]"
+            className="relative w-9 h-9 flex flex-col items-center justify-center gap-[5px] rounded-full transition-colors"
+            style={{
+              background: mobileOpen ? "rgba(139,127,240,0.15)" : "rgba(139,127,240,0.08)",
+              border: "1px solid rgba(139,127,240,0.2)",
+            }}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Menu"
           >
             <motion.span
               animate={mobileOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="block w-5 h-[1.5px] rounded-full origin-center"
-              style={{ background: "#2D2A3E" }}
+              className="block w-[18px] h-[1.5px] rounded-full origin-center"
+              style={{ background: "#8B7FF0" }}
             />
             <motion.span
               animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
               transition={{ duration: 0.2 }}
-              className="block w-5 h-[1.5px] rounded-full"
-              style={{ background: "#2D2A3E" }}
+              className="block w-[18px] h-[1.5px] rounded-full"
+              style={{ background: "#8B7FF0" }}
             />
             <motion.span
               animate={mobileOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="block w-5 h-[1.5px] rounded-full origin-center"
-              style={{ background: "#2D2A3E" }}
+              className="block w-[18px] h-[1.5px] rounded-full origin-center"
+              style={{ background: "#8B7FF0" }}
             />
           </button>
           </div>
