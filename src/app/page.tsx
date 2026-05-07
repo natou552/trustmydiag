@@ -316,7 +316,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── POUR LES PROFESSIONNELS ── */}
+      {/* ── SECOND REGARD, PAS SECOND JUGEMENT ── */}
       <section className="py-28 px-6 overflow-hidden" style={{ background: "linear-gradient(160deg, #1E1C2E 0%, #2D2A3E 60%, #1A1828 100%)" }}>
         <div className="max-w-5xl mx-auto">
 
@@ -326,18 +326,20 @@ export default function HomePage() {
             className="text-center mb-16"
           >
             <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>
-              Pour les professionnels de santé
+              Notre philosophie
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight" style={{ color: "#F4F3F8" }}>
-              On travaille{" "}
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight" style={{ color: "#F4F3F8" }}>
+              Comprendre votre plan de traitement,{" "}
               <em className="not-italic" style={{
                 background: "linear-gradient(135deg, #8B7FF0, #C4A8D4)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-              }}>avec vous</em>
-              ,<br className="hidden sm:block" /> pas contre vous.
+              }}>pas le contester.</em>
             </h2>
+            <p className="text-lg mt-5 max-w-xl mx-auto leading-relaxed" style={{ color: "#9B98A8" }}>
+              Avoir un doute sur un devis complexe, c&apos;est normal. Chercher à mieux comprendre, c&apos;est votre droit.
+            </p>
           </motion.div>
 
           {/* Deux stats */}
@@ -345,13 +347,13 @@ export default function HomePage() {
             {[
               {
                 figure: "45%",
-                text: "des Français ont renoncé à des soins dentaires à cause du coût — implants, prothèses, greffes osseux.",
+                text: "des Français ont déjà renoncé à des soins dentaires à cause du coût — implants, prothèses, greffes osseux.",
                 source: "Sondage IFOP",
                 delay: 0,
               },
               {
                 figure: "36%",
-                text: "des patients sont insatisfaits de l'information sur les coûts reçue lors de leur consultation.",
+                text: "des patients se déclarent insatisfaits de l'information sur les coûts reçue lors de leur consultation.",
                 source: "Sondage SOFRES",
                 delay: 0.1,
               },
@@ -402,8 +404,9 @@ export default function HomePage() {
           >
             <p className="text-base md:text-lg leading-relaxed mb-8" style={{ color: "#C4C2D4" }}>
               <span style={{ color: "#8B7FF0", fontSize: "36px", lineHeight: 1, float: "left", marginRight: "8px", marginTop: "-4px", fontFamily: "Georgia, serif" }}>"</span>
-              1 patient sur 3 quitte votre cabinet avec un devis dans la main et un doute dans la tête.
-              Beaucoup ne reviendront jamais — pas parce que vous avez mal travaillé, mais parce qu&apos;ils n&apos;ont pas les outils pour <strong style={{ color: "#E8E6F0" }}>comprendre leur plan de traitement</strong>.
+              Demander un second avis, ce n&apos;est pas remettre en cause votre médecin.
+              C&apos;est vous donner les outils pour <strong style={{ color: "#E8E6F0" }}>comprendre votre plan de traitement</strong> et
+              aborder votre rendez-vous avec sérénité.
             </p>
 
             <div className="rounded-2xl p-6 mb-8" style={{
@@ -411,27 +414,26 @@ export default function HomePage() {
               border: "1px solid rgba(139,127,240,0.2)",
             }}>
               <p className="text-sm md:text-base leading-relaxed" style={{ color: "#D4D0E8" }}>
-                TrustMyDiag transforme ce doute en <strong style={{ color: "#A89EE8" }}>validation rapide à 22 € sous 72h</strong>.
-                Dans la grande majorité des cas, le second regard confirme le vôtre — et le patient revient signer, rassuré et convaincu.
+                Dans la grande majorité des cas, notre spécialiste{" "}
+                <strong style={{ color: "#A89EE8" }}>confirme le plan de traitement proposé</strong> — et vous repartez rassuré,
+                convaincu d&apos;investir sereinement dans votre santé.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div className="flex-1">
-                <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>
-                  Notre engagement
-                </p>
-                <p className="text-sm" style={{ color: "#9B98A8" }}>
-                  Nos avis ne jugent pas le praticien — ils éclairent la décision du patient.
-                </p>
-              </div>
-              <div className="flex items-center gap-2.5 px-5 py-3 rounded-full flex-shrink-0"
-                style={{ background: "rgba(139,127,240,0.12)", border: "1px solid rgba(139,127,240,0.25)" }}>
-                <svg className="h-4 w-4 flex-shrink-0" style={{ color: "#8B7FF0" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-                <span className="text-sm font-semibold" style={{ color: "#C4C2D4" }}>Second regard complémentaire</span>
-              </div>
+            <div className="grid sm:grid-cols-3 gap-4">
+              {[
+                { icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", label: "Notre spécialiste éclaire votre décision" },
+                { icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z", label: "Second regard complémentaire au premier" },
+                { icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z", label: "Aborder le rendez-vous en confiance" },
+              ].map((item) => (
+                <div key={item.label} className="flex items-start gap-3 p-4 rounded-2xl"
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                  <svg className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: "#8B7FF0" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                  </svg>
+                  <p className="text-sm leading-snug" style={{ color: "#9B98A8" }}>{item.label}</p>
+                </div>
+              ))}
             </div>
           </motion.div>
 
