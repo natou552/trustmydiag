@@ -23,13 +23,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MCV5DCP9" height="0" width="0" style={{ display: "none", visibility: "hidden" }} />
         </noscript>
 
-        {/* Ambient blobs — lumière diffuse fixe */}
+        {/* Ambient blobs — très subtils, style Apple/Linear */}
         <div aria-hidden="true" style={{
           position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
           background: [
-            "radial-gradient(ellipse 60% 52% at 82% 0%, rgba(199,182,255,0.18) 0%, transparent 64%)",
-            "radial-gradient(ellipse 55% 48% at 4% 100%, rgba(244,233,230,0.28) 0%, transparent 60%)",
-            "radial-gradient(ellipse 40% 35% at 50% 52%, rgba(255,255,255,0.38) 0%, transparent 70%)",
+            "radial-gradient(ellipse 90% 80% at 72% 8%, rgba(199,182,255,0.09) 0%, transparent 72%)",
+            "radial-gradient(ellipse 80% 70% at 22% 92%, rgba(244,233,230,0.12) 0%, transparent 70%)",
           ].join(","),
         }} />
 

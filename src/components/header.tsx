@@ -88,10 +88,10 @@ export function Header() {
       <header
         className="sticky top-0 z-50"
         style={{
-          background: scrolled ? "rgba(244,243,248,0.08)" : "rgba(244,243,248,0.72)",
-          backdropFilter: "saturate(180%) blur(20px)",
-          WebkitBackdropFilter: "saturate(180%) blur(20px)",
-          borderBottom: scrolled ? "1px solid rgba(139,127,240,0.04)" : "1px solid rgba(139,127,240,0.1)",
+          background: scrolled ? "rgba(248,246,244,0.82)" : "transparent",
+          backdropFilter: scrolled ? "saturate(180%) blur(20px)" : "none",
+          WebkitBackdropFilter: scrolled ? "saturate(180%) blur(20px)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(139,127,240,0.07)" : "none",
           padding: "10px 5%",
           transition: "background 400ms ease, border-color 400ms ease",
         }}
