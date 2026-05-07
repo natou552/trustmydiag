@@ -155,7 +155,6 @@ export const t = {
       navLinks: [
         { label: "Comment ça marche", href: "/#how" },
         { label: "Nos médecins", href: "/#doctors" },
-        { label: "Tarifs", href: "/#pricing" },
         { label: "Connexion", href: "/login" },
         { label: "Glossaire", href: "/glossary" },
       ],
@@ -342,7 +341,6 @@ export const t = {
       navLinks: [
         { label: "How it works", href: "/#how" },
         { label: "Our doctors", href: "/#doctors" },
-        { label: "Pricing", href: "/#pricing" },
         { label: "Log in", href: "/login" },
         { label: "Glossary", href: "/glossary" },
       ],
