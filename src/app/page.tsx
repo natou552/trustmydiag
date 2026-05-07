@@ -183,7 +183,8 @@ export default function HomePage() {
             {[
               { value: "22€", label: "Prix fixe, sans surprise" },
               { value: "72h", label: "Délai de réponse garanti" },
-              { value: "100%", label: "Médecins diplômés" },
+              { value: "8/10", label: "Avis confirment le diagnostic initial" },
+              { value: "3×", label: "Plus rapide qu'un second avis en cabinet" },
             ].map((s) => (
               <div
                 key={s.value}
