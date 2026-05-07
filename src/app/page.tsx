@@ -85,14 +85,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen text-[#1D1D1F]" style={{ background: "linear-gradient(160deg, #DDD9F5 0%, #E8E6F0 40%, #F0D0C4 100%)", backgroundAttachment: "fixed" }}>
-      <style>{`
-        @keyframes marquee {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .marquee-inner { animation: marquee 32s linear infinite; }
-      `}</style>
-
       <Header />
 
       {/* ── HERO ── */}
@@ -202,20 +194,6 @@ export default function HomePage() {
           </motion.div>
         </motion.div>
       </section>
-
-      {/* ── MARQUEE ── */}
-      <div className="py-4 overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.4)", borderBottom: "1px solid rgba(255,255,255,0.4)" }}>
-        <div className="flex whitespace-nowrap">
-          <div className="marquee-inner flex gap-12 items-center">
-            {tr.marquee.map((item, i) => (
-              <span key={i} className="flex items-center gap-2.5 text-xs flex-shrink-0" style={{ color: "#B0ABBD" }}>
-                <span className="w-1 h-1 rounded-full" style={{ background: "#C4A8D4" }} />
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* ── HOW IT WORKS — animé via GSAP ScrollTrigger ── */}
       <HowItWorksScroll steps={tr.how.steps} eyebrow={tr.how.eyebrow} h2={tr.how.h2} />
