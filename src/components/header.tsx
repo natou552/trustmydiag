@@ -24,14 +24,15 @@ function Dropdown({ label, items }: { label: string; items: { label: string; hre
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 px-4 py-2 rounded-full text-sm transition-all duration-200"
+        className="flex items-center gap-1 rounded-full text-sm transition-all duration-200"
         style={{
+          padding: "4px 11px",
           color: "#4A4458",
-          background: "rgba(255,255,255,0.45)",
-          backdropFilter: "blur(12px) saturate(180%)",
-          WebkitBackdropFilter: "blur(12px) saturate(180%)",
-          border: "1px solid rgba(255,255,255,0.6)",
-          boxShadow: "0 1px 6px rgba(139,127,240,0.07)",
+          background: "rgba(255,255,255,0.5)",
+          backdropFilter: "blur(10px) saturate(160%)",
+          WebkitBackdropFilter: "blur(10px) saturate(160%)",
+          border: "1px solid rgba(255,255,255,0.65)",
+          boxShadow: "0 1px 4px rgba(139,127,240,0.06)",
         }}
       >
         {label}
@@ -123,15 +124,15 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 style={{
-                  padding: "7px 16px",
+                  padding: "4px 11px",
                   borderRadius: "100px",
                   fontSize: "14px",
                   color: "#4A4458",
-                  background: "rgba(255,255,255,0.45)",
-                  backdropFilter: "blur(12px) saturate(180%)",
-                  WebkitBackdropFilter: "blur(12px) saturate(180%)",
-                  border: "1px solid rgba(255,255,255,0.6)",
-                  boxShadow: "0 1px 6px rgba(139,127,240,0.07)",
+                  background: "rgba(255,255,255,0.5)",
+                  backdropFilter: "blur(10px) saturate(160%)",
+                  WebkitBackdropFilter: "blur(10px) saturate(160%)",
+                  border: "1px solid rgba(255,255,255,0.65)",
+                  boxShadow: "0 1px 4px rgba(139,127,240,0.06)",
                   transition: "background 0.2s, color 0.2s, box-shadow 0.2s",
                   whiteSpace: "nowrap",
                 }}
