@@ -316,6 +316,128 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── POUR LES PROFESSIONNELS ── */}
+      <section className="py-28 px-6 overflow-hidden" style={{ background: "linear-gradient(160deg, #1E1C2E 0%, #2D2A3E 60%, #1A1828 100%)" }}>
+        <div className="max-w-5xl mx-auto">
+
+          {/* Header */}
+          <motion.div
+            variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
+            className="text-center mb-16"
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>
+              Pour les professionnels de santé
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight" style={{ color: "#F4F3F8" }}>
+              On travaille{" "}
+              <em className="not-italic" style={{
+                background: "linear-gradient(135deg, #8B7FF0, #C4A8D4)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}>avec vous</em>
+              ,<br className="hidden sm:block" /> pas contre vous.
+            </h2>
+          </motion.div>
+
+          {/* Deux stats */}
+          <div className="grid md:grid-cols-2 gap-5 mb-5">
+            {[
+              {
+                figure: "45%",
+                text: "des Français ont renoncé à des soins dentaires à cause du coût — implants, prothèses, greffes osseux.",
+                source: "Sondage IFOP",
+                delay: 0,
+              },
+              {
+                figure: "36%",
+                text: "des patients sont insatisfaits de l'information sur les coûts reçue lors de leur consultation.",
+                source: "Sondage SOFRES",
+                delay: 0.1,
+              },
+            ].map((s) => (
+              <motion.div
+                key={s.figure}
+                initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.65, ease: "easeOut", delay: s.delay }}
+                className="rounded-3xl p-8"
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  backdropFilter: "blur(20px)",
+                  border: "1px solid rgba(139,127,240,0.15)",
+                  boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+                }}
+              >
+                <p className="text-6xl font-black mb-3" style={{
+                  background: "linear-gradient(135deg, #8B7FF0, #C4A8D4)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  lineHeight: 1,
+                }}>
+                  {s.figure}
+                </p>
+                <p className="text-sm leading-relaxed mb-4" style={{ color: "#B8B4CC" }}>{s.text}</p>
+                <span className="text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full"
+                  style={{ background: "rgba(139,127,240,0.12)", color: "#8B7FF0", border: "1px solid rgba(139,127,240,0.2)" }}>
+                  {s.source}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Message principal */}
+          <motion.div
+            initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+            className="rounded-3xl p-8 md:p-12"
+            style={{
+              background: "rgba(255,255,255,0.04)",
+              backdropFilter: "blur(20px)",
+              border: "1px solid rgba(139,127,240,0.15)",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+            }}
+          >
+            <p className="text-base md:text-lg leading-relaxed mb-8" style={{ color: "#C4C2D4" }}>
+              <span style={{ color: "#8B7FF0", fontSize: "36px", lineHeight: 1, float: "left", marginRight: "8px", marginTop: "-4px", fontFamily: "Georgia, serif" }}>"</span>
+              1 patient sur 3 quitte votre cabinet avec un devis dans la main et un doute dans la tête.
+              Beaucoup ne reviendront jamais — pas parce que vous avez mal travaillé, mais parce qu&apos;ils n&apos;ont pas les outils pour <strong style={{ color: "#E8E6F0" }}>comprendre leur plan de traitement</strong>.
+            </p>
+
+            <div className="rounded-2xl p-6 mb-8" style={{
+              background: "rgba(139,127,240,0.08)",
+              border: "1px solid rgba(139,127,240,0.2)",
+            }}>
+              <p className="text-sm md:text-base leading-relaxed" style={{ color: "#D4D0E8" }}>
+                TrustMyDiag transforme ce doute en <strong style={{ color: "#A89EE8" }}>validation rapide à 22 € sous 72h</strong>.
+                Dans la grande majorité des cas, le second regard confirme le vôtre — et le patient revient signer, rassuré et convaincu.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex-1">
+                <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>
+                  Notre engagement
+                </p>
+                <p className="text-sm" style={{ color: "#9B98A8" }}>
+                  Nos avis ne jugent pas le praticien — ils éclairent la décision du patient.
+                </p>
+              </div>
+              <div className="flex items-center gap-2.5 px-5 py-3 rounded-full flex-shrink-0"
+                style={{ background: "rgba(139,127,240,0.12)", border: "1px solid rgba(139,127,240,0.25)" }}>
+                <svg className="h-4 w-4 flex-shrink-0" style={{ color: "#8B7FF0" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <span className="text-sm font-semibold" style={{ color: "#C4C2D4" }}>Second regard complémentaire</span>
+              </div>
+            </div>
+          </motion.div>
+
+        </div>
+      </section>
+
       {/* ── EXEMPLE RAPPORT ── */}
       <section className="py-24 px-6" style={{ background: "#F4F3F8" }}>
         <div className="max-w-4xl mx-auto">
