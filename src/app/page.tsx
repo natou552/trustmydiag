@@ -108,10 +108,10 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
-            className="text-5xl sm:text-6xl md:text-[72px] leading-[1.08] tracking-tight mb-6"
-            style={{ fontWeight: 700 }}
+            className="text-5xl sm:text-6xl md:text-[68px] leading-[1.1] tracking-tight mb-6"
           >
-            <span style={{ fontWeight: 300, color: "#4A4458" }}>{tr.hero.h1} </span>
+            <span style={{ fontWeight: 600, color: "#2D2A3E" }}>{tr.hero.h1}</span>
+            <br />
             <em className="not-italic" style={{
               fontWeight: 700,
               background: "linear-gradient(135deg, #8B7FF0 0%, #C4A8D4 100%)",
