@@ -26,75 +26,97 @@ const ICONS = [
 ];
 
 export function HowItWorksScroll({ steps, eyebrow, h2 }: Props) {
-  const sectionRef  = useRef<HTMLElement>(null);
-  const headerRef   = useRef<HTMLDivElement>(null);
-  const cardsRef    = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef  = useRef<HTMLDivElement>(null);
+  const cardsRef   = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // ── 1. Header : fade + translateY calé sur le scroll ──
-      gsap.from(headerRef.current, {
-        opacity: 0,
-        y: 40,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: "top 80%",
-          end: "top 40%",
-          scrub: 1,
-        },
-      });
-
-      // ── 2. Cartes : chacune arrive de sa propre direction + rotation ──
-      // La section est épinglée le temps que les 3 cartes se déploient
       const cards = cardsRef.current
         ? Array.from(cardsRef.current.children)
         : [];
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 10%",      // commence quand la section est quasi en haut
-          end: "+=160%",         // se joue sur 160vh de scroll
-          pin: true,             // épingle la section
-          pinSpacing: true,
-          scrub: 1.2,            // fluidité du scrub (augmente = plus doux)
-          anticipatePin: 1,
-        },
+      // ── gsap.matchMedia : animations différentes selon la taille d'écran ──
+      const mm = gsap.matchMedia();
+
+      // ════════════════════════════════════════
+      // DESKTOP (≥ 768px) — pin + scrub
+      // ════════════════════════════════════════
+      mm.add("(min-width: 768px)", () => {
+        // Header parallax
+        gsap.from(headerRef.current, {
+          opacity: 0,
+          y: 40,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: "top 80%",
+            end: "top 40%",
+            scrub: 1,
+          },
+        });
+
+        // Cartes — pin + scrub avec directions différentes
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 10%",
+            end: "+=160%",
+            pin: true,
+            pinSpacing: true,
+            scrub: 1.2,
+            anticipatePin: 1,
+          },
+        });
+
+        tl.from(cards[0], { x: -80, y: 60, rotation: -5, scale: 0.88, opacity: 0, ease: "power2.out", duration: 0.4 }, 0);
+        tl.from(cards[1], { y: 100, scale: 0.85, opacity: 0, ease: "power2.out", duration: 0.4 }, 0.15);
+        tl.from(cards[2], { x: 80, y: 60, rotation: 5, scale: 0.88, opacity: 0, ease: "power2.out", duration: 0.4 }, 0.3);
       });
 
-      // Carte 1 — arrive de la gauche avec légère rotation
-      tl.from(cards[0], {
-        x: -80,
-        y: 60,
-        rotation: -5,
-        scale: 0.88,
-        opacity: 0,
-        ease: "power2.out",
-        duration: 0.4,
-      }, 0);
+      // ════════════════════════════════════════
+      // MOBILE (< 768px) — scroll reveal sans pin
+      // Les cartes s'empilent verticalement,
+      // chacune se révèle en entrant dans le viewport
+      // ════════════════════════════════════════
+      mm.add("(max-width: 767px)", () => {
+        // Header : fade + scale rapide
+        gsap.from(headerRef.current, {
+          opacity: 0,
+          y: 30,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: "top 88%",
+            toggleActions: "play none none reverse",
+          },
+        });
 
-      // Carte 2 — arrive du bas, centrée
-      tl.from(cards[1], {
-        y: 100,
-        scale: 0.85,
-        opacity: 0,
-        ease: "power2.out",
-        duration: 0.4,
-      }, 0.15);
+        // Chaque carte se révèle indépendamment avec un effet "surgir"
+        cards.forEach((card, i) => {
+          // Alternance gauche / droite / gauche pour donner du rythme
+          const xFrom = i % 2 === 0 ? -40 : 40;
 
-      // Carte 3 — arrive de la droite avec légère rotation inverse
-      tl.from(cards[2], {
-        x: 80,
-        y: 60,
-        rotation: 5,
-        scale: 0.88,
-        opacity: 0,
-        ease: "power2.out",
-        duration: 0.4,
-      }, 0.3);
+          gsap.from(card, {
+            opacity: 0,
+            x: xFrom,
+            y: 50,
+            scale: 0.93,
+            rotation: i % 2 === 0 ? -3 : 3,
+            duration: 0.65,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 88%",       // déclenche quand la carte entre dans le viewport
+              toggleActions: "play none none reverse",
+            },
+            delay: 0,                 // pas de delay global — le scroll se charge du timing
+          });
+        });
+      });
 
     }, sectionRef);
 
@@ -105,13 +127,13 @@ export function HowItWorksScroll({ steps, eyebrow, h2 }: Props) {
     <section
       id="how"
       ref={sectionRef}
-      className="py-28 px-6"
+      className="py-20 md:py-28 px-6"
       style={{ background: "#F4F3F8" }}
     >
       <div className="max-w-5xl mx-auto">
 
         {/* ── Header ── */}
-        <div ref={headerRef} className="text-center mb-20">
+        <div ref={headerRef} className="text-center mb-12 md:mb-20">
           <p className="text-xs font-semibold uppercase tracking-widest mb-4"
             style={{ color: "#8B7FF0" }}>
             {eyebrow}
@@ -123,7 +145,8 @@ export function HowItWorksScroll({ steps, eyebrow, h2 }: Props) {
         </div>
 
         {/* ── Cartes ── */}
-        <div ref={cardsRef} className="grid md:grid-cols-3 gap-6">
+        {/* Sur mobile : gap plus large pour que chaque carte soit bien visible avant la suivante */}
+        <div ref={cardsRef} className="grid md:grid-cols-3 gap-8 md:gap-6">
           {steps.map((item, i) => (
             <div
               key={item.step}
@@ -140,9 +163,18 @@ export function HowItWorksScroll({ steps, eyebrow, h2 }: Props) {
                 className="absolute top-0 left-0 right-0 h-0.5 rounded-t-3xl"
                 style={{ background: GRADIENTS[i] }}
               />
+
+              {/* Numéro d'étape en grand en arrière-plan — décoratif */}
+              <span
+                className="absolute top-4 right-5 text-7xl font-black select-none pointer-events-none"
+                style={{ color: "rgba(139,127,240,0.06)", lineHeight: 1 }}
+              >
+                {item.step}
+              </span>
+
               <div
-                className="w-11 h-11 rounded-2xl flex items-center justify-center mb-6 text-white"
-                style={{ background: GRADIENTS[i] }}
+                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 text-white"
+                style={{ background: GRADIENTS[i], boxShadow: `0 6px 16px rgba(139,127,240,0.25)` }}
               >
                 {ICONS[i]}
               </div>
