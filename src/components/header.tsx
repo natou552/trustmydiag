@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { Shield, ChevronDown, ChevronRight, Globe, X } from "lucide-react";
+import { Shield, ChevronDown, ChevronRight, Globe, X, User } from "lucide-react";
 import { useLang } from "@/contexts/language";
 import { t } from "@/lib/translations";
 import { motion, AnimatePresence } from "framer-motion";
@@ -210,9 +210,37 @@ export function Header() {
             )}
           </div>
 
-          {/* Mobile: burger */}
+          {/* Mobile: icône compte + burger */}
+          <div className="md:hidden flex items-center gap-1">
+
+            {/* Icône compte — dashboard si connecté, login sinon */}
+            <Link
+              href={session ? "/dashboard" : "/login"}
+              aria-label={session ? "Mon espace" : "Se connecter"}
+            >
+              <div
+                className="w-9 h-9 flex items-center justify-center rounded-full transition-colors"
+                style={{
+                  background: session
+                    ? "linear-gradient(135deg, #8B7FF0, #6B5FD0)"
+                    : "rgba(139,127,240,0.08)",
+                  border: session
+                    ? "none"
+                    : "1px solid rgba(139,127,240,0.2)",
+                }}
+              >
+                {session ? (
+                  <span className="text-xs font-bold text-white">
+                    {session.user?.name?.charAt(0).toUpperCase() ?? <User className="h-4 w-4 text-white" />}
+                  </span>
+                ) : (
+                  <User className="h-4 w-4" style={{ color: "#8B7FF0" }} />
+                )}
+              </div>
+            </Link>
+
           <button
-            className="md:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px]"
+            className="relative w-9 h-9 flex flex-col items-center justify-center gap-[5px]"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Menu"
           >
@@ -235,6 +263,7 @@ export function Header() {
               style={{ background: "#2D2A3E" }}
             />
           </button>
+          </div>
         </div>
       </header>
 
