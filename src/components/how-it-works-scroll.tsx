@@ -128,7 +128,7 @@ export function HowItWorksScroll({ steps, eyebrow, h2 }: Props) {
       id="how"
       ref={sectionRef}
       className="py-20 md:py-28 px-6"
-      style={{ background: "#F4F3F8" }}
+      style={{ background: "#E8E6F0" }}
     >
       <div className="max-w-5xl mx-auto">
 
