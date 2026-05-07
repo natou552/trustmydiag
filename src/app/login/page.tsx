@@ -35,6 +35,9 @@ function LoginForm() {
     if (result?.error) {
       if (result.error === "EMAIL_NOT_VERIFIED") {
         setError("Veuillez vérifier votre email avant de vous connecter.");
+      } else if (result.error.startsWith("MFA_REQUIRED:")) {
+        const mfaToken = result.error.replace("MFA_REQUIRED:", "");
+        router.push(`/mfa?token=${encodeURIComponent(mfaToken)}&email=${encodeURIComponent(form.email)}`);
       } else {
         setError("Email ou mot de passe incorrect.");
       }
@@ -45,7 +48,7 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" >
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-md w-full">
         <div className="text-center mb-8">
           <Link href="/" className="flex items-center gap-2 justify-center font-bold text-xl text-[#1e3a5f] mb-6">
@@ -82,7 +85,12 @@ function LoginForm() {
             />
           </div>
           <div>
-            <Label htmlFor="password">Mot de passe</Label>
+            <div className="flex items-center justify-between mb-1">
+              <Label htmlFor="password">Mot de passe</Label>
+              <Link href="/forgot-password" className="text-xs text-[#8B7FF0] hover:underline">
+                Mot de passe oublié ?
+              </Link>
+            </div>
             <Input
               id="password"
               type="password"
@@ -90,7 +98,6 @@ function LoginForm() {
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               required
-              className="mt-1"
             />
           </div>
 

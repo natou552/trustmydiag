@@ -21,7 +21,7 @@ export async function sendVerificationEmail(email: string, name: string, token: 
 }
 
 export async function sendRequestConfirmation(email: string, name: string, requestId: string) {
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to: email,
     subject: "Votre demande a bien été reçue — TrustMyDiag",
@@ -32,6 +32,7 @@ export async function sendRequestConfirmation(email: string, name: string, reque
       <p>Vous pouvez suivre l'avancement de votre demande sur votre <a href="${process.env.NEXTAUTH_URL}/dashboard">tableau de bord</a>.</p>
     `,
   });
+  if (error) throw new Error(`Resend error (confirmation): ${JSON.stringify(error)}`);
 }
 
 export async function sendDoctorNotification(
@@ -111,6 +112,30 @@ export async function sendContactConfirmation(name: string, email: string, subje
     `,
   });
   if (error) throw new Error(`Resend error (confirmation): ${JSON.stringify(error)}`);
+}
+
+export async function sendPasswordResetEmail(email: string, name: string, token: string) {
+  const url = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}`;
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: email,
+    subject: "Réinitialisation de votre mot de passe — TrustMyDiag",
+    html: `
+      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#2D2A3E">
+        <div style="background:linear-gradient(135deg,#1e3a5f,#2a4f7f);padding:32px;border-radius:12px 12px 0 0;text-align:center">
+          <h1 style="color:white;margin:0;font-size:22px">Réinitialisation du mot de passe</h1>
+        </div>
+        <div style="background:#ffffff;padding:32px;border-radius:0 0 12px 12px;border:1px solid #eee">
+          <p style="margin:0 0 16px">Bonjour <strong>${name}</strong>,</p>
+          <p style="margin:0 0 24px;color:#6B6880">Vous avez demandé à réinitialiser votre mot de passe. Cliquez sur le bouton ci-dessous :</p>
+          <a href="${url}" style="display:inline-block;padding:12px 28px;background:#1e3a5f;color:white;border-radius:8px;text-decoration:none;font-weight:600;margin-bottom:24px">Réinitialiser mon mot de passe</a>
+          <p style="margin:0 0 8px;font-size:13px;color:#9B98A8">Ce lien expire dans <strong>1 heure</strong>.</p>
+          <p style="margin:0;font-size:13px;color:#9B98A8">Si vous n'avez pas demandé cette réinitialisation, ignorez cet email.</p>
+        </div>
+      </div>
+    `,
+  });
+  if (error) throw new Error(`Resend error (password reset): ${JSON.stringify(error)}`);
 }
 
 export async function sendReplyToPatient(email: string, name: string, requestId: string, reply: string) {

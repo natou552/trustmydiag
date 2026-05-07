@@ -42,16 +42,27 @@ model VerificationToken {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String
-  password      String?
-  role          Role      @default(PATIENT)
-  emailVerified DateTime?
-  createdAt     DateTime  @default(now())
-  accounts      Account[]
-  sessions      Session[]
-  requests      Request[]
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String
+  password          String?
+  role              Role      @default(PATIENT)
+  emailVerified     DateTime?
+  createdAt         DateTime  @default(now())
+  // MFA
+  phone             String?
+  phoneVerified     Boolean   @default(false)
+  mfaEnabled        Boolean   @default(false)
+  mfaToken          String?
+  mfaTokenExpiry    DateTime?
+  otpCode           String?
+  otpExpiry         DateTime?
+  // Password reset
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  accounts          Account[]
+  sessions          Session[]
+  requests          Request[]
 }
 
 enum Role {

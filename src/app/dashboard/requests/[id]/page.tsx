@@ -16,7 +16,7 @@ export default async function RequestDetailPage({ params }: { params: { id: stri
   }
 
   return (
-    <div className="min-h-screen bg-[#f8fafc]">
+    <div className="min-h-screen">
       <Header />
       <RequestDetailClient request={{
         id: request.id,

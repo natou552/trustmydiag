@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Header } from "@/components/header";
-import { PlusCircle, FileText, Clock, CheckCircle2, Trash2 } from "lucide-react";
+import { PlusCircle, FileText, Clock, CheckCircle2, Trash2, Lock } from "lucide-react";
 import { useLang } from "@/contexts/language";
 import { t } from "@/lib/translations";
 
@@ -63,7 +63,7 @@ export function DashboardClient({ session, requests: initialRequests }: {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 35%, #FDE8E0 65%, #F4F3F8 100%)" }}>
+    <div className="min-h-screen">
       <Header />
       <div className="max-w-4xl mx-auto px-4 py-10">
         {paymentSuccess && (
@@ -77,12 +77,19 @@ export function DashboardClient({ session, requests: initialRequests }: {
             <h1 className="text-2xl font-bold text-[#1e3a5f]">{tr.title}</h1>
             <p className="text-gray-500 text-sm mt-1">{tr.greeting} {session.user.name}</p>
           </div>
-          <Link href="/dashboard/new">
-            <Button className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white gap-2">
-              <PlusCircle className="h-4 w-4" />
-              {tr.newRequest}
-            </Button>
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link href="/dashboard/security">
+              <Button variant="outline" size="icon" title="Sécurité" className="border-gray-200 text-gray-500 hover:text-[#8B7FF0] hover:border-[#8B7FF0]">
+                <Lock className="h-4 w-4" />
+              </Button>
+            </Link>
+            <Link href="/dashboard/new">
+              <Button className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white gap-2">
+                <PlusCircle className="h-4 w-4" />
+                {tr.newRequest}
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {requests.length === 0 ? (
