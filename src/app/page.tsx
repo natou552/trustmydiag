@@ -6,7 +6,6 @@ import {
   ArrowRight,
   CheckCircle,
   Shield,
-  Clock,
   Upload,
   CreditCard,
   MessageSquare,
@@ -111,28 +110,11 @@ export default function HomePage() {
           style={{ background: "radial-gradient(circle, #F9C4B0 0%, transparent 70%)", filter: "blur(60px)" }} />
 
         <motion.div className="max-w-3xl mx-auto relative" style={{ y: heroY, opacity: heroOpacity }}>
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2 text-xs font-medium px-4 py-2 rounded-full mb-6 shadow-sm"
-            style={{
-              background: "rgba(255,255,255,0.7)",
-              backdropFilter: "blur(12px)",
-              border: "1px solid rgba(139,127,240,0.2)",
-              color: "#8B7FF0",
-            }}
-          >
-            <Clock className="h-3 w-3" />
-            {tr.hero.badge}
-          </motion.div>
-
           {/* H1 */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
             className="text-6xl sm:text-7xl md:text-[86px] leading-[1.05] tracking-tight mb-6"
             style={{ fontWeight: 700 }}
           >
