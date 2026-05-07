@@ -25,67 +25,93 @@ export const articles: Article[] = [
     title: "Pourquoi demander un second avis dentaire ?",
     metaTitle: "Second avis dentaire : quand et pourquoi le demander ? | TrustMyDiag",
     metaDescription:
-      "Implants, couronnes, prothèses : avant d'accepter un devis dentaire élevé, un second avis de spécialiste peut vous éviter des traitements inutiles et vous faire économiser des centaines d'euros. Guide complet.",
+      "Implants, couronnes, prothèses : avant d'accepter un devis dentaire complexe, un second regard de spécialiste vous permet de mieux comprendre votre plan de traitement et d'investir sereinement dans votre santé. Guide complet.",
     date: "12 avril 2025",
     dateISO: "2025-04-12",
     category: "Dentaire",
-    readingTime: 6,
+    readingTime: 7,
     excerpt:
-      "Avant d'accepter un devis pour des implants ou une couronne, un second regard de spécialiste peut vous éviter des traitements inutiles et vous faire économiser plusieurs centaines d'euros.",
+      "Avant d'accepter un devis pour des implants ou une couronne, un second regard de spécialiste vous permet de mieux comprendre votre plan de traitement et d'aborder votre soin en toute confiance.",
     author: "Dr. Robert Benguigui",
     authorRole: "Chirurgien-dentiste — N° RPPS 10000111715",
     content: [
       {
         type: "p",
-        text: "Vous venez de recevoir un devis dentaire à quatre chiffres pour des implants, des couronnes ou une prothèse complète. Votre premier réflexe est peut-être de faire confiance à votre dentiste habituel. Mais saviez-vous que les plans de traitement dentaire varient considérablement d'un praticien à l'autre, et que certains traitements proposés ne sont pas toujours les plus adaptés à votre situation ?",
+        text: "Vous venez de recevoir un devis dentaire complexe pour des implants, des couronnes ou une prothèse complète. Votre dentiste vous a expliqué sa recommandation, mais vous souhaitez mieux comprendre les options qui s'offrent à vous avant de vous engager. C'est une démarche naturelle et légitime — et c'est exactement ce à quoi sert un second avis dentaire.",
       },
       {
         type: "h2",
-        text: "Dans quels cas demander un second avis dentaire ?",
+        text: "Un second avis : une démarche complémentaire, pas opposée",
       },
       {
         type: "p",
-        text: "Il existe des situations précises où consulter un autre chirurgien-dentiste avant de commencer un traitement est non seulement recommandé, mais peut s'avérer essentiel pour votre santé et votre portefeuille.",
+        text: "Demander un second avis dentaire ne signifie pas remettre en cause les compétences ou l'honnêteté de votre praticien. La grande majorité des chirurgiens-dentistes sont des professionnels rigoureux qui agissent dans l'intérêt de leurs patients.",
+      },
+      {
+        type: "p",
+        text: "En réalité, le second avis est une pratique courante dans toutes les spécialités médicales, notamment avant toute intervention chirurgicale importante. En dentisterie, il est d'autant plus utile que les plans de traitement peuvent être complexes, coûteux, et que plusieurs approches thérapeutiques sont souvent possibles pour une même situation clinique.",
+      },
+      {
+        type: "p",
+        text: "L'objectif n'est pas de juger votre dentiste, mais de vous donner les éléments pour comprendre votre plan de traitement, poser les bonnes questions, et aborder votre prochain rendez-vous en toute confiance.",
+      },
+      {
+        type: "h2",
+        text: "Pourquoi les plans de traitement peuvent-ils différer ?",
+      },
+      {
+        type: "p",
+        text: "Deux chirurgiens-dentistes compétents peuvent proposer des approches différentes face à une même situation. Cela s'explique par plusieurs raisons légitimes :",
       },
       {
         type: "ul",
         items: [
-          "Devis supérieur à 500 € pour des couronnes, bridges ou prothèses",
-          "Proposition d'extraction d'une dent sans alternative conservatrice clairement expliquée",
-          "Plan d'implants multiples sans examen radiologique (panoramique ou cone beam) récent",
-          "Traitement parodontal (chirurgie des gencives) sans bilan préalable complet",
-          "Doute sur la nécessité d'un traitement canalaire (dévitalisation)",
-          "Proposition de chirurgie orthognatique ou de redressement de mâchoire",
+          "Les formations continues et les écoles de pensée varient d'un praticien à l'autre",
+          "Certains spécialistes privilégient une approche conservatrice (préserver la dent coûte que coûte), d'autres une approche prothétique",
+          "Les matériaux et les techniques évoluent rapidement — un praticien peut proposer des options qu'un autre n'utilise pas encore",
+          "Le plateau technique du cabinet influence les possibilités thérapeutiques disponibles",
+          "L'évaluation du risque à long terme peut conduire à des choix différents",
+        ],
+      },
+      {
+        type: "p",
+        text: "Face à cette diversité, disposer d'un second éclairage vous permet de comprendre les raisons derrière chaque choix thérapeutique et de prendre une décision véritablement éclairée.",
+      },
+      {
+        type: "h2",
+        text: "Dans quels cas demander un second regard sur votre plan de traitement ?",
+      },
+      {
+        type: "p",
+        text: "Certaines situations se prêtent particulièrement bien à une consultation complémentaire :",
+      },
+      {
+        type: "ul",
+        items: [
+          "Devis complexe impliquant plusieurs couronnes, bridges ou implants",
+          "Proposition d'extraction d'une dent sans qu'une alternative conservatrice ait été évoquée",
+          "Plan d'implants multiples avec un investissement financier important",
+          "Traitement parodontal (chirurgie des gencives) avant de vous engager",
+          "Hésitation sur la nécessité d'un traitement canalaire (dévitalisation)",
+          "Proposition de chirurgie orthognatique ou de réhabilitation complète",
         ],
       },
       {
         type: "h2",
-        text: "Les écarts de devis : une réalité documentée",
+        text: "Ce qu'un second regard peut apporter",
       },
       {
         type: "p",
-        text: "Une étude de la DGCCRF (Direction générale de la concurrence, de la consommation et de la répression des fraudes) a révélé des écarts de devis allant de 1 à 4 pour un même implant dentaire selon les cabinets consultés. Pour une couronne céramique, le tarif peut varier de 400 € à plus de 1 200 € en France.",
-      },
-      {
-        type: "p",
-        text: "Ces écarts ne reflètent pas toujours une différence de qualité. Ils tiennent souvent au matériau choisi, au laboratoire de prothèse utilisé, et à la stratégie commerciale du cabinet. Un second avis vous permet de comprendre si le plan de traitement est médicalement justifié et si le tarif est cohérent.",
-      },
-      {
-        type: "h2",
-        text: "Ce qu'un second avis dentaire peut révéler",
-      },
-      {
-        type: "p",
-        text: "Dans notre expérience, un second avis dentaire permet souvent de :",
+        text: "Dans notre expérience, un second regard sur un plan de traitement dentaire permet souvent de :",
       },
       {
         type: "ul",
         items: [
-          "Confirmer que le traitement proposé est bien le plus adapté à votre cas",
-          "Identifier une alternative moins invasive (ex. : inlay-core plutôt que couronne complète)",
-          "Éviter une extraction en proposant un traitement conservateur",
+          "Confirmer que le traitement proposé est bien le plus adapté à votre situation clinique",
+          "Mieux comprendre les alternatives possibles (ex. : inlay-core plutôt que couronne complète)",
+          "Identifier une approche conservatrice si elle n'a pas été envisagée",
           "Vérifier que les matériaux proposés correspondent aux dernières recommandations",
-          "Détecter un sur-traitement ou une surfacturation par rapport aux actes réellement nécessaires",
+          "Investir sereinement dans votre santé bucco-dentaire en comprenant chaque poste du devis",
         ],
       },
       {
