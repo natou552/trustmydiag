@@ -128,7 +128,7 @@ export function HowItWorksScroll({ steps, eyebrow, h2 }: Props) {
       id="how"
       ref={sectionRef}
       className="py-20 md:py-28 px-6"
-      style={{ background: "#E8E6F0" }}
+      style={{ background: "linear-gradient(160deg, #DDD9F5 0%, #E8E6F0 40%, #F0D0C4 100%)" }}
     >
       <div className="max-w-5xl mx-auto">
 
