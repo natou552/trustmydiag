@@ -39,15 +39,23 @@ function toggleMulti(arr: string[], val: string, exclusive?: string): string[] {
   return without.includes(val) ? without.filter((v) => v !== val) : [...without, val];
 }
 
+const chipBase = "px-3.5 py-2 rounded-full text-sm font-medium transition-all duration-150 cursor-pointer";
+const chipSelected: React.CSSProperties = {
+  background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)",
+  color: "white",
+  boxShadow: "0 2px 8px rgba(139,127,240,0.35)",
+  border: "1px solid transparent",
+};
+const chipUnselected: React.CSSProperties = {
+  background: "rgba(255,255,255,0.85)",
+  border: "1px solid rgba(139,127,240,0.18)",
+  color: "#6B6880",
+};
+
 function Chip({ label, selected, onToggle }: { label: string; selected: boolean; onToggle: () => void }) {
   return (
-    <button type="button" onClick={onToggle}
-      className={`px-3 py-1.5 rounded-full text-sm border transition-all font-medium ${
-        selected
-          ? "bg-[#1e3a5f] border-[#1e3a5f] text-white"
-          : "bg-white border-gray-200 text-gray-600 hover:border-[#1e3a5f]/50 hover:text-[#1e3a5f]"
-      }`}
-    >
+    <button type="button" onClick={onToggle} className={chipBase}
+      style={selected ? chipSelected : chipUnselected}>
       {label}
     </button>
   );
@@ -55,43 +63,51 @@ function Chip({ label, selected, onToggle }: { label: string; selected: boolean;
 
 function RadioChip({ label, selected, onSelect }: { label: string; selected: boolean; onSelect: () => void }) {
   return (
-    <button type="button" onClick={onSelect}
-      className={`px-3 py-1.5 rounded-full text-sm border transition-all font-medium ${
-        selected
-          ? "bg-[#1e3a5f] border-[#1e3a5f] text-white"
-          : "bg-white border-gray-200 text-gray-600 hover:border-[#1e3a5f]/50 hover:text-[#1e3a5f]"
-      }`}
-    >
+    <button type="button" onClick={onSelect} className={chipBase}
+      style={selected ? chipSelected : chipUnselected}>
       {label}
     </button>
   );
 }
 
-function FieldGroup({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+function FieldGroup({ label, required, hint, children }: { label: string; required?: boolean; hint?: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="text-sm font-medium text-gray-700 mb-2">
-        {label} {required && <span className="text-red-400">*</span>}
-      </p>
+      <div className="flex items-baseline gap-2 mb-2.5">
+        <p className="text-sm font-semibold" style={{ color: "#2D2A3E" }}>
+          {label}
+        </p>
+        {required && <span className="text-xs font-medium" style={{ color: "#8B7FF0" }}>requis</span>}
+        {hint && <span className="text-xs" style={{ color: "#B0ABBD" }}>{hint}</span>}
+      </div>
       {children}
     </div>
   );
+}
+
+function Divider() {
+  return <div style={{ height: "1px", background: "rgba(139,127,240,0.08)" }} />;
 }
 
 function FilePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
   const isImage = file.type.startsWith("image/");
   const sizeMb = (file.size / 1024 / 1024).toFixed(1);
   return (
-    <div className="flex items-center gap-3 bg-[#f8fafc] border border-gray-100 rounded-xl px-4 py-3">
+    <div className="flex items-center gap-3 rounded-xl px-4 py-3" style={{
+      background: "rgba(255,255,255,0.7)",
+      border: "1px solid rgba(139,127,240,0.12)",
+    }}>
       {isImage
-        ? <ImageIcon className="h-5 w-5 text-[#0071E3] flex-shrink-0" />
-        : <FileText className="h-5 w-5 text-[#1e3a5f] flex-shrink-0" />
+        ? <ImageIcon className="h-5 w-5 flex-shrink-0" style={{ color: "#8B7FF0" }} />
+        : <FileText className="h-5 w-5 flex-shrink-0" style={{ color: "#8B7FF0" }} />
       }
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-gray-900 truncate">{file.name}</p>
-        <p className="text-xs text-gray-400">{sizeMb} Mo</p>
+        <p className="text-sm font-medium truncate" style={{ color: "#2D2A3E" }}>{file.name}</p>
+        <p className="text-xs" style={{ color: "#B0ABBD" }}>{sizeMb} Mo</p>
       </div>
-      <button onClick={onRemove} className="text-gray-300 hover:text-red-400 transition-colors flex-shrink-0">
+      <button onClick={onRemove} className="transition-colors flex-shrink-0" style={{ color: "#B0ABBD" }}
+        onMouseEnter={e => (e.currentTarget.style.color = "#e57373")}
+        onMouseLeave={e => (e.currentTarget.style.color = "#B0ABBD")}>
         <X className="h-4 w-4" />
       </button>
     </div>
@@ -101,7 +117,7 @@ function FilePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
 function formatAnamnesis(a: Anamnesis): string {
   const hasPain = a.symptoms.some((s) => s.toLowerCase().includes("douleur") || s.toLowerCase().includes("sensibilité"));
   const lines = [
-    "=== ANAMNÈSE DENTAIRE ===",
+    "=== ANTÉCÉDENTS DENTAIRES ===",
     "",
     `Motif principal : ${a.reason || "Non renseigné"}`,
     `Soin(s) concerné(s) : ${a.treatments.length ? a.treatments.join(", ") : "Non renseigné"}`,
@@ -112,13 +128,20 @@ function formatAnamnesis(a: Anamnesis): string {
     "",
     `Devis chiffré disponible : ${a.hasQuote || "Non renseigné"}`,
     `Dernière visite dentiste : ${a.lastVisit || "Non renseigné"}`,
-    `Traitements dentaires passés : ${a.pastTreatments.length ? a.pastTreatments.join(", ") : "Aucun"}`,
+    `Traitements passés : ${a.pastTreatments.length ? a.pastTreatments.join(", ") : "Aucun"}`,
   ];
-  if (a.doctorMessage.trim()) {
-    lines.push("", "Message du patient :", a.doctorMessage.trim());
-  }
+  if (a.doctorMessage.trim()) lines.push("", "Message du patient :", a.doctorMessage.trim());
   return lines.join("\n");
 }
+
+const cardStyle: React.CSSProperties = {
+  background: "rgba(255,255,255,0.65)",
+  backdropFilter: "blur(20px) saturate(180%)",
+  WebkitBackdropFilter: "blur(20px) saturate(180%)",
+  border: "1px solid rgba(255,255,255,0.85)",
+  boxShadow: "inset 0 2px 0 rgba(255,255,255,0.9), 0 8px 32px rgba(139,127,240,0.08)",
+  borderRadius: "24px",
+};
 
 function NewRequestForm() {
   const [step, setStep] = useState<Step>(1);
@@ -161,7 +184,6 @@ function NewRequestForm() {
   const hasPainSymptom = anamnesis.symptoms.some((s) =>
     s.toLowerCase().includes("douleur") || s.toLowerCase().includes("sensibilité")
   );
-
   const canProceedAnamnesis = anamnesis.reason !== "" && anamnesis.symptoms.length > 0;
 
   async function handleUpload() {
@@ -197,7 +219,6 @@ function NewRequestForm() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-
       const checkoutRes = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -205,7 +226,6 @@ function NewRequestForm() {
       });
       const checkoutData = await checkoutRes.json();
       if (!checkoutRes.ok) throw new Error(checkoutData.error);
-
       window.location.href = checkoutData.url;
     } catch {
       setError("Une erreur est survenue. Réessayez.");
@@ -221,70 +241,102 @@ function NewRequestForm() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f8fafc]">
+    <div className="min-h-screen">
       <Header />
-      <div className="max-w-2xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-bold text-[#1e3a5f] mb-2">Nouvelle demande</h1>
-        <p className="text-gray-500 text-sm mb-8">Obtenez un second avis médical en 4 étapes.</p>
+      <div className="max-w-2xl mx-auto px-4 py-12">
+
+        {/* Header */}
+        <div className="mb-10">
+          <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#8B7FF0" }}>Nouvelle demande</p>
+          <h1 className="text-3xl font-bold tracking-tight" style={{ color: "#2D2A3E" }}>Second avis médical</h1>
+          <p className="text-sm mt-1.5" style={{ color: "#6B6880" }}>Complétez les étapes ci-dessous pour soumettre votre dossier.</p>
+        </div>
 
         {/* Stepper */}
-        <div className="flex items-center gap-2 mb-10">
+        <div className="flex items-center gap-2 mb-8">
           {steps.map((s, i) => (
             <div key={s.n} className="flex items-center gap-2 flex-1">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${
-                step > s.n ? "bg-[#4CAF82] text-white" : step === s.n ? "bg-[#1e3a5f] text-white" : "bg-gray-200 text-gray-400"
-              }`}>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
+                style={
+                  step > s.n
+                    ? { background: "#4CAF82", color: "white" }
+                    : step === s.n
+                    ? { background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", color: "white", boxShadow: "0 2px 8px rgba(139,127,240,0.4)" }
+                    : { background: "rgba(139,127,240,0.08)", color: "#B0ABBD" }
+                }
+              >
                 {step > s.n ? <CheckCircle className="h-4 w-4" /> : s.n}
               </div>
-              <span className={`text-sm font-medium hidden sm:block ${step >= s.n ? "text-[#1e3a5f]" : "text-gray-400"}`}>
+              <span className="text-sm font-medium hidden sm:block"
+                style={{ color: step >= s.n ? "#2D2A3E" : "#B0ABBD" }}>
                 {s.label}
               </span>
-              {i < steps.length - 1 && <div className={`h-px flex-1 ${step > s.n ? "bg-[#4CAF82]" : "bg-gray-200"}`} />}
+              {i < steps.length - 1 && (
+                <div className="h-px flex-1 transition-colors duration-500"
+                  style={{ background: step > s.n ? "#4CAF82" : "rgba(139,127,240,0.12)" }} />
+              )}
             </div>
           ))}
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 p-8">
+        {/* Card */}
+        <div style={cardStyle} className="p-8">
 
           {/* ── STEP 1 : Spécialité ── */}
           {step === 1 && (
             <div>
-              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-2">Choisissez la spécialité</h2>
-              <p className="text-sm text-gray-500 mb-6">Sélectionnez le médecin correspondant à votre compte rendu.</p>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>Étape 1</p>
+              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>Choisissez la spécialité</h2>
+              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>Sélectionnez le médecin correspondant à votre compte rendu.</p>
+
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
                   { value: "DENTAL" as const, label: "Dentaire", sub: "Dr. xxxxxx xxxx", desc: "Chirurgien-dentiste", icon: <Stethoscope className="h-6 w-6" /> },
                   { value: "GYNECOLOGY" as const, label: "Gynécologie", sub: "Dr. xxxxxx xxxx", desc: "Gynécologue obstétricien", icon: <Baby className="h-6 w-6" /> },
                 ].map((opt) => (
                   <button key={opt.value} onClick={() => setSpecialty(opt.value)}
-                    className={`p-6 rounded-xl border-2 text-left transition-all ${
-                      specialty === opt.value ? "border-[#1e3a5f] bg-[#f0f4f8]" : "border-gray-100 hover:border-gray-200"
-                    }`}
+                    className="p-6 rounded-2xl text-left transition-all duration-200"
+                    style={specialty === opt.value ? {
+                      border: "2px solid #8B7FF0",
+                      background: "rgba(139,127,240,0.06)",
+                      boxShadow: "0 0 0 4px rgba(139,127,240,0.08)",
+                    } : {
+                      border: "1.5px solid rgba(139,127,240,0.15)",
+                      background: "rgba(255,255,255,0.7)",
+                    }}
                   >
-                    <div className={`mb-3 ${specialty === opt.value ? "text-[#1e3a5f]" : "text-gray-400"}`}>{opt.icon}</div>
-                    <div className="font-semibold text-gray-900">{opt.label}</div>
-                    <div className="text-sm font-medium text-[#1e3a5f] mt-1">{opt.sub}</div>
-                    <div className="text-xs text-gray-400 mt-0.5">{opt.desc}</div>
+                    <div className="mb-4" style={{ color: specialty === opt.value ? "#8B7FF0" : "#B0ABBD" }}>{opt.icon}</div>
+                    <div className="font-bold text-base" style={{ color: "#2D2A3E" }}>{opt.label}</div>
+                    <div className="text-sm font-medium mt-1" style={{ color: "#8B7FF0" }}>{opt.sub}</div>
+                    <div className="text-xs mt-0.5" style={{ color: "#B0ABBD" }}>{opt.desc}</div>
                   </button>
                 ))}
               </div>
-              <div className="mt-6 flex justify-end">
-                <Button onClick={() => setStep(2)} disabled={!specialty} className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white gap-2">
+
+              <div className="mt-7 flex justify-end">
+                <button onClick={() => setStep(2)} disabled={!specialty}
+                  className="inline-flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-full text-white transition-all duration-200"
+                  style={specialty ? {
+                    background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)",
+                    boxShadow: "0 4px 14px rgba(139,127,240,0.4)",
+                    opacity: 1,
+                  } : { background: "#D1D5DB", opacity: 0.6, cursor: "not-allowed" }}
+                >
                   Suivant <ChevronRight className="h-4 w-4" />
-                </Button>
+                </button>
               </div>
             </div>
           )}
 
-          {/* ── STEP 2 : Anamnèse dentaire ── */}
+          {/* ── STEP 2 : Antécédents ── */}
           {step === 2 && (
             <div>
-              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-1">Antécédents dentaires</h2>
-              <p className="text-sm text-gray-500 mb-6">Quelques questions rapides pour aider le chirurgien-dentiste à analyser votre situation.</p>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>Étape 2</p>
+              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>Antécédents dentaires</h2>
+              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>Quelques questions pour aider le chirurgien-dentiste à analyser votre dossier.</p>
 
-              <div className="space-y-6">
+              <div className="space-y-7">
 
-                {/* Motif */}
                 <FieldGroup label="Pourquoi consultez-vous ?" required>
                   <div className="flex flex-wrap gap-2">
                     {["Valider un devis", "Comprendre un diagnostic", "Douleur ou gêne", "Traitement proposé", "Autre"].map((r) => (
@@ -293,8 +345,9 @@ function NewRequestForm() {
                   </div>
                 </FieldGroup>
 
-                {/* Type de soin */}
-                <FieldGroup label="Soin(s) concerné(s) par votre demande">
+                <Divider />
+
+                <FieldGroup label="Soin(s) concerné(s)" hint="plusieurs choix possibles">
                   <div className="flex flex-wrap gap-2">
                     {["Implant", "Couronne / bridge", "Extraction", "Dévitalisation", "Détartrage / soin courant", "Prothèse", "Orthodontie / aligneurs", "Autre"].map((t) => (
                       <Chip key={t} label={t} selected={anamnesis.treatments.includes(t)}
@@ -303,8 +356,9 @@ function NewRequestForm() {
                   </div>
                 </FieldGroup>
 
-                {/* Symptômes */}
-                <FieldGroup label="Avez-vous des symptômes actuellement ?" required>
+                <Divider />
+
+                <FieldGroup label="Symptômes actuels" required hint="plusieurs choix possibles">
                   <div className="flex flex-wrap gap-2">
                     {["Aucun", "Douleur spontanée", "Sensibilité chaud / froid", "Sensibilité à la pression", "Saignement des gencives", "Mobilité d'une dent", "Gonflement / abcès"].map((s) => (
                       <Chip key={s} label={s} selected={anamnesis.symptoms.includes(s)}
@@ -313,51 +367,64 @@ function NewRequestForm() {
                   </div>
                 </FieldGroup>
 
-                {/* Durée — si symptômes */}
                 {anamnesis.symptoms.length > 0 && !anamnesis.symptoms.includes("Aucun") && (
-                  <FieldGroup label="Depuis quand ?">
-                    <div className="flex flex-wrap gap-2">
-                      {["Moins de 48h", "Quelques jours", "Plusieurs semaines", "Plus d'un mois"].map((d) => (
-                        <RadioChip key={d} label={d} selected={anamnesis.duration === d} onSelect={() => setA("duration", d)} />
-                      ))}
-                    </div>
-                  </FieldGroup>
+                  <>
+                    <Divider />
+                    <FieldGroup label="Depuis quand ?">
+                      <div className="flex flex-wrap gap-2">
+                        {["Moins de 48h", "Quelques jours", "Plusieurs semaines", "Plus d'un mois"].map((d) => (
+                          <RadioChip key={d} label={d} selected={anamnesis.duration === d} onSelect={() => setA("duration", d)} />
+                        ))}
+                      </div>
+                    </FieldGroup>
+                  </>
                 )}
 
-                {/* Intensité — si douleur */}
                 {hasPainSymptom && (
-                  <FieldGroup label="Intensité de la douleur sur 10">
-                    <div className="flex gap-1.5 flex-wrap">
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-                        <button key={n} type="button" onClick={() => setA("intensity", n)}
-                          className={`w-9 h-9 rounded-lg text-sm font-semibold border transition-all ${
-                            anamnesis.intensity === n
-                              ? "bg-[#1e3a5f] border-[#1e3a5f] text-white"
-                              : n < (anamnesis.intensity || 0)
-                              ? "bg-[#1e3a5f]/10 border-[#1e3a5f]/30 text-[#1e3a5f]"
-                              : "bg-white border-gray-200 text-gray-500 hover:border-[#1e3a5f]/40"
-                          }`}
-                        >
-                          {n}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="flex justify-between text-xs text-gray-400 mt-1">
-                      <span>Faible</span><span>Insupportable</span>
-                    </div>
-                  </FieldGroup>
+                  <>
+                    <Divider />
+                    <FieldGroup label="Intensité de la douleur sur 10">
+                      <div className="flex gap-2 flex-wrap">
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                          <button key={n} type="button" onClick={() => setA("intensity", n)}
+                            className="w-9 h-9 rounded-xl text-sm font-bold transition-all duration-150"
+                            style={anamnesis.intensity === n ? {
+                              background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)",
+                              color: "white",
+                              boxShadow: "0 2px 8px rgba(139,127,240,0.4)",
+                            } : n < anamnesis.intensity ? {
+                              background: "rgba(139,127,240,0.12)",
+                              color: "#8B7FF0",
+                              border: "1px solid rgba(139,127,240,0.2)",
+                            } : {
+                              background: "rgba(255,255,255,0.8)",
+                              border: "1px solid rgba(139,127,240,0.15)",
+                              color: "#B0ABBD",
+                            }}
+                          >
+                            {n}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="flex justify-between text-xs mt-1.5" style={{ color: "#B0ABBD" }}>
+                        <span>Faible</span><span>Insupportable</span>
+                      </div>
+                    </FieldGroup>
+                  </>
                 )}
 
-                {/* Devis */}
+                <Divider />
+
                 <FieldGroup label="Avez-vous un devis chiffré ?">
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex gap-2">
                     {["Oui", "Non"].map((h) => (
                       <RadioChip key={h} label={h} selected={anamnesis.hasQuote === h} onSelect={() => setA("hasQuote", h)} />
                     ))}
                   </div>
                 </FieldGroup>
 
-                {/* Dernière visite */}
+                <Divider />
+
                 <FieldGroup label="Dernière visite chez le dentiste">
                   <div className="flex flex-wrap gap-2">
                     {["Moins de 6 mois", "6 mois – 1 an", "1 à 2 ans", "Plus de 2 ans"].map((v) => (
@@ -366,8 +433,9 @@ function NewRequestForm() {
                   </div>
                 </FieldGroup>
 
-                {/* Traitements passés */}
-                <FieldGroup label="Traitements dentaires déjà réalisés">
+                <Divider />
+
+                <FieldGroup label="Traitements dentaires déjà réalisés" hint="plusieurs choix possibles">
                   <div className="flex flex-wrap gap-2">
                     {["Aucun", "Couronnes", "Implants", "Dévitalisations", "Prothèse", "Orthodontie"].map((p) => (
                       <Chip key={p} label={p} selected={anamnesis.pastTreatments.includes(p)}
@@ -376,28 +444,48 @@ function NewRequestForm() {
                   </div>
                 </FieldGroup>
 
-                {/* Message */}
-                <FieldGroup label="Message au médecin (optionnel)">
+                <Divider />
+
+                <FieldGroup label="Message au médecin" hint="optionnel">
                   <textarea
                     value={anamnesis.doctorMessage}
                     onChange={(e) => setA("doctorMessage", e.target.value)}
                     placeholder="Précisez votre situation, vos inquiétudes ou vos questions…"
                     rows={3}
-                    className="w-full text-sm border border-gray-200 rounded-xl px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f]/40 placeholder:text-gray-400"
+                    className="w-full text-sm resize-none focus:outline-none placeholder:text-[#C8C4D4]"
+                    style={{
+                      background: "rgba(255,255,255,0.7)",
+                      border: "1px solid rgba(139,127,240,0.18)",
+                      borderRadius: "12px",
+                      padding: "12px 16px",
+                      color: "#2D2A3E",
+                    }}
+                    onFocus={e => (e.target.style.border = "1px solid rgba(139,127,240,0.5)")}
+                    onBlur={e => (e.target.style.border = "1px solid rgba(139,127,240,0.18)")}
                   />
                 </FieldGroup>
 
               </div>
 
-              <p className="text-xs text-gray-400 mt-5 text-center">
-                Ce questionnaire est strictement confidentiel et transmis uniquement au chirurgien-dentiste assigné.
+              <p className="text-xs text-center mt-6" style={{ color: "#B0ABBD" }}>
+                Strictement confidentiel · transmis uniquement au chirurgien-dentiste assigné
               </p>
 
               <div className="mt-5 flex justify-between">
-                <Button variant="outline" onClick={() => setStep(1)}>Retour</Button>
-                <Button onClick={() => setStep(3)} disabled={!canProceedAnamnesis} className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white gap-2">
+                <button onClick={() => setStep(1)}
+                  className="text-sm font-medium px-5 py-2.5 rounded-full transition-all"
+                  style={{ border: "1px solid rgba(139,127,240,0.2)", color: "#6B6880", background: "rgba(255,255,255,0.7)" }}>
+                  Retour
+                </button>
+                <button onClick={() => setStep(3)} disabled={!canProceedAnamnesis}
+                  className="inline-flex items-center gap-2 text-sm font-semibold px-6 py-2.5 rounded-full text-white transition-all duration-200"
+                  style={canProceedAnamnesis ? {
+                    background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)",
+                    boxShadow: "0 4px 14px rgba(139,127,240,0.4)",
+                  } : { background: "#D1D5DB", opacity: 0.6, cursor: "not-allowed" }}
+                >
                   Suivant <ChevronRight className="h-4 w-4" />
-                </Button>
+                </button>
               </div>
             </div>
           )}
@@ -405,22 +493,32 @@ function NewRequestForm() {
           {/* ── STEP 3 : Documents ── */}
           {step === 3 && (
             <div>
-              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-1">Déposez vos documents</h2>
-              <p className="text-sm text-gray-500 mb-6">PDF, photos (JPG, PNG, HEIC) · Max 5 fichiers · 16 Mo chacun</p>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>Étape 3</p>
+              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>Vos documents</h2>
+              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>PDF, photos (JPG, PNG, HEIC) · Max 5 fichiers · 16 Mo chacun</p>
 
               <div {...getRootProps()}
-                className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors mb-4 ${
-                  isDragActive ? "border-[#1e3a5f] bg-[#f0f4f8]" : "border-gray-200 hover:border-gray-300"
-                }`}
+                className="rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 mb-4"
+                style={isDragActive ? {
+                  border: "2px dashed #8B7FF0",
+                  background: "rgba(139,127,240,0.06)",
+                } : {
+                  border: "2px dashed rgba(139,127,240,0.2)",
+                  background: "rgba(255,255,255,0.5)",
+                }}
               >
                 <input {...getInputProps()} />
-                <Upload className="h-8 w-8 text-gray-300 mx-auto mb-3" />
-                <p className="font-medium text-gray-500 text-sm">Glissez vos fichiers ici</p>
-                <p className="text-xs text-gray-400 mt-1">ou cliquez pour parcourir</p>
+                <div className="w-12 h-12 rounded-2xl mx-auto mb-4 flex items-center justify-center"
+                  style={{ background: "rgba(139,127,240,0.1)" }}>
+                  <Upload className="h-5 w-5" style={{ color: "#8B7FF0" }} />
+                </div>
+                <p className="font-semibold text-sm" style={{ color: "#2D2A3E" }}>Glissez vos fichiers ici</p>
+                <p className="text-xs mt-1" style={{ color: "#B0ABBD" }}>ou cliquez pour parcourir</p>
                 <div className="flex justify-center gap-2 mt-4">
-                  <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-1 rounded-full">PDF</span>
-                  <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-1 rounded-full">JPG / PNG</span>
-                  <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-1 rounded-full">HEIC (iPhone)</span>
+                  {["PDF", "JPG / PNG", "HEIC (iPhone)"].map((f) => (
+                    <span key={f} className="text-[10px] px-2.5 py-1 rounded-full font-medium"
+                      style={{ background: "rgba(139,127,240,0.08)", color: "#8B7FF0" }}>{f}</span>
+                  ))}
                 </div>
               </div>
 
@@ -428,20 +526,35 @@ function NewRequestForm() {
                 <div className="space-y-2 mb-4">
                   {files.map((f, i) => <FilePreview key={i} file={f} onRemove={() => removeFile(i)} />)}
                   {files.length < 5 && (
-                    <p className="text-xs text-gray-400 text-center pt-1">
+                    <p className="text-xs text-center pt-1" style={{ color: "#B0ABBD" }}>
                       {files.length}/5 · Vous pouvez en ajouter {5 - files.length} de plus
                     </p>
                   )}
                 </div>
               )}
 
-              {error && <div className="bg-red-50 text-red-700 text-sm rounded-lg px-4 py-3 border border-red-100 mt-4">{error}</div>}
+              {error && (
+                <div className="text-sm rounded-xl px-4 py-3 mt-4"
+                  style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.15)", color: "#dc2626" }}>
+                  {error}
+                </div>
+              )}
 
               <div className="mt-6 flex justify-between">
-                <Button variant="outline" onClick={() => setStep(2)}>Retour</Button>
-                <Button onClick={handleUpload} disabled={files.length === 0 || uploading} className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white gap-2">
+                <button onClick={() => setStep(2)}
+                  className="text-sm font-medium px-5 py-2.5 rounded-full transition-all"
+                  style={{ border: "1px solid rgba(139,127,240,0.2)", color: "#6B6880", background: "rgba(255,255,255,0.7)" }}>
+                  Retour
+                </button>
+                <button onClick={handleUpload} disabled={files.length === 0 || uploading}
+                  className="inline-flex items-center gap-2 text-sm font-semibold px-6 py-2.5 rounded-full text-white transition-all duration-200"
+                  style={files.length > 0 && !uploading ? {
+                    background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)",
+                    boxShadow: "0 4px 14px rgba(139,127,240,0.4)",
+                  } : { background: "#D1D5DB", opacity: 0.6, cursor: "not-allowed" }}
+                >
                   {uploading ? `Envoi… (${files.length} fichier${files.length > 1 ? "s" : ""})` : <>Suivant <ChevronRight className="h-4 w-4" /></>}
-                </Button>
+                </button>
               </div>
             </div>
           )}
@@ -449,41 +562,62 @@ function NewRequestForm() {
           {/* ── STEP 4 : Paiement ── */}
           {step === 4 && (
             <div>
-              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-2">Récapitulatif & paiement</h2>
-              <p className="text-sm text-gray-500 mb-6">Vérifiez votre demande avant de payer.</p>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#8B7FF0" }}>Étape 4</p>
+              <h2 className="text-xl font-bold mb-1" style={{ color: "#2D2A3E" }}>Récapitulatif</h2>
+              <p className="text-sm mb-7" style={{ color: "#6B6880" }}>Vérifiez votre demande avant de procéder au paiement.</p>
 
-              <div className="bg-[#f8fafc] rounded-xl p-5 space-y-3 mb-6 border border-gray-100">
+              <div className="rounded-2xl p-5 space-y-3 mb-6"
+                style={{ background: "rgba(139,127,240,0.04)", border: "1px solid rgba(139,127,240,0.12)" }}>
+                {[
+                  { label: "Spécialité", value: specialty === "DENTAL" ? "Dentaire — Dr Benguigui" : "Gynécologie — Dr. xxxxxx xxxx" },
+                  { label: "Motif", value: anamnesis.reason || "—" },
+                ].map((row) => (
+                  <div key={row.label} className="flex justify-between text-sm">
+                    <span style={{ color: "#6B6880" }}>{row.label}</span>
+                    <span className="font-medium" style={{ color: "#2D2A3E" }}>{row.value}</span>
+                  </div>
+                ))}
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Spécialité</span>
-                  <span className="font-medium">{specialty === "DENTAL" ? "Dentaire — Dr Benguigui" : "Gynécologie — Dr. xxxxxx xxxx"}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Motif</span>
-                  <span className="font-medium">{anamnesis.reason || "—"}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Documents</span>
-                  <span className="font-medium text-green-600 flex items-center gap-1">
-                    <CheckCircle className="h-3 w-3" /> {uploadedUrls.length} fichier{uploadedUrls.length > 1 ? "s" : ""} envoyé{uploadedUrls.length > 1 ? "s" : ""}
+                  <span style={{ color: "#6B6880" }}>Documents</span>
+                  <span className="font-medium flex items-center gap-1.5" style={{ color: "#4CAF82" }}>
+                    <CheckCircle className="h-3.5 w-3.5" />
+                    {uploadedUrls.length} fichier{uploadedUrls.length > 1 ? "s" : ""} envoyé{uploadedUrls.length > 1 ? "s" : ""}
                   </span>
                 </div>
-                <div className="border-t border-gray-200 pt-3 flex justify-between font-bold">
-                  <span>Total</span>
-                  <span className="text-[#1e3a5f] text-lg">22,00 €</span>
+                <div className="pt-3 flex justify-between font-bold"
+                  style={{ borderTop: "1px solid rgba(139,127,240,0.12)" }}>
+                  <span style={{ color: "#2D2A3E" }}>Total</span>
+                  <span className="text-xl" style={{ color: "#8B7FF0" }}>22,00 €</span>
                 </div>
               </div>
 
-              <p className="text-xs text-gray-400 mb-6 text-center">
+              <p className="text-xs text-center mb-6" style={{ color: "#B0ABBD" }}>
                 Paiement sécurisé par Stripe · Aucune donnée bancaire stockée
               </p>
 
-              {error && <div className="bg-red-50 text-red-700 text-sm rounded-lg px-4 py-3 border border-red-100 mb-4">{error}</div>}
+              {error && (
+                <div className="text-sm rounded-xl px-4 py-3 mb-4"
+                  style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.15)", color: "#dc2626" }}>
+                  {error}
+                </div>
+              )}
 
               <div className="flex justify-between">
-                <Button variant="outline" onClick={() => setStep(3)}>Retour</Button>
-                <Button onClick={handleSubmitAndPay} disabled={loading} className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white px-8">
+                <button onClick={() => setStep(3)}
+                  className="text-sm font-medium px-5 py-2.5 rounded-full transition-all"
+                  style={{ border: "1px solid rgba(139,127,240,0.2)", color: "#6B6880", background: "rgba(255,255,255,0.7)" }}>
+                  Retour
+                </button>
+                <button onClick={handleSubmitAndPay} disabled={loading}
+                  className="text-sm font-semibold px-8 py-2.5 rounded-full text-white transition-all duration-200"
+                  style={{
+                    background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)",
+                    boxShadow: "0 4px 14px rgba(139,127,240,0.4)",
+                    opacity: loading ? 0.7 : 1,
+                  }}
+                >
                   {loading ? "Redirection…" : "Payer 22 €"}
-                </Button>
+                </button>
               </div>
             </div>
           )}
