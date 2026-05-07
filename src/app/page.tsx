@@ -178,17 +178,17 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.45 }}
-            className="flex flex-wrap justify-center gap-4 mt-14"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-14 w-full max-w-2xl mx-auto"
           >
             {[
-              { value: "22€", label: "Prix fixe, sans surprise" },
-              { value: "72h", label: "Délai de réponse garanti" },
-              { value: "8/10", label: "Avis confirment le diagnostic initial" },
-              { value: "3×", label: "Plus rapide qu'un second avis en cabinet" },
+              { value: "22€", label: "Prix fixe" },
+              { value: "72h", label: "Réponse garantie" },
+              { value: "8/10", label: "Confirment le diagnostic" },
+              { value: "3×", label: "Plus rapide qu'en cabinet" },
             ].map((s) => (
               <div
                 key={s.value}
-                className="flex flex-col items-center px-8 py-5 rounded-2xl"
+                className="flex flex-col items-center px-4 py-5 rounded-2xl"
                 style={{
                   background: "rgba(255,255,255,0.55)",
                   backdropFilter: "blur(20px)",
@@ -197,7 +197,7 @@ export default function HomePage() {
                 }}
               >
                 <span className="text-2xl font-bold" style={{ color: "#8B7FF0" }}>{s.value}</span>
-                <span className="text-xs mt-1" style={{ color: "#9B98A8" }}>{s.label}</span>
+                <span className="text-xs mt-1 text-center leading-tight" style={{ color: "#9B98A8" }}>{s.label}</span>
               </div>
             ))}
           </motion.div>
