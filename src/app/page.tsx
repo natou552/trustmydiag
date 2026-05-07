@@ -102,13 +102,13 @@ export default function HomePage() {
         style={{ background: "transparent" }}
       >
 
-        <motion.div className="max-w-3xl mx-auto relative" style={{ y: heroY, opacity: heroOpacity }}>
+        <motion.div className="max-w-4xl mx-auto relative" style={{ y: heroY, opacity: heroOpacity }}>
           {/* H1 */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
-            className="text-4xl sm:text-5xl md:text-[54px] leading-[1.15] tracking-tight mb-6"
+            className="text-5xl sm:text-6xl md:text-[70px] leading-[1.1] tracking-tight mb-6"
           >
             <span style={{ fontWeight: 600, color: "#2D2A3E" }}>{tr.hero.h1}</span>
             {" "}
