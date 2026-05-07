@@ -16,7 +16,7 @@ import { t } from "@/lib/translations";
 import { motion, useScroll, useTransform, type Variants, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { ScrollReveal } from "@/components/scroll-reveal";
+import { HowItWorksScroll } from "@/components/how-it-works-scroll";
 
 function FaqSection({ tr }: { tr: typeof t["fr"] | typeof t["en"] }) {
   const [open, setOpen] = useState<number | null>(null);
@@ -221,9 +221,6 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* ── SCROLL REVEAL ── */}
-      <ScrollReveal />
-
       {/* ── MARQUEE ── */}
       <div className="py-4 overflow-hidden" style={{ borderTop: "1px solid rgba(139,127,240,0.1)", borderBottom: "1px solid rgba(139,127,240,0.1)", background: "rgba(255,255,255,0.6)" }}>
         <div className="flex whitespace-nowrap">
@@ -238,66 +235,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ── HOW IT WORKS ── */}
-      <section id="how" className="py-28 px-6" style={{ background: "#F4F3F8" }}>
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            className="text-center mb-20"
-          >
-            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>{tr.how.eyebrow}</p>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight" style={{ color: "#2D2A3E" }}>{tr.how.h2}</h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {tr.how.steps.map((item, i) => {
-              const icons = [
-                <Upload key="u" className="h-5 w-5" />,
-                <CreditCard key="c" className="h-5 w-5" />,
-                <MessageSquare key="m" className="h-5 w-5" />,
-              ];
-              const gradients = [
-                "linear-gradient(135deg, #8B7FF0, #C4A8D4)",
-                "linear-gradient(135deg, #C4A8D4, #F9C4B0)",
-                "linear-gradient(135deg, #7EC8C8, #8B7FF0)",
-              ];
-              return (
-                <motion.div
-                  key={item.step}
-                  variants={stagger(i * 0.12)}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-60px" }}
-                  className="rounded-3xl p-8 relative overflow-hidden"
-                  style={{
-                    background: "rgba(255,255,255,0.7)",
-                    backdropFilter: "blur(20px)",
-                    border: "1px solid rgba(255,255,255,0.9)",
-                    boxShadow: "0 4px 24px rgba(139,127,240,0.07)",
-                  }}
-                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                >
-                  {/* Gradient top border */}
-                  <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-3xl" style={{ background: gradients[i] }} />
-
-                  <div
-                    className="w-11 h-11 rounded-2xl flex items-center justify-center mb-6 text-white"
-                    style={{ background: gradients[i] }}
-                  >
-                    {icons[i]}
-                  </div>
-                  <p className="text-xs font-medium mb-2" style={{ color: "#B0ABBD" }}>Étape {item.step}</p>
-                  <h3 className="text-lg font-semibold mb-3" style={{ color: "#2D2A3E" }}>{item.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "#6B6880" }}>{item.desc}</p>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* ── HOW IT WORKS — animé via GSAP ScrollTrigger ── */}
+      <HowItWorksScroll steps={tr.how.steps} eyebrow={tr.how.eyebrow} h2={tr.how.h2} />
 
       {/* ── DOCTORS ── */}
       <section id="doctors" className="py-28 px-6" style={{ background: "rgba(255,255,255,0.5)" }}>
