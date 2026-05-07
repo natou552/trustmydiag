@@ -20,7 +20,7 @@ import { HowItWorksScroll } from "@/components/how-it-works-scroll";
 function FaqSection({ tr }: { tr: typeof t["fr"] | typeof t["en"] }) {
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <section className="py-24 px-6" style={{ background: "#F4F3F8" }}>
+    <section className="py-24 px-6" style={{ background: "transparent" }}>
       <div className="max-w-3xl mx-auto">
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} className="text-center mb-12">
           <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#8B7FF0" }}>{tr.faq.eyebrow}</p>
@@ -84,7 +84,7 @@ export default function HomePage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <div className="min-h-screen text-[#1D1D1F]" style={{ background: "linear-gradient(155deg, #DAD5EE 0%, #E2CCE8 28%, #ECCAC0 58%, #F2D0C4 82%, #F6D8CC 100%)" }}>
+    <div className="min-h-screen text-[#1D1D1F]" style={{ background: "#EDE8F4" }}>
       <style>{`
         @media (max-width: 767px) {
           [style*="blur(20px)"] {
