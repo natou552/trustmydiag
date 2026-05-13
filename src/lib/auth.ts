@@ -49,7 +49,9 @@ export const authOptions: NextAuthOptions = {
             where: { email: credentials.email },
           });
         } catch (dbErr) {
-          console.error("[auth] DB error during login:", dbErr);
+          const msg = dbErr instanceof Error ? dbErr.message : String(dbErr);
+          const code = (dbErr as Record<string, unknown>)?.code ?? "no-code";
+          console.error(`[auth] DB_ERROR code=${code} msg=${msg}`);
           throw new Error("DB_ERROR");
         }
 
