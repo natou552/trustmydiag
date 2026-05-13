@@ -27,8 +27,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div aria-hidden="true" style={{
           position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
           background: [
-            "radial-gradient(ellipse 90% 80% at 0% 0%, rgba(199,182,255,0.70) 0%, transparent 50%)",
-            "radial-gradient(ellipse 90% 80% at 100% 100%, rgba(244,195,180,0.70) 0%, transparent 50%)",
+            "radial-gradient(ellipse 65% 55% at 62% 48%, rgba(255,205,190,0.55) 0%, transparent 60%)",
+            "radial-gradient(ellipse 55% 70% at -5% 55%, rgba(210,205,255,0.28) 0%, transparent 55%)",
           ].join(","),
         }} />
 
