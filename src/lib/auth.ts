@@ -43,9 +43,15 @@ export const authOptions: NextAuthOptions = {
         // Step 1: normal credentials check
         if (!credentials?.email || !credentials?.password) return null;
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+        let user;
+        try {
+          user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+          });
+        } catch (dbErr) {
+          console.error("[auth] DB error during login:", dbErr);
+          throw new Error("DB_ERROR");
+        }
 
         if (!user || !user.password) return null;
         if (!user.emailVerified) throw new Error("EMAIL_NOT_VERIFIED");
