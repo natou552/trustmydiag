@@ -31,7 +31,7 @@ const team = [
   },
   {
     name: "Ruben Benguigui",
-    title: "Co-fondateur",
+    title: "Co-fondateur & CEO",
     specialty: "Étudiant en chirurgie dentaire",
     bio: "Fort de sa formation en chirurgie dentaire, Ruben apporte l'expertise médicale au cœur de TrustMyDiag. Sa vision du terrain lui permet de garantir la qualité et la rigueur des avis rendus aux patients.",
   },
