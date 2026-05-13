@@ -52,7 +52,7 @@ model User {
   // MFA
   phone             String?
   phoneVerified     Boolean   @default(false)
-  mfaEnabled        Boolean   @default(false)
+  mfaEnabled        Boolean   @default(true)
   mfaToken          String?
   mfaTokenExpiry    DateTime?
   otpCode           String?
