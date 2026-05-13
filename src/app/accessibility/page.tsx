@@ -29,7 +29,7 @@ export default function AccessibilityPage() {
         </div>
 
         {/* WCAG Commitment */}
-        <div className="bg-[#F5F5F7] rounded-2xl p-8 mb-8">
+        <div className="glass-card rounded-2xl p-8 mb-8">
           <h2 className="text-xl font-bold text-[#1D1D1F] mb-4">Notre engagement WCAG</h2>
           <p className="text-sm text-[#6E6E73] leading-relaxed mb-4">
             Nous nous engageons à respecter les recommandations du{" "}
@@ -73,7 +73,7 @@ export default function AccessibilityPage() {
         </div>
 
         {/* Measures taken */}
-        <div className="bg-white border border-gray-200 rounded-2xl p-8 mb-8">
+        <div className="glass-card rounded-2xl p-8 mb-8">
           <h2 className="text-xl font-bold text-[#1D1D1F] mb-4">Mesures concrètes</h2>
           <ul className="list-disc list-inside flex flex-col gap-2 text-sm text-[#6E6E73]">
             <li>Contraste de couleur supérieur à 4,5:1 pour tout le texte principal</li>
@@ -87,7 +87,7 @@ export default function AccessibilityPage() {
         </div>
 
         {/* Known limitations */}
-        <div className="bg-white border border-gray-200 rounded-2xl p-8 mb-8">
+        <div className="glass-card rounded-2xl p-8 mb-8">
           <h2 className="text-xl font-bold text-[#1D1D1F] mb-4">Limitations connues</h2>
           <p className="text-sm text-[#6E6E73] leading-relaxed">
             Certains documents médicaux téléversés au format PDF peuvent ne pas être entièrement

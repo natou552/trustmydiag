@@ -67,7 +67,7 @@ export default function CookiesPage() {
         </div>
 
         {/* What is a cookie */}
-        <div className="bg-[#F5F5F7] rounded-2xl p-7 mb-10">
+        <div className="glass-card rounded-2xl p-7 mb-10">
           <h2 className="text-lg font-bold text-[#1D1D1F] mb-3">Qu&apos;est-ce qu&apos;un cookie ?</h2>
           <p className="text-sm text-[#6E6E73] leading-relaxed">
             Un cookie est un petit fichier texte déposé sur votre terminal (ordinateur, smartphone,
@@ -83,7 +83,7 @@ export default function CookiesPage() {
           {cookieCategories.map((category) => (
             <div
               key={category.name}
-              className="bg-white border border-gray-200 rounded-2xl overflow-hidden"
+              className="glass-card rounded-2xl overflow-hidden"
             >
               {/* Category header */}
               <div className="flex items-center justify-between px-7 py-5 border-b border-gray-100">
@@ -139,7 +139,7 @@ export default function CookiesPage() {
         </div>
 
         {/* Manage preferences */}
-        <div className="mt-10 bg-[#F5F5F7] rounded-2xl p-8">
+        <div className="mt-10 glass-card rounded-2xl p-8">
           <h2 className="text-lg font-bold text-[#1D1D1F] mb-3">Gérer vos préférences</h2>
           <p className="text-sm text-[#6E6E73] leading-relaxed mb-5">
             Vous pouvez modifier vos préférences de cookies à tout moment en cliquant sur le bouton

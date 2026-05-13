@@ -103,7 +103,7 @@ export default function GlossaryPage() {
                   .map((term) => (
                     <div
                       key={term.word}
-                      className="bg-[#F5F5F7] rounded-2xl p-6"
+                      className="glass-card rounded-2xl p-6"
                     >
                       <h3 className="font-bold text-[#1D1D1F] text-base mb-2">{term.word}</h3>
                       <p className="text-sm text-[#6E6E73] leading-relaxed">{term.definition}</p>

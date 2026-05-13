@@ -102,7 +102,7 @@ export function SecurityClient({
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+      <div className="glass-card rounded-2xl p-6">
         <div className="flex items-start gap-4 mb-6">
           <div className="w-10 h-10 bg-[#f0edff] rounded-xl flex items-center justify-center flex-shrink-0">
             <Mail className="h-5 w-5 text-[#8B7FF0]" />
@@ -199,7 +199,7 @@ export function SecurityClient({
         )}
       </div>
 
-      <div className="mt-4 bg-[#f8f7ff] border border-[#e8e5ff] rounded-xl p-4 flex gap-3">
+      <div className="mt-4 rounded-xl p-4 flex gap-3" style={{ background: "rgba(139,127,240,0.07)", border: "1px solid rgba(139,127,240,0.15)" }}>
         <Shield className="h-5 w-5 text-[#8B7FF0] flex-shrink-0 mt-0.5" />
         <p className="text-sm text-[#6B6880]">
           La double authentification ajoute une couche de sécurité supplémentaire. Même si votre mot de passe est compromis, personne ne pourra se connecter sans accès à votre boîte email.

@@ -84,7 +84,7 @@ function MfaForm() {
   if (!mfaToken) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-md w-full text-center space-y-4">
+        <div className="glass-card rounded-2xl p-8 max-w-md w-full text-center space-y-4">
           <p className="text-red-600 font-medium">Session invalide.</p>
           <Link href="/login"><Button className="bg-[#1e3a5f] text-white w-full">Retour à la connexion</Button></Link>
         </div>
@@ -94,7 +94,7 @@ function MfaForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-md w-full">
+      <div className="glass-card rounded-2xl p-8 max-w-md w-full">
         <div className="text-center mb-8">
           <Link href="/" className="flex items-center gap-2 justify-center font-bold text-xl text-[#1e3a5f] mb-6">
             <Shield className="h-6 w-6" />

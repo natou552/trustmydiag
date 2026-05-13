@@ -65,7 +65,7 @@ export default function SupportPage() {
           {faqs.map((faq) => (
             <details
               key={faq.question}
-              className="bg-white rounded-2xl border border-gray-200 group overflow-hidden"
+              className="glass-card rounded-2xl group overflow-hidden"
             >
               <summary className="flex items-center justify-between px-7 py-5 cursor-pointer list-none font-semibold text-[#1D1D1F] select-none hover:text-[#0071E3] transition-colors">
                 <span>{faq.question}</span>
@@ -81,7 +81,7 @@ export default function SupportPage() {
         </div>
 
         {/* Still need help */}
-        <div className="mt-12 bg-white border border-gray-200 rounded-2xl p-8 text-center">
+        <div className="mt-12 glass-card rounded-2xl p-8 text-center">
           <h2 className="text-lg font-bold text-[#1D1D1F] mb-2">
             Vous n&apos;avez pas trouvé votre réponse ?
           </h2>

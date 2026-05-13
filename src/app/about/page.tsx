@@ -67,7 +67,7 @@ export default function AboutPage() {
         </div>
 
         {/* Founding Story */}
-        <div className="bg-[#F5F5F7] rounded-2xl p-8 mb-16">
+        <div className="glass-card rounded-2xl p-8 mb-16">
           <h2 className="text-2xl font-bold text-[#1D1D1F] mb-4">Notre histoire</h2>
           <p className="text-[#6E6E73] leading-relaxed mb-4">
             TrustMyDiag est né de la rencontre entre deux frères aux parcours complémentaires.
@@ -92,7 +92,7 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold text-[#1D1D1F] mb-8">Nos valeurs</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {values.map((v) => (
-              <div key={v.title} className="bg-white border border-gray-200 rounded-2xl p-7">
+              <div key={v.title} className="glass-card rounded-2xl p-7">
                 <div className="text-3xl mb-4">{v.icon}</div>
                 <h3 className="text-lg font-bold text-[#1D1D1F] mb-3">{v.title}</h3>
                 <p className="text-sm text-[#6E6E73] leading-relaxed">{v.description}</p>
@@ -108,7 +108,7 @@ export default function AboutPage() {
             {team.map((member) => (
               <div
                 key={member.name}
-                className="bg-[#F5F5F7] rounded-2xl p-8 flex flex-col gap-3"
+                className="glass-card rounded-2xl p-8 flex flex-col gap-3"
               >
                 <div className="w-16 h-16 bg-[#0071E3]/10 rounded-full flex items-center justify-center text-2xl font-bold text-[#0071E3]">
                   {member.name.split(" ")[1][0]}

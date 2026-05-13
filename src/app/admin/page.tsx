@@ -60,7 +60,7 @@ export default async function AdminPage() {
         )}
 
         {requests.length === 0 && (
-          <div className="bg-white rounded-2xl border border-gray-100 p-16 text-center">
+          <div className="glass-card rounded-2xl p-16 text-center">
             <p className="text-gray-400">Aucune demande pour l'instant.</p>
           </div>
         )}

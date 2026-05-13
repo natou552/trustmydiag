@@ -48,8 +48,8 @@ export function RequestDetailClient({ request }: { request: Request }) {
         {tr.back}
       </Link>
 
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-        <div className="px-6 py-5 border-b border-gray-100">
+      <div className="glass-card rounded-2xl overflow-hidden">
+        <div className="px-6 py-5 border-b" style={{ borderColor: "rgba(139,127,240,0.1)" }}>
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
               <h1 className="text-lg font-bold text-[#1e3a5f]">

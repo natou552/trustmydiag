@@ -51,7 +51,7 @@ export default function NewsPage() {
           {newsItems.map((item) => (
             <article
               key={item.title}
-              className="bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-lg transition-shadow duration-200"
+              className="glass-card rounded-2xl p-8 hover:shadow-[0_12px_40px_rgba(139,127,240,0.18)] transition-shadow duration-200"
             >
               <div className="flex items-center gap-3 mb-4">
                 <span
@@ -68,7 +68,7 @@ export default function NewsPage() {
         </div>
 
         {/* Press contact */}
-        <div className="mt-14 bg-[#F5F5F7] rounded-2xl p-8">
+        <div className="mt-14 glass-card rounded-2xl p-8">
           <h2 className="text-lg font-bold text-[#1D1D1F] mb-2">Contact presse</h2>
           <p className="text-sm text-[#6E6E73]">
             Pour toute demande presse ou partenariat, contactez-nous à{" "}

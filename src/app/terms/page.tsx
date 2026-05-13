@@ -79,7 +79,7 @@ export default function TermsPage() {
         </div>
 
         {/* Table of contents */}
-        <nav className="bg-[#F5F5F7] rounded-2xl p-6 mb-12">
+        <nav className="glass-card rounded-2xl p-6 mb-12">
           <h2 className="text-sm font-bold text-[#1D1D1F] uppercase tracking-wider mb-3">
             Sommaire
           </h2>

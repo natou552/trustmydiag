@@ -93,7 +93,7 @@ export function DashboardClient({ session, requests: initialRequests }: {
         </div>
 
         {requests.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-gray-100 p-16 text-center">
+          <div className="glass-card rounded-2xl p-16 text-center">
             <FileText className="h-12 w-12 text-gray-300 mx-auto mb-4" />
             <h2 className="text-lg font-semibold text-gray-700 mb-2">{tr.emptyTitle}</h2>
             <p className="text-gray-400 text-sm mb-6">{tr.emptySub}</p>
@@ -109,7 +109,7 @@ export function DashboardClient({ session, requests: initialRequests }: {
               const status = STATUS_CONFIG[req.status] || STATUS_CONFIG.PENDING_PAYMENT;
               const canDelete = req.status === "PENDING_PAYMENT";
               return (
-                <div key={req.id} className="bg-white rounded-2xl border border-gray-100 hover:shadow-sm transition-shadow">
+                <div key={req.id} className="glass-card rounded-2xl transition-shadow hover:shadow-[0_12px_40px_rgba(139,127,240,0.18)]">
                   <Link href={`/dashboard/requests/${req.id}`} className="block p-6 pb-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">

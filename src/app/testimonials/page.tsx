@@ -89,7 +89,7 @@ export default function TestimonialsPage() {
           {testimonials.map((t) => (
             <div
               key={t.name}
-              className="bg-white rounded-2xl p-7 flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow duration-200"
+              className="glass-card rounded-2xl p-7 flex flex-col gap-4 hover:shadow-[0_12px_40px_rgba(139,127,240,0.18)] transition-shadow duration-200"
             >
               <StarRating />
               <p className="text-[#1D1D1F] text-sm leading-relaxed flex-1 italic">
@@ -107,7 +107,7 @@ export default function TestimonialsPage() {
         </div>
 
         {/* CTA */}
-        <div className="mt-16 text-center bg-white rounded-2xl p-10 shadow-sm">
+        <div className="mt-16 text-center glass-card rounded-2xl p-10">
           <h2 className="text-2xl font-bold text-[#1D1D1F] mb-3">
             Prêt à obtenir votre second avis ?
           </h2>

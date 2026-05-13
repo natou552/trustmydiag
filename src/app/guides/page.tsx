@@ -37,7 +37,7 @@ const caseStudies = [
 
 export default function GuidesPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <Header />
 
       <main className="max-w-5xl mx-auto px-6 py-16">
@@ -68,7 +68,7 @@ export default function GuidesPage() {
           {guides.map((guide) => (
             <div
               key={guide.title}
-              className="bg-[#F5F5F7] rounded-2xl p-6 flex flex-col gap-4 hover:shadow-md transition-shadow duration-200"
+              className="glass-card rounded-2xl p-6 flex flex-col gap-4 hover:shadow-[0_12px_40px_rgba(139,127,240,0.18)] transition-shadow duration-200"
             >
               <div className="w-10 h-10 bg-[#0071E3]/10 rounded-xl flex items-center justify-center">
                 <FileText className="w-5 h-5 text-[#0071E3]" />
@@ -88,7 +88,7 @@ export default function GuidesPage() {
           {caseStudies.map((cs) => (
             <div
               key={cs.title}
-              className="bg-white border border-gray-200 rounded-2xl p-7 hover:shadow-lg transition-shadow duration-200"
+              className="glass-card rounded-2xl p-7 hover:shadow-[0_12px_40px_rgba(139,127,240,0.18)] transition-shadow duration-200"
             >
               <span className="text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-[#0071E3] mb-4 inline-block">
                 {cs.specialty}

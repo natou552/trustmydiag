@@ -170,7 +170,7 @@ export default function ContactPage() {
 
           {/* Contact Info */}
           <div className="flex flex-col gap-6">
-            <div className="bg-[#F5F5F7] rounded-2xl p-6">
+            <div className="glass-card rounded-2xl p-6">
               <h3 className="font-bold text-[#1D1D1F] mb-2">Email</h3>
               <a
                 href="mailto:contact@trustmydiag.com"
@@ -180,14 +180,14 @@ export default function ContactPage() {
               </a>
             </div>
 
-            <div className="bg-[#F5F5F7] rounded-2xl p-6">
+            <div className="glass-card rounded-2xl p-6">
               <h3 className="font-bold text-[#1D1D1F] mb-2">Délai de réponse</h3>
               <p className="text-sm text-[#6E6E73]">
                 Nous répondons à tous les messages dans un délai de <strong className="text-[#1D1D1F]">48 heures ouvrées</strong>.
               </p>
             </div>
 
-            <div className="bg-[#F5F5F7] rounded-2xl p-6">
+            <div className="glass-card rounded-2xl p-6">
               <h3 className="font-bold text-[#1D1D1F] mb-2">Support médical</h3>
               <p className="text-sm text-[#6E6E73]">
                 Pour toute question relative à votre dossier médical, connectez-vous à votre espace
