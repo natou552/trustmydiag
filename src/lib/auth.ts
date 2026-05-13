@@ -8,7 +8,14 @@ import { sendOtpSms } from "@/lib/sms";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as never,
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 60,    // session expires after 30 minutes
+    updateAge: 5 * 60,  // token refreshed every 5 min if active (sliding window)
+  },
+  jwt: {
+    maxAge: 30 * 60,    // JWT lifetime matches session
+  },
   pages: {
     signIn: "/login",
     error: "/login",
