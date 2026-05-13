@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Header } from "@/components/header";
-import { PlusCircle, FileText, Clock, CheckCircle2, Trash2, Lock } from "lucide-react";
+import { PlusCircle, FileText, Clock, CheckCircle2, Trash2, Lock, Loader2 } from "lucide-react";
 import { useLang } from "@/contexts/language";
 import { t } from "@/lib/translations";
 
@@ -31,6 +31,7 @@ export function DashboardClient({ session, requests: initialRequests }: {
   const [requests, setRequests] = useState<Request[]>(initialRequests);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState(searchParams.get("payment") === "success");
+  const [pollingPayment, setPollingPayment] = useState(searchParams.get("payment") === "success");
 
   const STATUS_CONFIG: Record<string, { label: string; color: "default" | "secondary" | "destructive" | "outline"; icon: React.ReactNode }> = {
     PENDING_PAYMENT: { label: tr.status.pendingPayment, color: "outline", icon: <Clock className="h-3 w-3" /> },
@@ -44,15 +45,37 @@ export function DashboardClient({ session, requests: initialRequests }: {
     GYNECOLOGY: tr.specialty.gynecology,
   };
 
+  // After payment redirect, poll every 2s until webhook updates the status (max 20s)
   useEffect(() => {
-    if (searchParams.get("payment") === "success") {
-      const timer = setTimeout(() => {
+    if (!pollingPayment) return;
+    let attempts = 0;
+    const interval = setInterval(async () => {
+      attempts++;
+      try {
+        const res = await fetch("/api/requests");
+        if (res.ok) {
+          const data: Request[] = await res.json();
+          const stillPending = data.some((r) => r.status === "PENDING_PAYMENT");
+          const hasUpdated = data.some((r) => r.status !== "PENDING_PAYMENT" && r.status !== "PAID");
+          if (hasUpdated || !stillPending || attempts >= 10) {
+            setRequests(data);
+            setPollingPayment(false);
+            clearInterval(interval);
+            setTimeout(() => setPaymentSuccess(false), 3000);
+          }
+        }
+      } catch {
+        // ignore fetch errors during polling
+      }
+      if (attempts >= 10) {
+        setPollingPayment(false);
+        clearInterval(interval);
         router.refresh();
-        setPaymentSuccess(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, []);
+        setTimeout(() => setPaymentSuccess(false), 3000);
+      }
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [pollingPayment]);
 
   async function handleDelete(id: string) {
     if (!confirm(tr.deleteConfirm)) return;
@@ -135,7 +158,12 @@ export function DashboardClient({ session, requests: initialRequests }: {
                     </div>
                   </Link>
                   <div className="px-6 pb-4 flex items-center gap-2">
-                    {req.status === "PENDING_PAYMENT" && (
+                    {req.status === "PENDING_PAYMENT" && pollingPayment ? (
+                      <span className="flex items-center gap-2 text-xs text-[#8B7FF0] font-medium">
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        Traitement du paiement…
+                      </span>
+                    ) : req.status === "PENDING_PAYMENT" && (
                       <Link href={`/dashboard/new?resume=${req.id}`} onClick={(e) => e.stopPropagation()}>
                         <Button size="sm" variant="outline" className="text-[#1e3a5f] border-[#1e3a5f]">
                           {tr.pay}
