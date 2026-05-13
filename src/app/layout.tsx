@@ -33,13 +33,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
           background: [
             // Blush/peach glow — centered slightly right (Pearl signature)
-            "radial-gradient(ellipse 90% 70% at 65% 45%, rgba(247,220,215,0.52) 0%, transparent 68%)",
+            "radial-gradient(ellipse 90% 70% at 65% 45%, rgba(240,200,195,0.72) 0%, transparent 66%)",
             // Icy blue — left side
-            "radial-gradient(ellipse 70% 85% at 5% 40%, rgba(220,232,255,0.40) 0%, transparent 62%)",
+            "radial-gradient(ellipse 70% 85% at 5% 40%, rgba(195,218,255,0.62) 0%, transparent 60%)",
             // Lavender haze — bottom center
-            "radial-gradient(ellipse 80% 55% at 45% 95%, rgba(230,220,255,0.30) 0%, transparent 60%)",
+            "radial-gradient(ellipse 80% 55% at 45% 95%, rgba(218,208,255,0.55) 0%, transparent 58%)",
             // Warm cream — top right
-            "radial-gradient(ellipse 55% 50% at 95% 5%, rgba(255,240,230,0.28) 0%, transparent 55%)",
+            "radial-gradient(ellipse 55% 50% at 95% 5%, rgba(255,228,210,0.48) 0%, transparent 53%)",
           ].join(","),
         }} />
 

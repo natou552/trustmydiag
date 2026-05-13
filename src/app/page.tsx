@@ -31,7 +31,7 @@ function FaqSection({ tr }: { tr: typeof t["fr"] | typeof t["en"] }) {
             <motion.div key={i} variants={stagger(i * 0.05)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-40px" }}
               className="rounded-2xl overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.65)",
+                background: "rgba(255,255,255,0.42)",
                 backdropFilter: "blur(20px)",
                 border: open === i ? "1px solid rgba(139,127,240,0.2)" : "1px solid rgba(255,255,255,0.9)",
                 boxShadow: open === i ? "0 4px 20px rgba(139,127,240,0.1)" : "0 2px 12px rgba(139,127,240,0.05)",
@@ -162,9 +162,9 @@ export default function HomePage() {
               <button
                 className="inline-flex items-center gap-2 text-sm font-medium px-8 py-4 rounded-full transition-all duration-200"
                 style={{
-                  background: "rgba(255,255,255,0.7)",
+                  background: "rgba(255,255,255,0.48)",
                   backdropFilter: "blur(12px)",
-                  border: "1px solid rgba(255,255,255,0.9)",
+                  border: "1px solid rgba(255,255,255,0.75)",
                   color: "#4A4458",
                 }}
               >
@@ -190,10 +190,10 @@ export default function HomePage() {
                 key={s.value}
                 className="flex flex-col items-center px-4 py-5 rounded-2xl"
                 style={{
-                  background: "rgba(255,255,255,0.6)",
-                  backdropFilter: "blur(20px) saturate(180%)",
-                  WebkitBackdropFilter: "blur(20px) saturate(180%)",
-                  border: "1px solid rgba(255,255,255,0.8)",
+                  background: "rgba(255,255,255,0.42)",
+                  backdropFilter: "blur(28px) saturate(200%)",
+                  WebkitBackdropFilter: "blur(28px) saturate(200%)",
+                  border: "1px solid rgba(255,255,255,0.72)",
                   boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 24px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
                 }}
               >
@@ -244,10 +244,10 @@ export default function HomePage() {
                 transition={{ duration: 0.65, ease: "easeOut", delay: s.delay }}
                 className="rounded-3xl p-8"
                 style={{
-                  background: "rgba(255,255,255,0.6)",
-                  backdropFilter: "blur(20px) saturate(180%)",
-                  WebkitBackdropFilter: "blur(20px) saturate(180%)",
-                  border: "1px solid rgba(255,255,255,0.8)",
+                  background: "rgba(255,255,255,0.42)",
+                  backdropFilter: "blur(28px) saturate(200%)",
+                  WebkitBackdropFilter: "blur(28px) saturate(200%)",
+                  border: "1px solid rgba(255,255,255,0.72)",
                   boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
                 }}
               >
@@ -276,10 +276,10 @@ export default function HomePage() {
             transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
             className="rounded-3xl p-8 md:p-12"
             style={{
-              background: "rgba(255,255,255,0.6)",
-              backdropFilter: "blur(20px) saturate(180%)",
-              WebkitBackdropFilter: "blur(20px) saturate(180%)",
-              border: "1px solid rgba(255,255,255,0.8)",
+              background: "rgba(255,255,255,0.42)",
+              backdropFilter: "blur(28px) saturate(200%)",
+              WebkitBackdropFilter: "blur(28px) saturate(200%)",
+              border: "1px solid rgba(255,255,255,0.72)",
               boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
             }}
           >
@@ -306,7 +306,7 @@ export default function HomePage() {
                 { icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z", label: tr.philosophy.features[2] },
               ].map((item) => (
                 <div key={item.label} className="flex items-start gap-3 p-4 rounded-2xl"
-                  style={{ background: "rgba(255,255,255,0.6)", backdropFilter: "blur(20px) saturate(180%)", WebkitBackdropFilter: "blur(20px) saturate(180%)", border: "1px solid rgba(255,255,255,0.8)", boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 4px 12px rgba(139,127,240,0.08)" }}>
+                  style={{ background: "rgba(255,255,255,0.42)", backdropFilter: "blur(28px) saturate(200%)", WebkitBackdropFilter: "blur(28px) saturate(200%)", border: "1px solid rgba(255,255,255,0.72)", boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 4px 12px rgba(139,127,240,0.08)" }}>
                   <svg className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: "#8B7FF0" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
@@ -354,10 +354,10 @@ export default function HomePage() {
                   transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
                   className="rounded-3xl overflow-hidden"
                   style={{
-                    background: "rgba(255,255,255,0.6)",
-                    backdropFilter: "blur(20px) saturate(180%)",
-                    WebkitBackdropFilter: "blur(20px) saturate(180%)",
-                    border: "1px solid rgba(255,255,255,0.8)",
+                    background: "rgba(255,255,255,0.42)",
+                    backdropFilter: "blur(28px) saturate(200%)",
+                    WebkitBackdropFilter: "blur(28px) saturate(200%)",
+                    border: "1px solid rgba(255,255,255,0.72)",
                     boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
                   }}
                   whileHover={{ y: -4, transition: { duration: 0.2 } }}
@@ -424,10 +424,10 @@ export default function HomePage() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="rounded-3xl overflow-hidden"
             style={{
-              background: "rgba(255,255,255,0.6)",
-              backdropFilter: "blur(20px) saturate(180%)",
-              WebkitBackdropFilter: "blur(20px) saturate(180%)",
-              border: "1px solid rgba(255,255,255,0.8)",
+              background: "rgba(255,255,255,0.42)",
+              backdropFilter: "blur(28px) saturate(200%)",
+              WebkitBackdropFilter: "blur(28px) saturate(200%)",
+              border: "1px solid rgba(255,255,255,0.72)",
               boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(139,127,240,0.1), 0 2px 8px rgba(0,0,0,0.04)",
             }}
           >
