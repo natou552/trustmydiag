@@ -3,6 +3,8 @@ import { PrismaPg } from "@prisma/adapter-pg";
 
 function createPrismaClient() {
   const connectionString = process.env.POSTGRES_PRISMA_URL ?? process.env.DATABASE_URL!;
+  // Log first 50 chars of URL so we can verify correct value in Vercel logs
+  console.log("[prisma] URL:", connectionString?.substring(0, 50));
   // Supabase requires SSL in production; pg doesn't enable it by default
   const adapter = new PrismaPg({
     connectionString,
