@@ -27,8 +27,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div aria-hidden="true" style={{
           position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
           background: [
-            "radial-gradient(ellipse 70% 60% at 65% 45%, rgba(255,220,210,0.38) 0%, transparent 65%)",
-            "radial-gradient(ellipse 50% 65% at 0% 50%, rgba(220,218,245,0.22) 0%, transparent 55%)",
+            "radial-gradient(ellipse 65% 55% at 62% 42%, rgba(255,200,182,0.55) 0%, transparent 60%)",
+            "radial-gradient(ellipse 45% 60% at 2% 52%, rgba(215,213,245,0.18) 0%, transparent 50%)",
           ].join(","),
         }} />
 
@@ -36,14 +36,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div aria-hidden="true" style={{
           position: "fixed", top: 0, left: 0, right: 0,
           height: "18vh", zIndex: 1, pointerEvents: "none",
-          background: "linear-gradient(to bottom, #ffffff 0%, #ffffff 30%, transparent 100%)",
+          background: "linear-gradient(to bottom, #edeef8 0%, #edeef8 30%, transparent 100%)",
         }} />
 
         {/* Fondu blanc en bas — masque tout contraste avec la barre de navigation mobile */}
         <div aria-hidden="true" style={{
           position: "fixed", bottom: 0, left: 0, right: 0,
           height: "15vh", zIndex: 1, pointerEvents: "none",
-          background: "linear-gradient(to top, #ffffff 0%, #ffffff 20%, transparent 100%)",
+          background: "linear-gradient(to top, #edeef8 0%, #edeef8 20%, transparent 100%)",
         }} />
 
         {/* Grain premium presque invisible */}
