@@ -61,7 +61,10 @@ function Dropdown({ label, items }: { label: string; items: { label: string; hre
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="block px-4 py-2.5 text-sm text-[#374151] hover:bg-white/30 rounded-xl mx-1 transition-colors"
+                className="block px-4 py-2.5 text-sm font-medium text-[#2D2A3E] hover:text-[#8B7FF0] rounded-xl mx-1 transition-colors"
+                style={{ transition: "background 0.15s, color 0.15s" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "rgba(139,127,240,0.1)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
               >
                 {item.label}
               </Link>
