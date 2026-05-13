@@ -1,15 +1,21 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import pg from "pg";
 
 function createPrismaClient() {
   const connectionString = process.env.POSTGRES_PRISMA_URL ?? process.env.DATABASE_URL!;
-  // Log first 50 chars of URL so we can verify correct value in Vercel logs
-  console.log("[prisma] URL:", connectionString?.substring(0, 50));
-  // Supabase requires SSL in production; pg doesn't enable it by default
-  const adapter = new PrismaPg({
+  console.log("[prisma] URL:", connectionString?.substring(0, 55));
+
+  // Serverless-safe pool: 1 connection max, short timeouts, SSL for Supabase
+  const pool = new pg.Pool({
     connectionString,
-    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
+    max: 1,
+    idleTimeoutMillis: 10_000,
+    connectionTimeoutMillis: 10_000,
+    ssl: { rejectUnauthorized: false },
   });
+
+  const adapter = new PrismaPg(pool);
   return new PrismaClient({
     adapter,
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
