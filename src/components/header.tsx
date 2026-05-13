@@ -50,7 +50,7 @@ function Dropdown({ label, items }: { label: string; items: { label: string; hre
           onMouseLeave={handleLeave}
         >
           <div className="w-56 rounded-2xl py-2" style={{
-            background: "rgba(255,255,255,0.42)",
+            background: "rgba(255,255,255,0.62)",
             backdropFilter: "blur(28px) saturate(200%)",
             WebkitBackdropFilter: "blur(28px) saturate(200%)",
             border: "1px solid rgba(255,255,255,0.75)",
