@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   description: "Obtenez un second avis médical de nos médecins partenaires en envoyant votre compte rendu.",
 };
 
-// Base: very light icy blue #EEF2FC — matches Pearl's canvas
-const BASE = "#eef2fc";
+// Base: Pearl exact canvas — near-white with a breath of cold blue
+const BASE = "#f0f2f8";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -32,14 +32,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div aria-hidden="true" style={{
           position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
           background: [
-            // Blush/peach glow — centered slightly right (Pearl signature)
-            "radial-gradient(ellipse 90% 70% at 65% 45%, rgba(240,200,195,0.72) 0%, transparent 66%)",
-            // Icy blue — left side
-            "radial-gradient(ellipse 70% 85% at 5% 40%, rgba(195,218,255,0.62) 0%, transparent 60%)",
-            // Lavender haze — bottom center
-            "radial-gradient(ellipse 80% 55% at 45% 95%, rgba(218,208,255,0.55) 0%, transparent 58%)",
-            // Warm cream — top right
-            "radial-gradient(ellipse 55% 50% at 95% 5%, rgba(255,228,210,0.48) 0%, transparent 53%)",
+            // Blush/peach — Pearl signature, very whisper-soft, center-right
+            "radial-gradient(ellipse 85% 65% at 68% 42%, rgba(248,218,212,0.38) 0%, transparent 65%)",
+            // Icy lavender-blue — left, Pearl's cool anchor
+            "radial-gradient(ellipse 65% 80% at 2% 45%, rgba(208,220,248,0.42) 0%, transparent 60%)",
+            // Pale lavender — bottom, barely there
+            "radial-gradient(ellipse 75% 50% at 50% 100%, rgba(228,222,250,0.22) 0%, transparent 55%)",
+            // Cool tint — top left, echoes Pearl header
+            "radial-gradient(ellipse 50% 40% at 0% 0%, rgba(210,218,250,0.30) 0%, transparent 50%)",
           ].join(","),
         }} />
 
