@@ -49,13 +49,19 @@ function Dropdown({ label, items }: { label: string; items: { label: string; hre
           onMouseEnter={handleEnter}
           onMouseLeave={handleLeave}
         >
-          <div className="w-56 bg-white rounded-2xl shadow-xl border border-black/[0.06] py-2">
+          <div className="w-56 rounded-2xl py-2" style={{
+            background: "rgba(255,255,255,0.42)",
+            backdropFilter: "blur(28px) saturate(200%)",
+            WebkitBackdropFilter: "blur(28px) saturate(200%)",
+            border: "1px solid rgba(255,255,255,0.75)",
+            boxShadow: "0 8px 32px rgba(139,127,240,0.15), 0 2px 8px rgba(0,0,0,0.06)",
+          }}>
             {items.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="block px-4 py-2.5 text-sm text-[#374151] hover:bg-[#F5F5F7] transition-colors"
+                className="block px-4 py-2.5 text-sm text-[#374151] hover:bg-white/30 rounded-xl mx-1 transition-colors"
               >
                 {item.label}
               </Link>
