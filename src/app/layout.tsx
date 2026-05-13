@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   description: "Obtenez un second avis médical de nos médecins partenaires en envoyant votre compte rendu.",
 };
 
-const GRAIN = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E")`;
+// Base: very light icy blue #EEF2FC — matches Pearl's canvas
+const BASE = "#eef2fc";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -23,39 +24,40 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MCV5DCP9" height="0" width="0" style={{ display: "none", visibility: "hidden" }} />
         </noscript>
 
-        {/* Ambient blobs — très subtils, style Apple/Linear */}
+        {/*
+          Pearl / Apple gradient mesh
+          — 4 ultra-soft, large, overlapping clouds
+          — No hard edges, no saturation, center stays bright
+        */}
         <div aria-hidden="true" style={{
           position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
           background: [
-            "radial-gradient(ellipse 65% 55% at 62% 42%, rgba(255,200,182,0.55) 0%, transparent 60%)",
-            "radial-gradient(ellipse 45% 60% at 2% 52%, rgba(215,213,245,0.18) 0%, transparent 50%)",
+            // Blush/peach glow — centered slightly right (Pearl signature)
+            "radial-gradient(ellipse 90% 70% at 65% 45%, rgba(247,220,215,0.52) 0%, transparent 68%)",
+            // Icy blue — left side
+            "radial-gradient(ellipse 70% 85% at 5% 40%, rgba(220,232,255,0.40) 0%, transparent 62%)",
+            // Lavender haze — bottom center
+            "radial-gradient(ellipse 80% 55% at 45% 95%, rgba(230,220,255,0.30) 0%, transparent 60%)",
+            // Warm cream — top right
+            "radial-gradient(ellipse 55% 50% at 95% 5%, rgba(255,240,230,0.28) 0%, transparent 55%)",
           ].join(","),
         }} />
 
-        {/* Fondu blanc en haut — masque tout contraste avec la barre du navigateur */}
+        {/* Top fade — seamless with header */}
         <div aria-hidden="true" style={{
           position: "fixed", top: 0, left: 0, right: 0,
           height: "18vh", zIndex: 1, pointerEvents: "none",
-          background: "linear-gradient(to bottom, #edeef8 0%, #edeef8 30%, transparent 100%)",
+          background: `linear-gradient(to bottom, ${BASE} 0%, ${BASE} 25%, transparent 100%)`,
         }} />
 
-        {/* Fondu blanc en bas — masque tout contraste avec la barre de navigation mobile */}
+        {/* Bottom fade — seamless with mobile nav bar */}
         <div aria-hidden="true" style={{
           position: "fixed", bottom: 0, left: 0, right: 0,
           height: "15vh", zIndex: 1, pointerEvents: "none",
-          background: "linear-gradient(to top, #edeef8 0%, #edeef8 20%, transparent 100%)",
+          background: `linear-gradient(to top, ${BASE} 0%, ${BASE} 20%, transparent 100%)`,
         }} />
 
-        {/* Grain premium presque invisible */}
-        <div aria-hidden="true" className="grain-overlay" style={{
-          position: "fixed", inset: 0, zIndex: 9999, pointerEvents: "none",
-          backgroundImage: GRAIN,
-          backgroundSize: "200px 200px",
-          opacity: 0.32,
-          mixBlendMode: "multiply" as React.CSSProperties["mixBlendMode"],
-        }} />
-
-        {/* Contenu — au-dessus des blobs */}
+        {/* Content */}
         <div style={{ position: "relative", zIndex: 1 }}>
           <Providers>{children}</Providers>
         </div>
