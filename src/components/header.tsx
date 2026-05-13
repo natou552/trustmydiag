@@ -282,7 +282,7 @@ export function Header() {
       {mobileOpen && (
         <motion.div
           className="md:hidden fixed inset-0 z-[100] flex flex-col"
-          style={{ background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 40%, #FDE8E0 100%)", transformOrigin: "top center" }}
+          style={{ background: "#eef2fc", transformOrigin: "top center" }}
           initial={{ clipPath: "inset(0 0 100% 0)", opacity: 0.6 }}
           animate={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
           exit={{ clipPath: "inset(0 0 100% 0)", opacity: 0.6 }}

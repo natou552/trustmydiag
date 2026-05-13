@@ -33,7 +33,7 @@ export function AdminRequestCard({ request }: { request: RequestWithUser }) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-sm transition-shadow">
+    <div className="glass-card rounded-2xl overflow-hidden hover:shadow-[0_12px_40px_rgba(139,127,240,0.18)] transition-shadow">
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full p-6 text-left flex items-center justify-between gap-4"

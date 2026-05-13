@@ -48,7 +48,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: "linear-gradient(160deg, #EEF0FB 0%, #F4F3F8 35%, #FDE8E0 65%, #F4F3F8 100%)" }}>
+    <div className="min-h-screen">
       <Header />
 
       <main className="max-w-4xl mx-auto px-6 py-16">

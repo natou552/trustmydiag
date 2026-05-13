@@ -23,7 +23,7 @@ export default async function AdminPage() {
   const completed = requests.filter((r) => r.status === "COMPLETED");
 
   return (
-    <div className="min-h-screen bg-[#f8fafc]">
+    <div className="min-h-screen">
       <Header />
       <div className="max-w-5xl mx-auto px-4 py-10">
         <div className="mb-8">
