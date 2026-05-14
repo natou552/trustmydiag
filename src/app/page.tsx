@@ -621,21 +621,6 @@ export default function HomePage() {
 
           </div>
 
-          {/* CTA */}
-          <motion.div
-            className="text-center mt-12"
-            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
-          >
-            <Link
-              href="/dashboard/new"
-              className="inline-flex items-center gap-2 text-white font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 8px 24px rgba(139,127,240,0.35)" }}
-            >
-              Déposer mon dossier maintenant
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <p className="text-xs mt-3" style={{ color: "#B0ABBD" }}>22 € · Paiement unique · Réponse sous 72h</p>
-          </motion.div>
 
         </div>
       </section>
