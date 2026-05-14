@@ -511,6 +511,136 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Section Avant / Après ── */}
+      <section className="py-24 px-4">
+        <div className="max-w-5xl mx-auto">
+
+          {/* Titre */}
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#8B7FF0" }}>Le parcours complet</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1e3a5f]">Ce que vous envoyez.<br />Ce que vous recevez.</h2>
+            <p className="text-gray-500 mt-4 max-w-xl mx-auto text-sm">Tout est simple, rapide et sécurisé. Voici exactement ce qui se passe de votre côté.</p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6 items-start">
+
+            {/* GAUCHE — Ce que vous envoyez */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+              className="glass-card rounded-3xl p-8"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(139,127,240,0.12)" }}>
+                  <Upload className="w-4 h-4" style={{ color: "#8B7FF0" }} />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#8B7FF0" }}>Étape 1</p>
+                  <h3 className="font-bold text-[#1e3a5f] text-base">Vous envoyez</h3>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {[
+                  { icon: "📄", label: "Vos documents médicaux", sub: "Compte rendu, radio, bilan — en PDF ou photo" },
+                  { icon: "📋", label: "Votre questionnaire médical", sub: "Antécédents, symptômes, tranche d'âge" },
+                  { icon: "💬", label: "Votre motif de consultation", sub: "Ce que vous voulez savoir ou vérifier" },
+                  { icon: "💳", label: "Votre paiement sécurisé", sub: "22 € · Paiement unique via Stripe" },
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                    className="flex items-start gap-4 rounded-2xl p-4"
+                    style={{ background: "rgba(139,127,240,0.05)", border: "1px solid rgba(139,127,240,0.1)" }}
+                  >
+                    <span className="text-2xl flex-shrink-0">{item.icon}</span>
+                    <div>
+                      <p className="font-semibold text-[#1e3a5f] text-sm">{item.label}</p>
+                      <p className="text-gray-400 text-xs mt-0.5">{item.sub}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Temps */}
+              <div className="mt-6 flex items-center gap-2 text-xs text-gray-400">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                Moins de 5 minutes pour tout remplir
+              </div>
+            </motion.div>
+
+            {/* Flèche centrale */}
+            <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+            </div>
+
+            {/* DROITE — Ce que vous recevez */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.15 }}
+              className="rounded-3xl p-8"
+              style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #2a4f7f 100%)" }}
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(255,255,255,0.15)" }}>
+                  <MessageSquare className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-white/60">Sous 72h</p>
+                  <h3 className="font-bold text-white text-base">Vous recevez</h3>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {[
+                  { icon: "🔬", label: "Une analyse de votre compte rendu", sub: "Lecture experte par un médecin spécialiste diplômé" },
+                  { icon: "✅", label: "Un avis clair sur votre diagnostic", sub: "Confirmation, nuance ou second point de vue médical" },
+                  { icon: "📝", label: "Des recommandations personnalisées", sub: "Plan de traitement, examens complémentaires, conseils" },
+                  { icon: "📧", label: "Un email + accès dans votre espace", sub: "Consultable à tout moment sur votre tableau de bord" },
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 + i * 0.1 }}
+                    className="flex items-start gap-4 rounded-2xl p-4"
+                    style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}
+                  >
+                    <span className="text-2xl flex-shrink-0">{item.icon}</span>
+                    <div>
+                      <p className="font-semibold text-white text-sm">{item.label}</p>
+                      <p className="text-white/50 text-xs mt-0.5">{item.sub}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Badge */}
+              <div className="mt-6 flex items-center gap-2">
+                <Shield className="w-4 h-4 text-white/60" />
+                <p className="text-xs text-white/60">Signé par un médecin · Données chiffrées et confidentielles</p>
+              </div>
+            </motion.div>
+
+          </div>
+
+          {/* CTA centré */}
+          <motion.div
+            className="text-center mt-12"
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
+          >
+            <Link
+              href="/dashboard/new"
+              className="inline-flex items-center gap-2 text-white font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:scale-105"
+              style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 8px 24px rgba(139,127,240,0.35)" }}
+            >
+              Déposer mon dossier maintenant
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <p className="text-xs text-gray-400 mt-3">22 € · Paiement unique · Réponse sous 72h</p>
+          </motion.div>
+
+        </div>
+      </section>
+
     </div>
   );
 }
