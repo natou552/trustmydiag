@@ -61,7 +61,7 @@ export default function ContactPage() {
 
         {/* Hero */}
         <div className="mb-12">
-          <p className="text-[#0071E3] text-sm font-semibold uppercase tracking-widest mb-3">
+          <p className="text-[#8B7FF0] text-sm font-semibold uppercase tracking-widest mb-3">
             Contact
           </p>
           <h1 className="text-4xl font-bold text-[#1D1D1F] mb-4">Nous contacter</h1>
@@ -82,7 +82,7 @@ export default function ContactPage() {
                 </p>
                 <button
                   onClick={() => { setSubmitted(false); setForm({ name: "", email: "", subject: "", message: "" }); }}
-                  className="mt-6 text-[#0071E3] text-sm font-medium hover:underline"
+                  className="mt-6 text-[#8B7FF0] text-sm font-medium hover:underline"
                 >
                   Envoyer un autre message
                 </button>
@@ -100,7 +100,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     required
                     placeholder="Jean Dupont"
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-[#1D1D1F] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0071E3]/30 focus:border-[#0071E3] transition"
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-[#1D1D1F] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8B7FF0]/30 focus:border-[#8B7FF0] transition"
                   />
                 </div>
 
@@ -115,7 +115,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     required
                     placeholder="jean.dupont@email.com"
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-[#1D1D1F] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0071E3]/30 focus:border-[#0071E3] transition"
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-[#1D1D1F] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8B7FF0]/30 focus:border-[#8B7FF0] transition"
                   />
                 </div>
 
@@ -126,7 +126,7 @@ export default function ContactPage() {
                     value={form.subject}
                     onChange={handleChange}
                     required
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#0071E3]/30 focus:border-[#0071E3] transition bg-white"
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#8B7FF0]/30 focus:border-[#8B7FF0] transition bg-white"
                   >
                     <option value="" disabled>
                       Sélectionnez un sujet
@@ -149,7 +149,7 @@ export default function ContactPage() {
                     required
                     rows={6}
                     placeholder="Décrivez votre demande en détail..."
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-[#1D1D1F] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0071E3]/30 focus:border-[#0071E3] transition resize-none"
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-[#1D1D1F] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8B7FF0]/30 focus:border-[#8B7FF0] transition resize-none"
                   />
                 </div>
 
@@ -160,7 +160,8 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#0071E3] text-white py-3 rounded-full font-semibold text-sm hover:bg-[#0077ED] transition-colors disabled:opacity-60"
+                  className="w-full text-white py-3 rounded-full font-semibold text-sm transition-all disabled:opacity-60"
+                  style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 4px 15px rgba(139,127,240,0.35)" }}
                 >
                   {loading ? "Envoi en cours…" : "Envoyer le message"}
                 </button>
@@ -174,7 +175,7 @@ export default function ContactPage() {
               <h3 className="font-bold text-[#1D1D1F] mb-2">Email</h3>
               <a
                 href="mailto:contact@trustmydiag.com"
-                className="text-[#0071E3] text-sm hover:underline"
+                className="text-[#8B7FF0] text-sm hover:underline"
               >
                 contact@trustmydiag.com
               </a>
@@ -195,7 +196,7 @@ export default function ContactPage() {
               </p>
               <Link
                 href="/dashboard"
-                className="mt-3 inline-block text-sm font-medium text-[#0071E3] hover:underline"
+                className="mt-3 inline-block text-sm font-medium text-[#8B7FF0] hover:underline"
               >
                 Accéder au tableau de bord →
               </Link>
