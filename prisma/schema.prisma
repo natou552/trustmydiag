@@ -77,7 +77,7 @@ model Request {
   userId      String
   user        User          @relation(fields: [userId], references: [id])
   specialty   Specialty
-  ageGroup    AgeGroup?
+  ageGroup    String?
   pdfUrl      String
   pdfKey      String
   message     String?
@@ -93,12 +93,6 @@ enum Specialty {
   GYNECOLOGY
 }
 
-enum AgeGroup {
-  CHILD
-  ADULT_18_65
-  ADULT_66_80
-  ADULT_81_PLUS
-}
 
 enum RequestStatus {
   PENDING_PAYMENT

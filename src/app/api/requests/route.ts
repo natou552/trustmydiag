@@ -18,10 +18,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid specialty" }, { status: 400 });
   }
 
-  // Validate ageGroup enum if provided
-  const validAgeGroups = ["CHILD", "ADULT_18_65", "ADULT_66_80", "ADULT_81_PLUS"];
-  if (ageGroup && !validAgeGroups.includes(ageGroup)) {
-    return NextResponse.json({ error: "Invalid ageGroup" }, { status: 400 });
+  // Validate ageGroup: must be a whole number between 0 and 120
+  if (ageGroup !== undefined && ageGroup !== null && ageGroup !== "") {
+    const age = Number(ageGroup);
+    if (!Number.isInteger(age) || age < 0 || age > 120) {
+      return NextResponse.json({ error: "Invalid ageGroup" }, { status: 400 });
+    }
   }
 
   // Validate message length

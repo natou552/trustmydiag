@@ -143,17 +143,11 @@ function FilePreview({ file, onRemove, moLabel }: { file: File; onRemove: () => 
   );
 }
 
-const AGE_GROUP_LABELS: Record<string, string> = {
-  CHILD: "Enfant entre 30 mois et 17 ans",
-  ADULT_18_65: "Adulte entre 18 ans et 65 ans",
-  ADULT_66_80: "Adulte entre 66 ans et 80 ans",
-  ADULT_81_PLUS: "Adulte de plus de 81 ans",
-};
 
 function formatDental(a: DentalAnamnesis, hasPain: boolean, ageGroup: string): string {
   const lines = [
     "=== ANTÉCÉDENTS DENTAIRES ===", "",
-    `Tranche d'âge : ${AGE_GROUP_LABELS[ageGroup] || ageGroup}`,
+    `Âge du patient : ${ageGroup ? `${ageGroup} ans` : "Non renseigné"}`,
     `Motif principal : ${a.reason || "Non renseigné"}`,
     `Soin(s) concerné(s) : ${a.treatments.length ? a.treatments.join(", ") : "Non renseigné"}`, "",
     `Symptômes : ${a.symptoms.length ? a.symptoms.join(", ") : "Non renseigné"}`,
@@ -170,7 +164,7 @@ function formatDental(a: DentalAnamnesis, hasPain: boolean, ageGroup: string): s
 function formatGyno(a: GynoAnamnesis, hasPain: boolean, ageGroup: string): string {
   const lines = [
     "=== ANTÉCÉDENTS GYNÉCOLOGIQUES ===", "",
-    `Tranche d'âge : ${AGE_GROUP_LABELS[ageGroup] || ageGroup}`,
+    `Âge du patient : ${ageGroup ? `${ageGroup} ans` : "Non renseigné"}`,
     `Motif principal : ${a.reason || "Non renseigné"}`,
     `Examen / soin concerné : ${a.examConcerned.length ? a.examConcerned.join(", ") : "Non renseigné"}`, "",
     `Symptômes : ${a.symptoms.length ? a.symptoms.join(", ") : "Non renseigné"}`,
@@ -404,12 +398,17 @@ function NewRequestForm() {
               <p className="text-sm mb-7" style={{ color: "#6B6880" }}>{tr.step2dental.sub}</p>
 
               <div className="space-y-7">
-                <FieldGroup label={tr.step1.ageGroupLabel} required>
-                  <div className="flex flex-wrap gap-2">
-                    {(["CHILD", "ADULT_18_65", "ADULT_66_80", "ADULT_81_PLUS"] as const).map((key, i) => (
-                      <RadioChip key={key} label={tr.step1.ageGroupOptions[i]} selected={ageGroup === key} onSelect={() => setAgeGroup(key)} />
-                    ))}
-                  </div>
+                <FieldGroup label="Âge du patient" required>
+                  <input
+                    type="number"
+                    min={0}
+                    max={120}
+                    value={ageGroup}
+                    onChange={(e) => setAgeGroup(e.target.value.replace(/\D/g, ""))}
+                    placeholder="Ex : 35"
+                    className="w-28 border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B7FF0]/30 focus:border-[#8B7FF0] transition"
+                    style={{ borderColor: "#e5e7eb", color: "#2D2A3E" }}
+                  />
                 </FieldGroup>
                 <Divider />
                 <FieldGroup label={tr.step2dental.reasonLabel} required>
@@ -518,12 +517,17 @@ function NewRequestForm() {
               <p className="text-sm mb-7" style={{ color: "#6B6880" }}>{tr.step2gyno.sub}</p>
 
               <div className="space-y-7">
-                <FieldGroup label={tr.step1.ageGroupLabel} required>
-                  <div className="flex flex-wrap gap-2">
-                    {(["CHILD", "ADULT_18_65", "ADULT_66_80", "ADULT_81_PLUS"] as const).map((key, i) => (
-                      <RadioChip key={key} label={tr.step1.ageGroupOptions[i]} selected={ageGroup === key} onSelect={() => setAgeGroup(key)} />
-                    ))}
-                  </div>
+                <FieldGroup label="Âge du patient" required>
+                  <input
+                    type="number"
+                    min={0}
+                    max={120}
+                    value={ageGroup}
+                    onChange={(e) => setAgeGroup(e.target.value.replace(/\D/g, ""))}
+                    placeholder="Ex : 35"
+                    className="w-28 border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B7FF0]/30 focus:border-[#8B7FF0] transition"
+                    style={{ borderColor: "#e5e7eb", color: "#2D2A3E" }}
+                  />
                 </FieldGroup>
                 <Divider />
                 <FieldGroup label={tr.step2gyno.reasonLabel} required>
@@ -669,7 +673,7 @@ function NewRequestForm() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span style={{ color: "#6B6880" }}>{tr.step4.ageGroup}</span>
-                  <span className="font-medium" style={{ color: "#2D2A3E" }}>{AGE_GROUP_LABELS[ageGroup] || "—"}</span>
+                  <span className="font-medium" style={{ color: "#2D2A3E" }}>{ageGroup ? `${ageGroup} ans` : "—"}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span style={{ color: "#6B6880" }}>{tr.step4.reason}</span>
