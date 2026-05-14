@@ -513,7 +513,7 @@ export default function HomePage() {
 
       {/* ── Section Avant / Après ── */}
       <section className="py-24 px-4">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-5xl mx-auto">
 
           {/* Titre */}
           <motion.div
@@ -521,165 +521,121 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
           >
             <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#8B7FF0" }}>Le parcours complet</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1e3a5f]">Ce que vous déposez.<br />Ce que vous recevez.</h2>
-            <p className="text-gray-500 mt-4 max-w-xl mx-auto text-sm">Voici exactement à quoi ressemble votre expérience sur TrustMyDiag.</p>
+            <h2 className="text-3xl md:text-4xl font-bold" style={{ color: "#2D2A3E" }}>Ce que vous déposez.<br />Ce que vous recevez.</h2>
+            <p className="mt-4 max-w-xl mx-auto text-sm" style={{ color: "#9B98A8" }}>Tout est simple, rapide et sécurisé. Voici exactement ce qui se passe de votre côté.</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8 items-start">
+          <div className="grid md:grid-cols-2 gap-6 items-stretch">
 
-            {/* GAUCHE — Mockup formulaire */}
+            {/* GAUCHE — Vous envoyez */}
             <motion.div
               initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+              className="rounded-3xl p-8 flex flex-col"
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(28px) saturate(200%)",
+                WebkitBackdropFilter: "blur(28px) saturate(200%)",
+                border: "1px solid rgba(255,255,255,0.9)",
+                boxShadow: "0 2px 0 rgba(255,255,255,0.9) inset, 0 12px 40px rgba(139,127,240,0.12), 0 2px 8px rgba(0,0,0,0.04)",
+              }}
             >
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold" style={{ background: "linear-gradient(135deg,#8B7FF0,#6B5FD0)" }}>1</div>
-                <p className="font-semibold text-[#1e3a5f]">Vous déposez votre dossier</p>
-                <span className="text-xs text-gray-400 ml-auto">~5 min</span>
+              <div className="flex items-center gap-3 mb-7">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(139,127,240,0.12)" }}>
+                  <Upload className="w-5 h-5" style={{ color: "#8B7FF0" }} />
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#8B7FF0" }}>Étape 1</p>
+                  <p className="text-base font-bold" style={{ color: "#2D2A3E" }}>Vous envoyez</p>
+                </div>
               </div>
 
-              {/* Fenêtre navigateur */}
-              <div className="rounded-2xl overflow-hidden shadow-xl" style={{ border: "1px solid rgba(139,127,240,0.15)" }}>
-                {/* Barre navigateur */}
-                <div className="flex items-center gap-2 px-4 py-3" style={{ background: "#f8f7ff", borderBottom: "1px solid rgba(139,127,240,0.1)" }}>
-                  <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
-                  </div>
-                  <div className="flex-1 mx-3 bg-white rounded-md px-3 py-1 text-xs text-gray-400 flex items-center gap-1" style={{ border: "1px solid #e5e7eb" }}>
-                    <Shield className="w-3 h-3 text-green-500" />
-                    trustmydiag.com/dashboard/new
-                  </div>
-                </div>
-
-                {/* Contenu formulaire */}
-                <div className="bg-white p-5 space-y-4">
-
-                  {/* Spécialité sélectionnée */}
-                  <div>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Spécialité choisie</p>
-                    <div className="flex gap-2">
-                      <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white" style={{ background: "linear-gradient(135deg,#8B7FF0,#6B5FD0)" }}>
-                        🦷 Dentaire
-                      </div>
-                      <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-gray-400" style={{ border: "1px solid #e5e7eb" }}>
-                        🌸 Gynécologie
-                      </div>
+              <div className="space-y-3 flex-1">
+                {[
+                  { icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>, title: "Vos documents médicaux", sub: "Compte rendu, radio, bilan — en PDF ou photo" },
+                  { icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>, title: "Votre questionnaire médical", sub: "Antécédents, symptômes, tranche d'âge" },
+                  { icon: <MessageSquare className="w-4 h-4" />, title: "Votre motif de consultation", sub: "Ce que vous voulez savoir ou vérifier" },
+                  { icon: <CreditCard className="w-4 h-4" />, title: "Votre paiement sécurisé", sub: "22 € · Paiement unique via Stripe" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-4 p-4 rounded-2xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.9)", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(139,127,240,0.08)", color: "#8B7FF0" }}>
+                      {item.icon}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold" style={{ color: "#2D2A3E" }}>{item.title}</p>
+                      <p className="text-xs mt-0.5" style={{ color: "#9B98A8" }}>{item.sub}</p>
                     </div>
                   </div>
+                ))}
+              </div>
 
-                  {/* Questionnaire rempli */}
-                  <div style={{ background: "#fafafa", borderRadius: 12, padding: 14 }}>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Questionnaire médical</p>
-                    <div className="space-y-2">
-                      {[
-                        { label: "Tranche d'âge", value: "Adulte (18 – 65 ans)" },
-                        { label: "Motif principal", value: "Valider un devis" },
-                        { label: "Soin concerné", value: "Couronne / bridge" },
-                        { label: "Symptômes", value: "Douleur à la mastication" },
-                        { label: "Dernière visite", value: "Il y a moins de 6 mois" },
-                      ].map((row, i) => (
-                        <div key={i} className="flex justify-between text-xs">
-                          <span className="text-gray-400">{row.label}</span>
-                          <span className="font-medium text-[#1e3a5f]">{row.value}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Document uploadé */}
-                  <div>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Document transmis</p>
-                    <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "#f0edff", border: "1px solid rgba(139,127,240,0.2)" }}>
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "#8B7FF0" }}>
-                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd"/></svg>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-[#1e3a5f] truncate">panoramique-dentaire.pdf</p>
-                        <p className="text-xs text-gray-400">2.4 Mo · Téléversé</p>
-                      </div>
-                      <div className="w-4 h-4 rounded-full bg-green-400 flex items-center justify-center">
-                        <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bouton paiement */}
-                  <div className="pt-1">
-                    <div className="w-full py-3 rounded-xl text-center text-sm font-semibold text-white" style={{ background: "linear-gradient(135deg,#8B7FF0,#6B5FD0)" }}>
-                      Payer 22 € et envoyer mon dossier →
-                    </div>
-                    <p className="text-center text-xs text-gray-400 mt-2">🔒 Paiement sécurisé par Stripe</p>
-                  </div>
-                </div>
+              <div className="flex items-center gap-2 mt-6 pt-5" style={{ borderTop: "1px solid rgba(139,127,240,0.1)" }}>
+                <div className="w-2 h-2 rounded-full bg-green-400" />
+                <p className="text-xs" style={{ color: "#9B98A8" }}>Moins de 5 minutes pour tout remplir</p>
               </div>
             </motion.div>
 
-            {/* DROITE — Mockup réponse reçue */}
+            {/* DROITE — Vous recevez */}
             <motion.div
               initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.15 }}
+              className="rounded-3xl p-8 flex flex-col"
+              style={{
+                background: "linear-gradient(145deg, #1e2d4a 0%, #162138 100%)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                boxShadow: "0 12px 40px rgba(22,33,56,0.35), 0 2px 8px rgba(0,0,0,0.15)",
+              }}
             >
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold" style={{ background: "linear-gradient(135deg,#22c55e,#16a34a)" }}>2</div>
-                <p className="font-semibold text-[#1e3a5f]">Vous recevez votre avis médical</p>
-                <span className="text-xs text-green-500 ml-auto font-medium">✓ Sous 72h</span>
+              <div className="flex items-center gap-3 mb-7">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(255,255,255,0.1)" }}>
+                  <MessageSquare className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.45)" }}>Sous 72h</p>
+                  <p className="text-base font-bold text-white">Vous recevez</p>
+                </div>
               </div>
 
-              {/* Fenêtre navigateur */}
-              <div className="rounded-2xl overflow-hidden shadow-xl" style={{ border: "1px solid rgba(34,197,94,0.2)" }}>
-                {/* Barre navigateur */}
-                <div className="flex items-center gap-2 px-4 py-3" style={{ background: "#f0fdf4", borderBottom: "1px solid rgba(34,197,94,0.15)" }}>
-                  <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
-                  </div>
-                  <div className="flex-1 mx-3 bg-white rounded-md px-3 py-1 text-xs text-gray-400 flex items-center gap-1" style={{ border: "1px solid #e5e7eb" }}>
-                    <Shield className="w-3 h-3 text-green-500" />
-                    trustmydiag.com/dashboard
-                  </div>
-                </div>
-
-                {/* Contenu réponse */}
-                <div className="bg-white p-5 space-y-4">
-
-                  {/* En-tête demande */}
-                  <div className="flex items-center justify-between">
+              <div className="space-y-3 flex-1">
+                {[
+                  { icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>, title: "Une analyse de votre compte rendu", sub: "Lecture experte par un médecin spécialiste diplômé" },
+                  { icon: <CheckCircle className="w-4 h-4" />, title: "Un avis clair sur votre diagnostic", sub: "Confirmation, nuance ou second point de vue médical" },
+                  { icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>, title: "Des recommandations personnalisées", sub: "Plan de traitement, examens complémentaires, conseils" },
+                  { icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>, title: "Un email + accès dans votre espace", sub: "Consultable à tout moment sur votre tableau de bord" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-4 p-4 rounded-2xl" style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 text-white" style={{ background: "rgba(255,255,255,0.12)" }}>
+                      {item.icon}
+                    </div>
                     <div>
-                      <p className="text-xs text-gray-400">Réf. #A4F2C8 · Dentaire</p>
-                      <p className="text-sm font-semibold text-[#1e3a5f]">Second avis — Couronne sur 26</p>
+                      <p className="text-sm font-semibold text-white">{item.title}</p>
+                      <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.45)" }}>{item.sub}</p>
                     </div>
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full text-white" style={{ background: "#22c55e" }}>✓ Traité</span>
                   </div>
+                ))}
+              </div>
 
-                  {/* Avis médical exemple */}
-                  <div className="rounded-xl p-4 space-y-3" style={{ background: "#f8f7ff", border: "1px solid rgba(139,127,240,0.15)" }}>
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold" style={{ background: "linear-gradient(135deg,#8B7FF0,#6B5FD0)" }}>DR</div>
-                      <div>
-                        <p className="text-xs font-semibold text-[#1e3a5f]">Dr. Thomas Renard</p>
-                        <p className="text-xs text-gray-400">Chirurgien-dentiste · N° RPPS 10004521897</p>
-                      </div>
-                    </div>
-                    <div className="text-xs text-gray-600 leading-relaxed space-y-2">
-                      <p><span className="font-semibold text-[#1e3a5f]">Analyse du compte rendu :</span> Après lecture de votre panoramique dentaire, la couronne sur la dent 26 est effectivement indiquée. La dent présente une destruction coronaire importante compatible avec la prothèse proposée.</p>
-                      <p><span className="font-semibold text-[#1e3a5f]">Mon avis :</span> Je confirme le plan de traitement de votre praticien. Le devis me paraît cohérent avec les standards actuels. Je vous recommande toutefois de demander un bilan parodontal préalable.</p>
-                      <p><span className="font-semibold text-[#1e3a5f]">Recommandations :</span> Bilan parodontal avant pose · Détartrage si nécessaire · Suivi à 6 mois post-pose.</p>
-                    </div>
-                  </div>
-
-                  {/* Badges */}
-                  <div className="flex flex-wrap gap-2">
-                    <span className="text-xs px-2.5 py-1 rounded-full font-medium" style={{ background: "rgba(139,127,240,0.1)", color: "#8B7FF0" }}>🔒 Données anonymisées</span>
-                    <span className="text-xs px-2.5 py-1 rounded-full font-medium" style={{ background: "rgba(34,197,94,0.1)", color: "#16a34a" }}>✓ Médecin diplômé</span>
-                    <span className="text-xs px-2.5 py-1 rounded-full font-medium text-gray-500" style={{ background: "#f3f4f6" }}>📧 Email envoyé</span>
-                  </div>
-                </div>
+              <div className="flex items-center gap-2 mt-6 pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+                <Shield className="w-3.5 h-3.5" style={{ color: "rgba(255,255,255,0.35)" }} />
+                <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>Signé par un médecin · Données chiffrées et confidentielles</p>
               </div>
             </motion.div>
 
           </div>
 
+          {/* CTA */}
+          <motion.div
+            className="text-center mt-12"
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
+          >
+            <Link
+              href="/dashboard/new"
+              className="inline-flex items-center gap-2 text-white font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:scale-105"
+              style={{ background: "linear-gradient(135deg, #8B7FF0, #6B5FD0)", boxShadow: "0 8px 24px rgba(139,127,240,0.35)" }}
+            >
+              Déposer mon dossier maintenant
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <p className="text-xs mt-3" style={{ color: "#B0ABBD" }}>22 € · Paiement unique · Réponse sous 72h</p>
+          </motion.div>
 
         </div>
       </section>
