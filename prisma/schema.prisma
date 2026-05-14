@@ -53,6 +53,7 @@ model User {
   phone             String?
   phoneVerified     Boolean   @default(false)
   mfaEnabled        Boolean   @default(true)
+  mfaEmail          String?   // adresse de réception OTP (si différente de email)
   mfaToken          String?
   mfaTokenExpiry    DateTime?
   otpCode           String?
@@ -76,6 +77,7 @@ model Request {
   userId      String
   user        User          @relation(fields: [userId], references: [id])
   specialty   Specialty
+  ageGroup    AgeGroup?
   pdfUrl      String
   pdfKey      String
   message     String?
@@ -89,6 +91,13 @@ model Request {
 enum Specialty {
   DENTAL
   GYNECOLOGY
+}
+
+enum AgeGroup {
+  CHILD
+  ADULT_18_65
+  ADULT_66_80
+  ADULT_81_PLUS
 }
 
 enum RequestStatus {

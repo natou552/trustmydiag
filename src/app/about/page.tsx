@@ -1,5 +1,18 @@
+import { Metadata } from "next";
 import { Header } from "@/components/header";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "À propos — TrustMyDiag",
+  description: "Découvrez la mission de TrustMyDiag : démocratiser le second avis médical dentaire et gynécologique pour tous les patients en France.",
+  openGraph: {
+    title: "À propos — TrustMyDiag",
+    description: "Découvrez la mission de TrustMyDiag : démocratiser le second avis médical dentaire et gynécologique pour tous les patients en France.",
+    url: "https://www.trustmydiag.com/about",
+    siteName: "TrustMyDiag",
+    type: "website",
+  },
+};
 
 const values = [
   {

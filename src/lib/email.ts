@@ -139,15 +139,95 @@ export async function sendPasswordResetEmail(email: string, name: string, token:
 }
 
 export async function sendReplyToPatient(email: string, name: string, requestId: string, reply: string) {
-  await resend.emails.send({
+  const dashboardUrl = `${process.env.NEXTAUTH_URL}/dashboard`;
+  const { error } = await resend.emails.send({
     from: FROM,
     to: email,
     subject: "Votre second avis médical est disponible — TrustMyDiag",
     html: `
-      <h2>Bonjour ${name},</h2>
-      <p>Votre avis médical pour la demande <strong>#${requestId}</strong> est disponible.</p>
-      <blockquote style="border-left:4px solid #1e3a5f;padding:12px;margin:16px 0;background:#f0f4f8">${reply}</blockquote>
-      <p><a href="${process.env.NEXTAUTH_URL}/dashboard">Voir le détail sur votre tableau de bord</a></p>
+      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#2D2A3E">
+        <div style="background:linear-gradient(135deg,#1e3a5f,#2a4f7f);padding:32px;border-radius:12px 12px 0 0;text-align:center">
+          <h1 style="color:white;margin:0;font-size:22px">Votre second avis est disponible ✓</h1>
+        </div>
+        <div style="background:#ffffff;padding:32px;border-radius:0 0 12px 12px;border:1px solid #eee">
+          <p style="margin:0 0 16px">Bonjour <strong>${name}</strong>,</p>
+          <p style="margin:0 0 20px;color:#6B6880">
+            Votre demande <strong style="color:#2D2A3E">#${requestId}</strong> a été analysée par l'un de nos médecins partenaires.
+            Voici son avis médical :
+          </p>
+          <div style="background:#f4f3f8;border-left:4px solid #8B7FF0;padding:16px 20px;margin:0 0 24px;border-radius:0 8px 8px 0;font-size:14px;line-height:1.7;white-space:pre-wrap;color:#2D2A3E">${reply.replace(/</g, "&lt;")}</div>
+          <a href="${dashboardUrl}" style="display:inline-block;padding:12px 28px;background:#1e3a5f;color:white;border-radius:8px;text-decoration:none;font-weight:600;margin-bottom:28px">Voir dans mon espace</a>
+          <div style="border-top:1px solid #eee;padding-top:20px">
+            <p style="margin:0 0 12px;font-size:12px;color:#9B98A8;font-style:italic">
+              Cet avis est un second regard médical indépendant, non une consultation médicale.
+              Il ne remplace pas l'avis de votre médecin traitant ni une consultation en cabinet.
+            </p>
+            <p style="margin:0;font-size:13px;color:#9B98A8">L'équipe TrustMyDiag</p>
+          </div>
+        </div>
+      </div>
     `,
   });
+  if (error) throw new Error(`Resend error (reply to patient): ${JSON.stringify(error)}`);
+}
+
+export async function sendWelcomeEmail(email: string, name: string) {
+  const ctaUrl = `${process.env.NEXTAUTH_URL}/dashboard/new`;
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: email,
+    subject: "Bienvenue sur TrustMyDiag — Votre compte est activé",
+    html: `
+      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#2D2A3E">
+        <div style="background:linear-gradient(135deg,#8B7FF0,#6B5FD0);padding:36px 32px;border-radius:12px 12px 0 0;text-align:center">
+          <h1 style="color:white;margin:0;font-size:24px">Bienvenue, ${name} ! 🎉</h1>
+          <p style="color:rgba(255,255,255,0.85);margin:10px 0 0;font-size:15px">Votre compte TrustMyDiag est activé</p>
+        </div>
+        <div style="background:#ffffff;padding:32px;border-radius:0 0 12px 12px;border:1px solid #eee">
+          <p style="margin:0 0 24px;color:#6B6880">
+            Vous avez désormais accès à notre plateforme de second avis médical indépendant.
+            Voici comment ça marche en 3 étapes simples :
+          </p>
+
+          <div style="display:flex;flex-direction:column;gap:0;margin-bottom:28px">
+            <div style="display:flex;align-items:flex-start;margin-bottom:16px">
+              <div style="min-width:36px;height:36px;background:linear-gradient(135deg,#8B7FF0,#6B5FD0);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:16px;margin-right:14px;text-align:center;line-height:36px">1</div>
+              <div>
+                <p style="margin:0 0 4px;font-weight:600;color:#2D2A3E">Déposez votre dossier</p>
+                <p style="margin:0;font-size:14px;color:#6B6880">Téléchargez vos documents médicaux (comptes-rendus, résultats, imagerie) et décrivez votre situation.</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;margin-bottom:16px">
+              <div style="min-width:36px;height:36px;background:linear-gradient(135deg,#8B7FF0,#6B5FD0);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:16px;margin-right:14px;text-align:center;line-height:36px">2</div>
+              <div>
+                <p style="margin:0 0 4px;font-weight:600;color:#2D2A3E">Un médecin analyse votre dossier</p>
+                <p style="margin:0;font-size:14px;color:#6B6880">Un médecin spécialiste partenaire examine l'intégralité de vos documents avec attention.</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start">
+              <div style="min-width:36px;height:36px;background:linear-gradient(135deg,#8B7FF0,#6B5FD0);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:16px;margin-right:14px;text-align:center;line-height:36px">3</div>
+              <div>
+                <p style="margin:0 0 4px;font-weight:600;color:#2D2A3E">Recevez votre avis en 72 h</p>
+                <p style="margin:0;font-size:14px;color:#6B6880">Vous recevez un avis médical détaillé et indépendant directement dans votre espace personnel.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align:center;margin-bottom:28px">
+            <a href="${ctaUrl}" style="display:inline-block;padding:14px 32px;background:linear-gradient(135deg,#8B7FF0,#6B5FD0);color:white;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px">
+              Obtenir mon premier avis
+            </a>
+          </div>
+
+          <div style="border-top:1px solid #eee;padding-top:20px">
+            <p style="margin:0;font-size:13px;color:#9B98A8">
+              Une question ? Contactez-nous à <a href="mailto:contact@trustmydiag.com" style="color:#8B7FF0">contact@trustmydiag.com</a>.
+            </p>
+            <p style="margin:8px 0 0;font-size:13px;color:#9B98A8">L'équipe TrustMyDiag</p>
+          </div>
+        </div>
+      </div>
+    `,
+  });
+  if (error) throw new Error(`Resend error (welcome): ${JSON.stringify(error)}`);
 }

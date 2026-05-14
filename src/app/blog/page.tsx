@@ -4,9 +4,17 @@ import Link from "next/link";
 import { articles } from "@/lib/blog-articles";
 
 export const metadata: Metadata = {
-  title: "Ressources & conseils médicaux | TrustMyDiag",
+  title: "Blog — TrustMyDiag",
   description:
     "Articles rédigés par nos médecins experts : second avis dentaire, bilan gynécologique, droits des patients, comment préparer son dossier médical.",
+  openGraph: {
+    title: "Blog — TrustMyDiag",
+    description:
+      "Articles rédigés par nos médecins experts : second avis dentaire, bilan gynécologique, droits des patients, comment préparer son dossier médical.",
+    url: "https://www.trustmydiag.com/blog",
+    siteName: "TrustMyDiag",
+    type: "website",
+  },
 };
 
 const categoryColors: Record<string, string> = {

@@ -172,6 +172,13 @@ export const t = {
         next: "Suivant",
         dental: { label: "Dentaire", sub: "Dr. xxxxxx xxxx", desc: "Chirurgien-dentiste" },
         gynecology: { label: "Gynécologie", sub: "Dr. xxxxxx xxxx", desc: "Gynécologue obstétricien" },
+        ageGroupLabel: "Tranche d'âge du patient",
+        ageGroupOptions: [
+          "Enfant entre 30 mois et 17 ans",
+          "Adulte entre 18 ans et 65 ans",
+          "Adulte entre 66 ans et 80 ans",
+          "Adulte de plus de 81 ans",
+        ],
       },
       step2dental: {
         eyebrow: "Étape 2 · Dentaire",
@@ -242,6 +249,7 @@ export const t = {
         title: "Récapitulatif",
         sub: "Vérifiez votre demande avant de procéder au paiement.",
         specialty: "Spécialité",
+        ageGroup: "Tranche d'âge",
         reason: "Motif",
         documents: "Documents",
         filesSent: (n: number) => `${n} fichier${n > 1 ? "s" : ""} envoyé${n > 1 ? "s" : ""}`,
@@ -336,7 +344,6 @@ export const t = {
       navLinks: [
         { label: "Comment ça marche", href: "/#how" },
         { label: "Nos médecins", href: "/#doctors" },
-        { label: "Connexion", href: "/login" },
         { label: "Glossaire", href: "/glossary" },
       ],
       learn: "Ressources",
@@ -344,7 +351,6 @@ export const t = {
         { label: "Blog", href: "/blog" },
         { label: "FAQ", href: "/faq" },
         { label: "Témoignages", href: "/testimonials" },
-        { label: "Support client", href: "/support" },
       ],
       company: "Entreprise",
       companyLinks: [
@@ -539,6 +545,13 @@ export const t = {
         next: "Next",
         dental: { label: "Dental", sub: "Dr. xxxxxx xxxx", desc: "Dental surgeon" },
         gynecology: { label: "Gynecology", sub: "Dr. xxxxxx xxxx", desc: "Obstetrician-gynecologist" },
+        ageGroupLabel: "Patient age group",
+        ageGroupOptions: [
+          "Child between 30 months and 17 years",
+          "Adult between 18 and 65 years",
+          "Adult between 66 and 80 years",
+          "Adult over 81 years",
+        ],
       },
       step2dental: {
         eyebrow: "Step 2 · Dental",
@@ -609,6 +622,7 @@ export const t = {
         title: "Summary",
         sub: "Review your request before proceeding to payment.",
         specialty: "Specialty",
+        ageGroup: "Age group",
         reason: "Reason",
         documents: "Documents",
         filesSent: (n: number) => `${n} file${n > 1 ? "s" : ""} uploaded`,
@@ -703,7 +717,6 @@ export const t = {
       navLinks: [
         { label: "How it works", href: "/#how" },
         { label: "Our doctors", href: "/#doctors" },
-        { label: "Log in", href: "/login" },
         { label: "Glossary", href: "/glossary" },
       ],
       learn: "Learn",
@@ -711,7 +724,6 @@ export const t = {
         { label: "Blog", href: "/blog" },
         { label: "FAQ", href: "/faq" },
         { label: "Testimonials", href: "/testimonials" },
-        { label: "Customer Support", href: "/support" },
       ],
       company: "Company",
       companyLinks: [

@@ -84,8 +84,10 @@ export const authOptions: NextAuthOptions = {
             },
           });
 
+          // Envoie à mfaEmail si défini, sinon à l'email de connexion
+          const otpDestination = user.mfaEmail ?? user.email;
           try {
-            await sendOtpSms(user.email, otp);
+            await sendOtpSms(otpDestination, otp);
           } catch (err) {
             console.error("[auth] sendOtpEmail failed:", err);
           }

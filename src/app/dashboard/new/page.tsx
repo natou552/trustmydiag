@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, Suspense } from "react";
+import { useState, useCallback, useEffect, Suspense } from "react";
 import { Header } from "@/components/header";
 import { CheckCircle, Upload, FileText, ChevronRight, Stethoscope, Baby, X, Image as ImageIcon } from "lucide-react";
 import { useDropzone } from "react-dropzone";
@@ -143,9 +143,17 @@ function FilePreview({ file, onRemove, moLabel }: { file: File; onRemove: () => 
   );
 }
 
-function formatDental(a: DentalAnamnesis, hasPain: boolean): string {
+const AGE_GROUP_LABELS: Record<string, string> = {
+  CHILD: "Enfant entre 30 mois et 17 ans",
+  ADULT_18_65: "Adulte entre 18 ans et 65 ans",
+  ADULT_66_80: "Adulte entre 66 ans et 80 ans",
+  ADULT_81_PLUS: "Adulte de plus de 81 ans",
+};
+
+function formatDental(a: DentalAnamnesis, hasPain: boolean, ageGroup: string): string {
   const lines = [
     "=== ANTÉCÉDENTS DENTAIRES ===", "",
+    `Tranche d'âge : ${AGE_GROUP_LABELS[ageGroup] || ageGroup}`,
     `Motif principal : ${a.reason || "Non renseigné"}`,
     `Soin(s) concerné(s) : ${a.treatments.length ? a.treatments.join(", ") : "Non renseigné"}`, "",
     `Symptômes : ${a.symptoms.length ? a.symptoms.join(", ") : "Non renseigné"}`,
@@ -159,9 +167,10 @@ function formatDental(a: DentalAnamnesis, hasPain: boolean): string {
   return lines.join("\n");
 }
 
-function formatGyno(a: GynoAnamnesis, hasPain: boolean): string {
+function formatGyno(a: GynoAnamnesis, hasPain: boolean, ageGroup: string): string {
   const lines = [
     "=== ANTÉCÉDENTS GYNÉCOLOGIQUES ===", "",
+    `Tranche d'âge : ${AGE_GROUP_LABELS[ageGroup] || ageGroup}`,
     `Motif principal : ${a.reason || "Non renseigné"}`,
     `Examen / soin concerné : ${a.examConcerned.length ? a.examConcerned.join(", ") : "Non renseigné"}`, "",
     `Symptômes : ${a.symptoms.length ? a.symptoms.join(", ") : "Non renseigné"}`,
@@ -201,6 +210,7 @@ function NewRequestForm() {
 
   const [step, setStep] = useState<Step>(1);
   const [specialty, setSpecialty] = useState<"DENTAL" | "GYNECOLOGY" | "">("");
+  const [ageGroup, setAgeGroup] = useState<string>("");
   const [dental, setDental] = useState<DentalAnamnesis>(defaultDental);
   const [gyno, setGyno] = useState<GynoAnamnesis>(defaultGyno);
   const [files, setFiles] = useState<File[]>([]);
@@ -209,6 +219,37 @@ function NewRequestForm() {
   const [uploadedKeys, setUploadedKeys] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [draftRestored, setDraftRestored] = useState(false);
+
+  // Load draft from localStorage on first render
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("tmd_draft");
+      if (!raw) return;
+      const draft = JSON.parse(raw);
+      if (!draft || typeof draft !== "object") return;
+      if (draft.specialty) setSpecialty(draft.specialty);
+      if (draft.ageGroup) setAgeGroup(draft.ageGroup);
+      if (draft.dental) setDental((prev) => ({ ...prev, ...draft.dental }));
+      if (draft.gyno) setGyno((prev) => ({ ...prev, ...draft.gyno }));
+      setDraftRestored(true);
+      setTimeout(() => setDraftRestored(false), 4000);
+    } catch {
+      // ignore malformed draft
+    }
+  }, []);
+
+  // Auto-save draft whenever relevant fields change
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "tmd_draft",
+        JSON.stringify({ specialty, ageGroup, dental, gyno })
+      );
+    } catch {
+      // ignore storage errors (e.g. private browsing quota)
+    }
+  }, [specialty, ageGroup, dental, gyno]);
 
   const { startUpload } = useUploadThing("medicalUploader");
 
@@ -240,8 +281,8 @@ function NewRequestForm() {
   const noneOptDentalPast = tr.step2dental.pastOptions[0];
   const noneOptGynoPast = tr.step2gyno.pastOptions[0];
 
-  const canProceedDental = dental.reason !== "" && dental.symptoms.length > 0;
-  const canProceedGyno = gyno.reason !== "" && gyno.symptoms.length > 0;
+  const canProceedDental = ageGroup !== "" && dental.reason !== "" && dental.symptoms.length > 0;
+  const canProceedGyno = ageGroup !== "" && gyno.reason !== "" && gyno.symptoms.length > 0;
   const canProceedAnamnesis = specialty === "DENTAL" ? canProceedDental : canProceedGyno;
 
   async function handleUpload() {
@@ -261,10 +302,10 @@ function NewRequestForm() {
   async function handleSubmitAndPay() {
     setLoading(true); setError("");
     try {
-      const message = specialty === "DENTAL" ? formatDental(dental, hasDentalPain) : formatGyno(gyno, hasGynoPain);
+      const message = specialty === "DENTAL" ? formatDental(dental, hasDentalPain, ageGroup) : formatGyno(gyno, hasGynoPain, ageGroup);
       const res = await fetch("/api/requests", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ specialty, pdfUrl: JSON.stringify(uploadedUrls), pdfKey: JSON.stringify(uploadedKeys), message }),
+        body: JSON.stringify({ specialty, ageGroup, pdfUrl: JSON.stringify(uploadedUrls), pdfKey: JSON.stringify(uploadedKeys), message }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -274,6 +315,7 @@ function NewRequestForm() {
       });
       const checkoutData = await checkoutRes.json();
       if (!checkoutRes.ok) throw new Error(checkoutData.error);
+      localStorage.removeItem("tmd_draft");
       window.location.href = checkoutData.url;
     } catch { setError(tr.step4.errorSubmit); setLoading(false); }
   }
@@ -308,6 +350,20 @@ function NewRequestForm() {
             );
           })}
         </div>
+
+        {draftRestored && (
+          <div
+            className="mb-4 flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium"
+            style={{
+              background: "rgba(76, 175, 130, 0.08)",
+              border: "1px solid rgba(76, 175, 130, 0.25)",
+              color: "#2E7D5E",
+            }}
+          >
+            <CheckCircle className="h-4 w-4 flex-shrink-0" style={{ color: "#4CAF82" }} />
+            Brouillon restauré — vos réponses précédentes ont été rechargées.
+          </div>
+        )}
 
         <div style={cardStyle} className="p-8">
 
@@ -348,6 +404,14 @@ function NewRequestForm() {
               <p className="text-sm mb-7" style={{ color: "#6B6880" }}>{tr.step2dental.sub}</p>
 
               <div className="space-y-7">
+                <FieldGroup label={tr.step1.ageGroupLabel} required>
+                  <div className="flex flex-wrap gap-2">
+                    {(["CHILD", "ADULT_18_65", "ADULT_66_80", "ADULT_81_PLUS"] as const).map((key, i) => (
+                      <RadioChip key={key} label={tr.step1.ageGroupOptions[i]} selected={ageGroup === key} onSelect={() => setAgeGroup(key)} />
+                    ))}
+                  </div>
+                </FieldGroup>
+                <Divider />
                 <FieldGroup label={tr.step2dental.reasonLabel} required>
                   <div className="flex flex-wrap gap-2">
                     {tr.step2dental.reasonOptions.map((r) => (
@@ -454,6 +518,14 @@ function NewRequestForm() {
               <p className="text-sm mb-7" style={{ color: "#6B6880" }}>{tr.step2gyno.sub}</p>
 
               <div className="space-y-7">
+                <FieldGroup label={tr.step1.ageGroupLabel} required>
+                  <div className="flex flex-wrap gap-2">
+                    {(["CHILD", "ADULT_18_65", "ADULT_66_80", "ADULT_81_PLUS"] as const).map((key, i) => (
+                      <RadioChip key={key} label={tr.step1.ageGroupOptions[i]} selected={ageGroup === key} onSelect={() => setAgeGroup(key)} />
+                    ))}
+                  </div>
+                </FieldGroup>
+                <Divider />
                 <FieldGroup label={tr.step2gyno.reasonLabel} required>
                   <div className="flex flex-wrap gap-2">
                     {tr.step2gyno.reasonOptions.map((r) => (
@@ -594,6 +666,10 @@ function NewRequestForm() {
                 <div className="flex justify-between text-sm">
                   <span style={{ color: "#6B6880" }}>{tr.step4.specialty}</span>
                   <span className="font-medium" style={{ color: "#2D2A3E" }}>{specialty === "DENTAL" ? tr.step4.specialtyDental : tr.step4.specialtyGyno}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span style={{ color: "#6B6880" }}>{tr.step4.ageGroup}</span>
+                  <span className="font-medium" style={{ color: "#2D2A3E" }}>{AGE_GROUP_LABELS[ageGroup] || "—"}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span style={{ color: "#6B6880" }}>{tr.step4.reason}</span>

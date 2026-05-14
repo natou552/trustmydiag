@@ -1,6 +1,19 @@
+import { Metadata } from "next";
 import { Header } from "@/components/header";
 import Link from "next/link";
 import { Star } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Témoignages — TrustMyDiag",
+  description: "Découvrez les témoignages de patients qui ont obtenu un second avis médical avec TrustMyDiag et pris de meilleures décisions de santé.",
+  openGraph: {
+    title: "Témoignages — TrustMyDiag",
+    description: "Découvrez les témoignages de patients qui ont obtenu un second avis médical avec TrustMyDiag et pris de meilleures décisions de santé.",
+    url: "https://www.trustmydiag.com/testimonials",
+    siteName: "TrustMyDiag",
+    type: "website",
+  },
+};
 
 const testimonials = [
   {

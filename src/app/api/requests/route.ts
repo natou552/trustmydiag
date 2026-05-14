@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { specialty, pdfUrl, pdfKey, message } = await req.json();
+  const { specialty, ageGroup, pdfUrl, pdfKey, message } = await req.json();
 
   if (!specialty || !pdfUrl || !pdfKey) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
@@ -17,6 +17,7 @@ export async function POST(req: Request) {
     data: {
       userId: session.user.id,
       specialty,
+      ageGroup: ageGroup || null,
       pdfUrl,
       pdfKey,
       message,

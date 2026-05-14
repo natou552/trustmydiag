@@ -12,6 +12,12 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
   const { reply } = await req.json();
   if (!reply) return NextResponse.json({ error: "Missing reply" }, { status: 400 });
+  if (typeof reply !== "string" || reply.trim().length < 10) {
+    return NextResponse.json({ error: "Reply too short" }, { status: 400 });
+  }
+  if (reply.length > 8000) {
+    return NextResponse.json({ error: "Reply too long" }, { status: 400 });
+  }
 
   const request = await prisma.request.update({
     where: { id: params.id },
