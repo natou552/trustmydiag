@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Badge } from "@/components/ui/badge";
 import {
   FileText, Image as ImageIcon, Send, CheckCircle2, Clock,
   User, Stethoscope, Baby, Calendar, Hash, Mail, AlertCircle,

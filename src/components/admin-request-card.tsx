@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Clock, CheckCircle2, AlertCircle, ChevronRight, Stethoscope, Baby } from "lucide-react";
+import { Clock, CheckCircle2, AlertCircle, ChevronRight, Stethoscope, Baby } from "lucide-react";
 import type { Request, User } from "@prisma/client";
 
 type RequestWithUser = Request & { user: Pick<User, "name" | "email"> };

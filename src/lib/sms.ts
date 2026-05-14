@@ -1,9 +1,9 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = "TrustMyDiag <noreply@trustmydiag.com>";
 
 export async function sendOtpSms(email: string, otp: string) {
+  const resend = new Resend(process.env.RESEND_API_KEY!);
   const { error } = await resend.emails.send({
     from: FROM,
     to: email,

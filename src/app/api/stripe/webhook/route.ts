@@ -3,7 +3,9 @@ import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { sendRequestConfirmation, sendDoctorNotification } from "@/lib/email";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+export const dynamic = "force-dynamic";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "placeholder");
 
 export async function POST(req: Request) {
   const body = await req.text();

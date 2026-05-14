@@ -1,12 +1,15 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy initialization to avoid build-time errors when env var is not set
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY!);
+}
 
 const FROM = "TrustMyDiag <noreply@trustmydiag.com>";
 
 export async function sendVerificationEmail(email: string, name: string, token: string) {
   const url = `${process.env.NEXTAUTH_URL}/api/verify-email?token=${token}`;
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to: email,
     subject: "Vérifiez votre adresse email — TrustMyDiag",
@@ -21,7 +24,7 @@ export async function sendVerificationEmail(email: string, name: string, token: 
 }
 
 export async function sendRequestConfirmation(email: string, name: string, requestId: string) {
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: FROM,
     to: email,
     subject: "Votre demande a bien été reçue — TrustMyDiag",
@@ -51,7 +54,7 @@ export async function sendDoctorNotification(
     })
     .join("");
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: FROM,
     to: doctorEmail,
     subject: `Nouvelle demande de second avis — ${specialty} — TrustMyDiag`,
@@ -72,7 +75,7 @@ export async function sendDoctorNotification(
 }
 
 export async function sendContactEmail(name: string, email: string, subject: string, message: string) {
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: FROM,
     to: "contact@trustmydiag.com",
     replyTo: email,
@@ -90,7 +93,7 @@ export async function sendContactEmail(name: string, email: string, subject: str
 }
 
 export async function sendContactConfirmation(name: string, email: string, subject: string) {
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: FROM,
     to: email,
     subject: "Nous avons bien reçu votre message — TrustMyDiag",
@@ -116,7 +119,7 @@ export async function sendContactConfirmation(name: string, email: string, subje
 
 export async function sendPasswordResetEmail(email: string, name: string, token: string) {
   const url = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}`;
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: FROM,
     to: email,
     subject: "Réinitialisation de votre mot de passe — TrustMyDiag",
@@ -140,7 +143,7 @@ export async function sendPasswordResetEmail(email: string, name: string, token:
 
 export async function sendReplyToPatient(email: string, name: string, requestId: string, reply: string) {
   const dashboardUrl = `${process.env.NEXTAUTH_URL}/dashboard`;
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: FROM,
     to: email,
     subject: "Votre second avis médical est disponible — TrustMyDiag",
@@ -173,7 +176,7 @@ export async function sendReplyToPatient(email: string, name: string, requestId:
 
 export async function sendWelcomeEmail(email: string, name: string) {
   const ctaUrl = `${process.env.NEXTAUTH_URL}/dashboard/new`;
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: FROM,
     to: email,
     subject: "Bienvenue sur TrustMyDiag — Votre compte est activé",
