@@ -18,7 +18,7 @@ export default function RGPDPage() {
           <section>
             <h2 className="text-xl font-semibold text-[#1e3a5f]">1. Responsable du traitement</h2>
             <p className="text-gray-600 mt-3">
-              TrustMyDiag est responsable du traitement de vos données personnelles. Pour toute question relative à vos données, vous pouvez nous contacter à l'adresse : <a href="mailto:dpo@trustmydiag.fr" className="text-[#1e3a5f] underline">dpo@trustmydiag.fr</a>
+              TrustMyDiag est responsable du traitement de vos données personnelles. Pour toute question relative à vos données, vous pouvez nous contacter à l'adresse : <a href="mailto:dpo@trustmydiag.com" className="text-[#1e3a5f] underline">dpo@trustmydiag.com</a>
             </p>
           </section>
 
@@ -90,7 +90,7 @@ export default function RGPDPage() {
               <li><strong>Droit d'opposition</strong> : vous opposer à certains traitements</li>
             </ul>
             <p className="text-gray-600 mt-3">
-              Pour exercer ces droits, contactez-nous à : <a href="mailto:dpo@trustmydiag.fr" className="text-[#1e3a5f] underline">dpo@trustmydiag.fr</a>
+              Pour exercer ces droits, contactez-nous à : <a href="mailto:dpo@trustmydiag.com" className="text-[#1e3a5f] underline">dpo@trustmydiag.com</a>
             </p>
             <p className="text-gray-600 mt-2">
               Vous pouvez également introduire une réclamation auprès de la <a href="https://www.cnil.fr" className="text-[#1e3a5f] underline" target="_blank" rel="noopener">CNIL</a>.
@@ -107,7 +107,7 @@ export default function RGPDPage() {
           <section id="mentions">
             <h2 className="text-xl font-semibold text-[#1e3a5f]">10. Mentions légales</h2>
             <p className="text-gray-600 mt-3">
-              TrustMyDiag est une plateforme de mise en relation entre patients et médecins partenaires indépendants. Les avis médicaux fournis ne constituent pas une consultation médicale au sens légal et ne remplacent pas un avis médical en présentiel. L'utilisation de la plateforme est soumise aux <Link href="/cgv" className="text-[#1e3a5f] underline">Conditions Générales de Vente</Link>.
+              TrustMyDiag est une plateforme de mise en relation entre patients et médecins partenaires indépendants. Les avis médicaux fournis ne constituent pas une consultation médicale au sens légal et ne remplacent pas un avis médical en présentiel. L'utilisation de la plateforme est soumise aux <Link href="/terms" className="text-[#1e3a5f] underline">Conditions Générales de Vente</Link>.
             </p>
           </section>
         </div>

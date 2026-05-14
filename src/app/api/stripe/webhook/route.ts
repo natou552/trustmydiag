@@ -35,9 +35,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true });
     }
 
+    // Idempotency guard: only update if still in PENDING_PAYMENT
+    const existing = await prisma.request.findUnique({ where: { id: requestId } });
+    if (!existing) {
+      console.error(`[webhook] Request ${requestId} not found`);
+      return NextResponse.json({ ok: true });
+    }
+    if (existing.status !== "PENDING_PAYMENT") {
+      console.log(`[webhook] Request ${requestId} already processed (status: ${existing.status}) — skipping`);
+      return NextResponse.json({ ok: true });
+    }
+
     const request = await prisma.request.update({
       where: { id: requestId },
-      data: { status: "IN_REVIEW" },
+      data: { status: "PAID" },
       include: { user: true },
     });
 

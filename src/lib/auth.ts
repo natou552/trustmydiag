@@ -71,7 +71,7 @@ export const authOptions: NextAuthOptions = {
         // MFA enabled: generate token + OTP, send by email
         if (user.mfaEnabled) {
           const mfaToken = crypto.randomBytes(32).toString("hex");
-          const otp = Math.floor(100000 + Math.random() * 900000).toString();
+          const otp = crypto.randomInt(100000, 1000000).toString();
           const hashedOtp = await bcrypt.hash(otp, 8);
 
           await prisma.user.update({

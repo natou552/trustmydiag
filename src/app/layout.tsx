@@ -10,6 +10,20 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 export const metadata: Metadata = {
   title: "TrustMyDiag — Second avis médical en toute confiance",
   description: "Obtenez un second avis médical de nos médecins partenaires en envoyant votre compte rendu.",
+  openGraph: {
+    title: "TrustMyDiag — Second avis médical en toute confiance",
+    description: "Déposez votre compte rendu médical. Un spécialiste diplômé analyse votre dossier et vous répond en 72h.",
+    url: "https://www.trustmydiag.com",
+    siteName: "TrustMyDiag",
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TrustMyDiag — Second avis médical en toute confiance",
+    description: "Déposez votre compte rendu médical. Un spécialiste diplômé analyse votre dossier et vous répond en 72h.",
+  },
+  metadataBase: new URL("https://www.trustmydiag.com"),
 };
 
 // Base: Pearl exact canvas — near-white with a breath of cold blue

@@ -52,7 +52,7 @@ const terms = [
   },
 ];
 
-const letters = [...new Set(terms.map((t) => t.letter))];
+const letters = Array.from(new Set(terms.map((t) => t.letter)));
 
 export default function GlossaryPage() {
   return (

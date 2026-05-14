@@ -10,6 +10,13 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  // Check request exists and is not already completed
+  const existing = await prisma.request.findUnique({ where: { id: params.id } });
+  if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (existing.status === "COMPLETED") {
+    return NextResponse.json({ error: "Reply already sent for this request" }, { status: 409 });
+  }
+
   const { reply } = await req.json();
   if (!reply) return NextResponse.json({ error: "Missing reply" }, { status: 400 });
   if (typeof reply !== "string" || reply.trim().length < 10) {

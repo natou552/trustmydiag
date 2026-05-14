@@ -13,6 +13,22 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
+  // Validate specialty enum
+  if (!["DENTAL", "GYNECOLOGY"].includes(specialty)) {
+    return NextResponse.json({ error: "Invalid specialty" }, { status: 400 });
+  }
+
+  // Validate ageGroup enum if provided
+  const validAgeGroups = ["CHILD", "ADULT_18_65", "ADULT_66_80", "ADULT_81_PLUS"];
+  if (ageGroup && !validAgeGroups.includes(ageGroup)) {
+    return NextResponse.json({ error: "Invalid ageGroup" }, { status: 400 });
+  }
+
+  // Validate message length
+  if (message && message.length > 5000) {
+    return NextResponse.json({ error: "Message too long" }, { status: 400 });
+  }
+
   const request = await prisma.request.create({
     data: {
       userId: session.user.id,

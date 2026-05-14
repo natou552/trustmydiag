@@ -36,7 +36,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  if (request.status === "IN_REVIEW" || request.status === "COMPLETED") {
+  if (["PAID", "IN_REVIEW", "COMPLETED"].includes(request.status)) {
     return NextResponse.json({ error: "Cannot delete a paid request" }, { status: 403 });
   }
 

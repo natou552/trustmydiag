@@ -34,7 +34,7 @@ En cas d'urgence médicale, l'utilisateur est invité à contacter immédiatemen
 
 Les données médicales transmises sont classifiées comme données de santé à caractère sensible et bénéficient d'une protection renforcée. Elles sont chiffrées, accessibles uniquement aux médecins experts assignés à votre dossier, et ne sont jamais partagées à des fins commerciales.
 
-Vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données. Pour exercer ces droits, contactez notre délégué à la protection des données à l'adresse trustmydiag@gmail.com.`,
+Vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données. Pour exercer ces droits, contactez notre délégué à la protection des données à l'adresse dpo@trustmydiag.com.`,
   },
   {
     id: "propriete",

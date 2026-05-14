@@ -25,7 +25,7 @@ const faqs = [
   {
     question: "Puis-je demander un remboursement ?",
     answer:
-      "Si votre dossier n'a pas encore été traité par un expert, vous pouvez demander un remboursement intégral dans les 48 heures suivant votre paiement. Une fois le rapport remis, nous ne procédons pas au remboursement, sauf en cas d'erreur de notre part. Pour toute demande, contactez-nous à trustmydiag@gmail.com.",
+      "Si votre dossier n'a pas encore été traité par un expert, vous pouvez demander un remboursement intégral dans les 48 heures suivant votre paiement. Une fois le rapport remis, nous ne procédons pas au remboursement, sauf en cas d'erreur de notre part. Pour toute demande, contactez-nous à contact@trustmydiag.com.",
   },
   {
     question: "Comment contacter un médecin directement ?",

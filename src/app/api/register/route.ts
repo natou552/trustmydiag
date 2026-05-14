@@ -32,6 +32,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ error: "Invalid email format" }, { status: 400 });
+    }
+
+    // Validate name
+    const trimmedName = name.trim();
+    if (trimmedName.length < 2 || trimmedName.length > 100) {
+      return NextResponse.json({ error: "Invalid name" }, { status: 400 });
+    }
+
     if (!validatePassword(password, email)) {
       return NextResponse.json({ error: "PASSWORD_POLICY" }, { status: 400 });
     }
